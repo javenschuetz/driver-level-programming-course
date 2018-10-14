@@ -5,21 +5,28 @@
  * Created on October 5, 2018, 5:29 PM
  */
 
-
 #include "xc.h"
 #include "IR.h"
 #include "IO.h"
 #include "Timer.h"
 #include "ChangeClk.h"
 
-static const float MAGIC_NUMBER = 1.0/2.0; // for the timers, processor specific :p
-static const char DISABLE = 0;
-static const char ENABLE = 1;
-static const char INTERNAL = 0;
-static const float NO_SCALING = 1.0;
+// magic numbers
+static const float kMagicNumber = 1.0/2.0; // for the timers, processor specific :p
+static const char kEnable = 1;
+static const char kDisable = 0;
+static const char kInternalClk = 0;
 
+static const enum {kLow, kHigh};
+static uint32_t kPowerToggle = 0xE0E040BF;
+static uint32_t kChannelUp = 0xE0E048B7;
+static uint32_t kChannelDown = 0xE0E008F7;
+static uint32_t kVolumeUp = 0xE0E0E01F;
+static uint32_t kVolumeDown = 0xE0E0D02F;
+// statics
 static unsigned char envelope_on = 0;
 
+// ************************************************************ helper functions
 static inline void set_timer_priority(int priority) {
 	if (priority >= 0 && priority <= 7) {
 		IPC15bits.RTCIP = priority;
@@ -30,15 +37,14 @@ static inline void init_timer1(int frequency) {
 	// basic config
 	NewClk(frequency); // Switch clock: 32 for 32kHz, 500 for 500 kHz, 8 for 8MHz
 
-	//T1CONbits.T32 = DISABLE; // one could combine timers 2 & 3 into 32 bit timer
-	T1CONbits.TCKPS = 0; // set pre-scaler (divides timer speed by );
-	T1CONbits.TCS = INTERNAL; // use internal clock (ie, not external)
-	T1CONbits.TSIDL = DISABLE; // one could stop timer when processor idles
-	T1CONbits.TGATE = DISABLE; // one could replace interrupts with an accumulator
+	T1CONbits.TCKPS = kDisable; // set pre-scaler (divides timer speed by );
+	T1CONbits.TCS = kInternalClk; // use internal clock (ie, not external)
+	T1CONbits.TSIDL = kDisable; // one could stop timer when processor idles
+	T1CONbits.TGATE = kDisable; // one could replace interrupts with an accumulator
 
 	set_timer_priority(5); // sets priority to 5
 
-	TMR2 = 0; // just in case it doesn't happen automatically
+	TMR1 = 0; // just in case it doesn't happen automatically
 }
 
 void delay_us_t1(uint16_t us) {
@@ -48,11 +54,11 @@ void delay_us_t1(uint16_t us) {
 	float prescaling_factor = 1.0;
 	// pr is period of the timer before an interrupt occurs
 	// note: pr2 is 16 bit unless we're combining timers
-	PR1 = (clock_freq / US_PER_S) * prescaling_factor * MAGIC_NUMBER * us;
+	PR1 = (clock_freq / US_PER_S) * prescaling_factor * kMagicNumber * us;
 
 	// start the timer & enable the interrupt
-	T1CONbits.TON = 1; // starts the timer
-	IEC0bits.T1IE = 1; // enable the interrup
+	T1CONbits.TON = kEnable; // starts the timer
+	IEC0bits.T1IE = kEnable; // enable the interrup
 }
 
 void startIREnvelope(unsigned int timeMs){
@@ -96,44 +102,43 @@ static void xmit_one(void) {
 }
 
 static void xmit_EOEO(void) {
+	// E
 	xmit_one();
 	xmit_one();
 	xmit_one();
-
-	xmit_zero();
-	xmit_zero();
-	xmit_zero();
-	xmit_zero();
 	xmit_zero();
 
-	xmit_one();
-	xmit_one();
-	xmit_one();
-
-
+	// O
 	xmit_zero();
+	xmit_zero();
+	xmit_zero();
+	xmit_zero();
+
+	// E
+	xmit_one();
+	xmit_one();
+	xmit_one();
+	xmit_zero();
+
+	// O
 	xmit_zero();
 	xmit_zero();
 	xmit_zero();
 	xmit_zero();
 }
-// libpic
+
 void xmit_power_on(void) {
 	while(1) {
-		// start bit
 		xmit_start_bit();
-
-		// EOEO
 		xmit_EOEO();
-
-		// stop bit
 		xmit_stop_bit();
 	}
 }
 
+
+
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
-	IFS0bits.T1IF = 0;
-	// XmitUART2('x',1); // for debugging
+	IFS0bits.T1IF = kDisable;
 	if (envelope_on) {
 		LATBbits.LATB9 = !LATBbits.LATB9;
 	}
