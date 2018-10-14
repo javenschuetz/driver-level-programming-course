@@ -80,6 +80,14 @@ void set_LED_toggles_on_t2interrupt(unsigned char perform_toggles) {
 	}
 }
 
+void set_IR_toggles_on_t2interrupt(unsigned char perform_toggles) {
+        if (perform_toggles == 1) {
+                toggle_IR_in_t2interrupt = 1;
+        } else {
+                toggle_IR_in_t2interrupt = 0;
+        }
+}
+
 void set_LED_toggles_on_t3interrupt(unsigned char perform_toggles) {
 	if (perform_toggles == 1) {
 		toggle_LED_in_t3interrupt = 1;

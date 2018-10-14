@@ -9,9 +9,10 @@
 #define US_PER_S 1000000
 
 // wraps delay_ms to enable LED flickering
-void set_LED_toggles_on_t2interrupt(unsigned char enable);
+void set_LED_toggles_on_t2interrupt(unsigned char perform_toggles);
+void set_IR_toggles_on_t2interrupt(unsigned char perform_toggles);
 
-// fire t2Interrupt after a few ms
+// fire Interrupt after a few ms
 void delay_ms(uint16_t ms);
 void delay_us(uint16_t us);
 void delay_us_32bit(uint32_t us);

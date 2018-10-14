@@ -84,7 +84,7 @@
 // unsigned int i;
 
 // Magic Numbers
-static const char kSetPinToOutput = 0;
+static const char kOutputEnable = 0;
 static const char kEnable = 1;
 static const char kDisable = 0;
 static const char kEnableNesting = 0;
@@ -92,7 +92,7 @@ static const char kEnableNesting = 0;
 // ************************************************************ helper functions
 static inline void init_clock(void) { // shared code
         //Clock output on REFO
-        TRISBbits.TRISB15 = kSetPinToOutput;  // Set RB15 as output for REFO
+        TRISBbits.TRISB15 = kOutputEnable;  // Set RB15 as output for REFO
         REFOCONbits.ROEN = kEnable; // Ref oscillator is disabled
         REFOCONbits.ROSSLP = kDisable; // true = Ref oscillator is kDisabled in sleep
         REFOCONbits.ROSEL = 0; // Output base clk showing clock switching
@@ -116,7 +116,7 @@ Assignment 1
         note: requires baud 300 for 32kHz, 9600 for 8MHz
 */
 static inline void begin_flicker_LED(void) {
-        TRISBbits.TRISB8 = kSetPinToOutput; // set RB8 as output for LED
+        TRISBbits.TRISB8 = kOutputEnable; // set RB8 as output for LED
 
         set_LED_toggles_on_t2interrupt(kEnable); // cause RB8 to toggle each interrupt
         while (1) {
@@ -149,11 +149,13 @@ Assignment 3
         1. in-progress
 */
 static inline void begin_samsung_xmitter(void) {
-        TRISBbits.TRISB9 = kSetPinToOutput; // set RB9 as output for LED
-        delay_us_t1(13); // pairs with tris9 to power ir led
+        // setup IR on RB9 to toggle
+        TRISBbits.TRISB9 = kOutputEnable; // set RB9 as output to drive LED
+        set_IR_toggles_on_t2interrupt(kEnable);
 
         xmit_power_on();
         while(1) {
+                delay_us(13); // this is the carrier wave
                 Idle();
         }
 }
@@ -162,9 +164,11 @@ static inline void begin_samsung_xmitter(void) {
 int main(void) { // runs at 1st power-up automatically
         init_clock();
 
-        begin_samsung_xmitter();
-        // begin_btn_debug_mode();
+        // prev assignments
         // begin_flicker_LED();
+        // begin_btn_debug_mode();
+
+        begin_samsung_xmitter();
 
         while(1) {
                 Disp2String("\n\rShould not get here!");
