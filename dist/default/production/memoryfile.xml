@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <executable name="dist/default/production/519-drivers.X.production.elf">
+    <memory name="data">
+      <units>bytes</units>
+      <length>1536</length>
+      <used>12</used>
+      <free>1524</free>
+    </memory>
+    <memory name="program">
+      <units>bytes</units>
+      <length>16128</length>
+      <used>4785</used>
+      <free>11343</free>
+    </memory>
+  </executable>
+</project>
