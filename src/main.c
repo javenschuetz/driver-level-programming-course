@@ -29,19 +29,19 @@
 //// CONFIGURATION BITS ////
 
 // Code protection
-#pragma config BSS = OFF // Boot segment code protect kDisabled
+#pragma config BSS = OFF // Boot segment code protect Disabled
 #pragma config BWRP = OFF // Boot sengment flash write protection off
 #pragma config GCP = OFF // general segment code protecion off
 #pragma config GWRP = OFF
 
 // CLOCK CONTROL
-#pragma config IESO = OFF    // 2 Speed Startup kDisabled
+#pragma config IESO = OFF    // 2 Speed Startup Disabled
 #pragma config FNOSC = FRC  // Start up CLK = 8 MHz
-#pragma config FCKSM = CSECMD // Clock switching is kEnabled, clock monitor kDisabled
+#pragma config FCKSM = CSECMD // Clock switching is Enabled, clock monitor Disabled
 #pragma config SOSCSEL = SOSCLP // Secondary oscillator for Low Power Operation
 #pragma config POSCFREQ = MS  //Primary Oscillator/External clk freq betwn 100kHz and 8 MHz. Options: LS, MS, HS
-#pragma config OSCIOFNC = ON  //CLKO output kDisabled on pin 8, use as IO.
-#pragma config POSCMOD = NONE  // Primary oscillator mode is kDisabled
+#pragma config OSCIOFNC = ON  //CLKO output Disabled on pin 8, use as IO.
+#pragma config POSCMOD = NONE  // Primary oscillator mode is Disabled
 
 // WDT = watch dog timer
 #pragma config FWDTEN = OFF // WDT is off
@@ -77,7 +77,7 @@
 #define ClrWdt() {__asm__ volatile ("clrwdt");}
 #define Sleep() {__asm__ volatile ("pwrsav #0");}   // set sleep mode
 #define Idle() {__asm__ volatile ("pwrsav #1");}
-#define dsen() {__asm__ volatile ("BSET DSCON, #15");} // dsen = deep sleep kEnable?
+#define dsen() {__asm__ volatile ("BSET DSCON, #15");} // dsen = deep sleep Enable?
 
 // GLOBAL VARIABLES
 // unsigned int temp;
@@ -90,11 +90,11 @@ static const char kDisable = 0;
 static const char kEnableNesting = 0;
 
 // ************************************************************ helper functions
-static inline void init_clock(void) { // shared code
+static inline void init_clock(unsigned int speed) { // shared code
         //Clock output on REFO
         TRISBbits.TRISB15 = kOutputEnable;  // Set RB15 as output for REFO
         REFOCONbits.ROEN = kEnable; // Ref oscillator is disabled
-        REFOCONbits.ROSSLP = kDisable; // true = Ref oscillator is kDisabled in sleep
+        REFOCONbits.ROSSLP = kDisable; // true = Ref oscillator is Disabled in sleep
         REFOCONbits.ROSEL = 0; // Output base clk showing clock switching
         REFOCONbits.RODIV = 0b0000;
 
@@ -102,7 +102,7 @@ static inline void init_clock(void) { // shared code
         OSCTUNbits.TUN = 0b011111; // improve clock accuracy slightly
 
         // 'create' the clock
-        NewClk(32); // Switch clock: 32 for 32kHz, 500 for 500 kHz, 8 for 8MHz
+        NewClk(speed); // Switch clock: 32 for 32kHz, 500 for 500 kHz, 8 for 8MHz
 }
 
 /*
@@ -152,21 +152,27 @@ static inline void begin_samsung_xmitter(void) {
         // setup IR on RB9 to toggle
         TRISBbits.TRISB9 = kOutputEnable; // set RB9 as output to drive LED
         set_IR_toggles_on_t2interrupt(kEnable);
+        INTCON1bits.NSTDIS = kEnableNesting; // enable nesting interrupts
+
+        delay_us(13, kEnable); // this is the carrier wave. enable = repeat
 
         xmit_power_on();
         while(1) {
-                delay_us(13); // this is the carrier wave
                 Idle();
         }
 }
 
 // ************************************************************************ main
 int main(void) { // runs at 1st power-up automatically
-        init_clock();
+        init_clock(8);
 
-        // prev assignments
+        // prev assignments:
         // begin_flicker_LED();
         // begin_btn_debug_mode();
+
+        XmitUART2('a', 1);
+        XmitUART2('b', 1);
+        XmitUART2('c', 1);
 
         begin_samsung_xmitter();
 
@@ -176,3 +182,18 @@ int main(void) { // runs at 1st power-up automatically
         }
         return 0;
 }
+
+
+/*
+misc notes to self
+
+calling delay_us_t1 inside the t1 interrupt handler breaks the interrupt and causes
+the PC to restore to the wrong place?!
+        - could be watchdog
+        - could be unhandled other interrupt
+        - could be compiler bug
+        - could be brownout? saw in forum
+        - seems to be from resetting PC to 0 in response to something
+        - stack overflow?
+
+*/

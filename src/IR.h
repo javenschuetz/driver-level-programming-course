@@ -8,4 +8,6 @@ enum CURRENT_MESSAGE {kPowerToggle, kChannelUp, kChannelDown,
 
 void xmit_power_on(void);
 
+void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void);
+
 #endif	/* IR_H */

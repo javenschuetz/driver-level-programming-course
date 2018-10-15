@@ -21,6 +21,7 @@ static const float kMagicNumber = 1.0/2.0; // for the timers, processor specific
 static char toggle_LED_in_t2interrupt = 0;
 static char toggle_LED_in_t3interrupt = 0;
 static char toggle_IR_in_t2interrupt = 0;
+static char repeat_after_interrupt = 0;
 
 // ************************************************************ helper functions
 static inline void set_timer_priority(int priority) {
@@ -110,7 +111,7 @@ void delay_ms(uint16_t ms) {
 }
 
 
-void delay_us(uint16_t us) {
+void delay_us(uint16_t us, unsigned char repeat) {
 	init_timer2(8);
 
 	long int clock_freq = 8000000; // recall ints are 16 bit on this chip
@@ -119,9 +120,14 @@ void delay_us(uint16_t us) {
 	// note: pr2 is 16 bit unless we're combining timers
 	PR2 = (clock_freq / US_PER_S) * prescaling_factor * kMagicNumber * us;
 
+        if (repeat) {
+                repeat_after_interrupt = 1;
+        }
+
 	// start the timer & enable the interrupt
 	T2CONbits.TON = kEnable; // starts the timer
 	IEC0bits.T2IE = kEnable; // enable the interrup
+        XmitUART2('e', 1);
 }
 
 void delay_us_32bit(uint32_t us) {
@@ -142,15 +148,17 @@ void delay_us_32bit(uint32_t us) {
 
 // *********************************************************** interrupt handler
 void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void) {
-	IFS0bits.T2IF = kDisable; // disable interrupt
+	IFS0bits.T2IF = 0; // clear flag
 
 	toggle_io_if_necessary();
-	T2CONbits.TON = kDisable; // stop the timer
-	IEC0bits.T2IE = kDisable; // stop the interrup
+        if (!repeat_after_interrupt) {
+        	T2CONbits.TON = kDisable; // stop the timer
+        	IEC0bits.T2IE = kDisable; // stop the interrup
+        }
 }
 
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
-	IFS0bits.T3IF = kDisable; // disable interrupt
+	IFS0bits.T3IF = 0; // clear flag
 	toggle_io_if_necessary();
 
 	T2CONbits.TON = kDisable; // stop the combined timer
