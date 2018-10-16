@@ -90,7 +90,7 @@ static const char kDisable = 0;
 static const char kEnableNesting = 0;
 
 // ************************************************************ helper functions
-static inline void init_clock(void) { // shared code
+static inline void init_clock(unsigned int freq) { // shared code
         //Clock output on REFO
         TRISBbits.TRISB15 = kOutputEnable;  // Set RB15 as output for REFO
         REFOCONbits.ROEN = kEnable; // Ref oscillator is disabled
@@ -102,7 +102,7 @@ static inline void init_clock(void) { // shared code
         OSCTUNbits.TUN = 0b011111; // improve clock accuracy slightly
 
         // 'create' the clock
-        NewClk(32); // Switch clock: 32 for 32kHz, 500 for 500 kHz, 8 for 8MHz
+        NewClk(freq); // Switch clock: 32 for 32kHz, 500 for 500 kHz, 8 for 8MHz
 }
 
 /*
@@ -153,16 +153,16 @@ static inline void begin_samsung_xmitter(void) {
         TRISBbits.TRISB9 = kOutputEnable; // set RB9 as output to drive LED
         set_IR_toggles_on_t2interrupt(kEnable);
 
-        xmit_power_on();
+        // xmit_power_on();
+        delay_us(13, kEnable); // this is the carrier wave
         while(1) {
-                delay_us(13); // this is the carrier wave
                 Idle();
         }
 }
 
 // ************************************************************************ main
 int main(void) { // runs at 1st power-up automatically
-        init_clock();
+        init_clock(8);
 
         // prev assignments
         // begin_flicker_LED();

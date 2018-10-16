@@ -27,7 +27,11 @@ static uint32_t kVolumeUpBits = 0xE0E0E01F;
 static uint32_t kVolumeDownBits = 0xE0E0D02F;
 
 // statics
-static uint32_t current_message = 0; // this will be one of the above bit sequences
+static enum XMIT_STATE {kWaiting, kOneHigh, kZeroHigh, kStartHigh, kStopHigh, kLow};
+static enum XMIT_STATE current_xmit_state = kWaiting;
+
+static long int current_message = -1; // this will be one of the above bit sequences
+static char message_index = 0;
 
 // ************************************************************ helper functions
 static inline void set_timer_priority(int priority) {
@@ -64,93 +68,75 @@ static void delay_us_t1(uint16_t us) {
         IEC0bits.T1IE = kEnable; // enable the interrup
 }
 
-static void xmit_start_bit(void) {
-        TRISBbits.TRISB9 = kOutputEnable; // begin pulse
-        delay_us(4500);
-        Idle();
-        TRISBbits.TRISB9 = kOutputDisable; // stop pulse
-        delay_us(4500);
-        Idle();
-}
-
-static void xmit_stop_bit(void) {
-        TRISBbits.TRISB9 = kOutputEnable; // begin pulse
-        delay_us(560);
-        Idle();
-        TRISBbits.TRISB9 = kOutputDisable; // stop pulse
-        delay_us(560);
-        Idle();
-}
-
-static void xmit_zero(void) {
-        TRISBbits.TRISB9 = kOutputEnable; // begin pulse
-        delay_us(560);
-        Idle();
-        TRISBbits.TRISB9 = kOutputDisable; // stop pulse
-        delay_us(560);
-        Idle();
-}
-
-static void xmit_one(void) {
-        TRISBbits.TRISB9 = kOutputEnable; // begin pulse
-        delay_us(560);
-        Idle();
-        TRISBbits.TRISB9 = kOutputDisable; // stop pulse
-        delay_us(1690);
-        Idle();
-}
-
-static void xmit_EOEO(void) {
-        // E
-        xmit_one();
-        xmit_one();
-        xmit_one();
-        xmit_zero();
-
-        // O
-        xmit_zero();
-        xmit_zero();
-        xmit_zero();
-        xmit_zero();
-
-        // E
-        xmit_one();
-        xmit_one();
-        xmit_one();
-        xmit_zero();
-
-        // O
-        xmit_zero();
-        xmit_zero();
-        xmit_zero();
-        xmit_zero();
-}
-
 void xmit_power_on(void) {
-        while(1) {
-                xmit_start_bit();
-                xmit_EOEO();
-                xmit_stop_bit();
-        }
+        current_message = kPowerToggleBits;
+        delay_us_t1(1); // hack to start interrupt
 }
 
 // this is the orchestration interrupt
+// uses state machine and a state register to decide what to send next
+// used for transmitting IR signals to samsung TVs
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
-        IFS0bits.T1IF = kDisable;
+        IFS0bits.T1IF = 0; // clear interrupt flag
+        IEC0bits.T1IE = kDisable; // disable the interrup
+        T1CONbits.TON = kDisable; // stops the timer
 
-        int i;
-        while (i < 34) {
-                if (i == 0) {
-                        xmit_start_bit();
-                        i++;
-                        xmit_EOEO();
-                        i += 16;
-                } else if (i < 33) {
-                        i++;
+        switch (current_xmit_state) {
+        case kStartHigh:
+                // transmit low portion of start bit
+                current_xmit_state = kLow;
+                IEC0bits.T2IE = kDisable; // turn off pulse
+                TRISBbits.TRISB9 = 1; // set output to nothing
+                message_index = 0; // ready to transmit momentarily
+                delay_us_t1(4500);
+                break;
+        case kOneHigh:
+                // transmit low portion of start bit
+                current_xmit_state = kLow;
+                IEC0bits.T2IE = kDisable; // turn off pulse
+                TRISBbits.TRISB9 = 1; // set output to nothing
+                delay_us_t1(1690);
+                break;
+        case kZeroHigh:
+                // transmit low portion of start bit
+                current_xmit_state = kLow;
+                IEC0bits.T2IE = kDisable; // turn off pulse
+                TRISBbits.TRISB9 = 1; // set output to nothing
+                delay_us_t1(4500);
+                break;
+        case kStopHigh:
+                current_message = -1; // no message remaining to transmit
+                current_xmit_state = kWaiting; // done transmitting after this
+                IEC0bits.T2IE = kDisable; // turn off pulse
+                TRISBbits.TRISB9 = 1; // set output to nothing
+                delay_us_t1(560);
+                break;
+        case kLow:
+                if (message_index >= 31) { // message sent, so send stop bit
+                        current_xmit_state = kStopHigh;
+                        IEC0bits.T2IE = kEnable; // turn on pulse
+                        delay_us_t1(560);
+                } else if (current_message % 2) { // if next bit is 1
+                        current_xmit_state = kOneHigh;
+                        IEC0bits.T2IE = kEnable; // turn on pulse
+                        delay_us_t1(560);
                 } else {
-                        xmit_stop_bit();
-                        i++;
+                        current_xmit_state = kZeroHigh;
+                        IEC0bits.T2IE = kEnable; // turn on pulse
+                        delay_us_t1(560);
                 }
+                message_index++;
+                current_message << 1;
+                break;
+        case kWaiting:
+                if (current_message == -1) {
+                        return; // no message is configured
+                }
+                // transmit high portion of start bit
+                current_xmit_state = kStartHigh;
+                IEC0bits.T2IE = kEnable; // turn on pulse
+                delay_us_t1(4500);
+                break;
         }
 }
 
