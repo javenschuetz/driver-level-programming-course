@@ -3,5 +3,4 @@ src/IR.c  \
 src/IR.h  \
 src/IO.h  \
 src/Timer.h  \
- src/ChangeClk.h  \
-src/UART2.h 
+ src/ChangeClk.h 
