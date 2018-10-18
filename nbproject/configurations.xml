@@ -21,10 +21,10 @@
       <itemPath>src/button_state.c</itemPath>
       <itemPath>src/ChangeClk.c</itemPath>
       <itemPath>src/IO.c</itemPath>
-      <itemPath>src/IR.c</itemPath>
       <itemPath>src/main.c</itemPath>
       <itemPath>src/Timer.c</itemPath>
       <itemPath>src/UART2.c</itemPath>
+      <itemPath>src/IR.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

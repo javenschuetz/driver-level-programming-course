@@ -23,6 +23,9 @@
 #include "IO.h"
 #include "IR.h"
 
+#include "ChangeClk.h"
+#define FCY 4000000UL;
+
 // other includes
 
 
@@ -149,12 +152,11 @@ Assignment 3
         1. in-progress
 */
 static inline void begin_samsung_xmitter(void) {
-        // setup IR on RB9 to toggle
-        TRISBbits.TRISB9 = kOutputEnable; // set RB9 as output to drive LED
-        set_IR_toggles_on_t2interrupt(kEnable);
+        CN_init();
+        LATBbits.LATB9 = 0;
+        // set_btn_verbose_mode(kEnable);
+        delay_us_t1(1); // hack to setup the timer TODO
 
-        // xmit_power_on();
-        delay_us(13, kEnable); // this is the carrier wave
         while(1) {
                 Idle();
         }

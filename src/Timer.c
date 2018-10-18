@@ -61,8 +61,6 @@ static inline void init_timer2_32(int frequency) {
 }
 
 static inline void toggle_io_if_necessary(void) {
-	// XmitUART2('x',1); // for debugging
-
 	if (toggle_LED_in_t2interrupt) {
 		LATBbits.LATB8 = !LATBbits.LATB8; // this toggles the LED
 	}
@@ -143,19 +141,27 @@ void delay_us_32bit(uint32_t us) {
 
 // *********************************************************** interrupt handler
 void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void) {
-	IFS0bits.T2IF = kDisable; // disable interrupt
+        // note: commenting so much out gives us almost exactly 13.0us for the carrier
+        // need to fix performance is only thing
+	IFS0bits.T2IF = 0; // clear flag
 
-	toggle_io_if_necessary();
-        if (!repeat_timer) {
+        // toggle_io seems to be too slow...
+        // todo - use ifdef
+	// toggle_io_if_necessary();
+        // LATBbits.LATB9 = !LATBbits.LATB9; // this toggles the IR
+
+        // commented out for performance reasons
+        // todo - use an ifdef and a macro
+        if (repeat_timer != 1) {
         	T2CONbits.TON = kDisable; // stop the timer
         	IEC0bits.T2IE = kDisable; // stop the interrup
         }
 }
 
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
-	IFS0bits.T3IF = kDisable; // disable interrupt
+	IFS0bits.T3IF = 0; // disable interrupt
 	toggle_io_if_necessary();
 
-	T2CONbits.TON = kDisable; // stop the combined timer
+	T3CONbits.TON = kDisable; // note: to stop the combined timer, use t2con
 	IEC0bits.T3IE = kDisable; // stop the timer 2/3 combined interrupt
 }

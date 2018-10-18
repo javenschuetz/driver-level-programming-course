@@ -11,6 +11,9 @@
 #include "Timer.h"
 #include "ChangeClk.h"
 
+#define FCY 4000000UL; // for __delay32()
+#include "libpic30.h"
+
 // magic numbers
 static const float kMagicNumber = 1.0/2.0; // for the timers, processor specific :p
 static const char kEnable = 1;
@@ -19,19 +22,12 @@ static const char kInternalClk = 0;
 static const char kOutputEnable = 0;
 static const char kOutputDisable = 1;
 
-// codes for Samsung protocol
-static uint32_t kPowerToggleBits = 0xE0E040BF;
-static uint32_t kChannelUpBits = 0xE0E048B7;
-static uint32_t kChannelDownBits = 0xE0E008F7;
-static uint32_t kVolumeUpBits = 0xE0E0E01F;
-static uint32_t kVolumeDownBits = 0xE0E0D02F;
+static unsigned char envelope_flag = 0;
+static const int US_516 = 2240;
+static const int US_13 = 52;
+static const int US_1690 = 1690*4;
+static const int US_4500 = 4500*4;
 
-// statics
-static enum XMIT_STATE {kWaiting, kOneHigh, kZeroHigh, kStartHigh, kStopHigh, kLow};
-static enum XMIT_STATE current_xmit_state = kWaiting;
-
-static long int current_message = -1; // this will be one of the above bit sequences
-static char message_index = 0;
 
 // ************************************************************ helper functions
 static inline void set_timer_priority(int priority) {
@@ -54,7 +50,7 @@ static inline void init_timer1(int frequency) {
         TMR1 = 0; // just in case it doesn't happen automatically
 }
 
-static void delay_us_t1(uint16_t us) {
+void delay_us_t1(uint16_t us) {
         init_timer1(8);
 
         long int clock_freq = 8000000; // recall ints are 16 bit on this chip
@@ -68,9 +64,45 @@ static void delay_us_t1(uint16_t us) {
         IEC0bits.T1IE = kEnable; // enable the interrup
 }
 
-void xmit_power_on(void) {
-        current_message = kPowerToggleBits;
-        delay_us_t1(1); // hack to start interrupt
+void xmit_bit(int cycles_high, int cycles_low) {
+        // reset timer
+        TMR1 = 0;
+        PR1 = cycles_high;
+        T1CONbits.TON = kEnable; // starts the timer
+        IEC0bits.T1IE = kEnable; // enable the interrup
+        envelope_flag = 0;
+
+        while (!envelope_flag) {
+                LATBbits.LATB9 = 1;
+                __delay32(US_13);
+                LATBbits.LATB9 = 0;
+                __delay32(US_13);
+        }
+
+        envelope_flag = 0;
+        __delay32(cycles_low);
+}
+
+void xmit_samsung_signal(uint32_t msg) {
+        NewClk(8); // button debounce uses 32kHz clock. this resets it
+        TRISBbits.TRISB9 = 0; // enable pin output
+        LATBbits.LATB9 = 0;
+
+        // start bit
+        xmit_bit(US_4500, US_4500);
+
+        // message bits
+        int i;
+        for (i = 0; i < 32; i++) {
+                if ((msg >> (31-i) & 0b01) ) { // if next bit is 1
+                        xmit_bit(US_516, US_1690);
+                } else {
+                        xmit_bit(US_516, US_516);
+                }
+        }
+
+        // stop bit
+        xmit_bit(US_516, US_516);
 }
 
 // this is the orchestration interrupt
@@ -78,65 +110,7 @@ void xmit_power_on(void) {
 // used for transmitting IR signals to samsung TVs
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
         IFS0bits.T1IF = 0; // clear interrupt flag
+        envelope_flag = 1;
         IEC0bits.T1IE = kDisable; // disable the interrup
         T1CONbits.TON = kDisable; // stops the timer
-
-        switch (current_xmit_state) {
-        case kStartHigh:
-                // transmit low portion of start bit
-                current_xmit_state = kLow;
-                IEC0bits.T2IE = kDisable; // turn off pulse
-                TRISBbits.TRISB9 = 1; // set output to nothing
-                message_index = 0; // ready to transmit momentarily
-                delay_us_t1(4500);
-                break;
-        case kOneHigh:
-                // transmit low portion of start bit
-                current_xmit_state = kLow;
-                IEC0bits.T2IE = kDisable; // turn off pulse
-                TRISBbits.TRISB9 = 1; // set output to nothing
-                delay_us_t1(1690);
-                break;
-        case kZeroHigh:
-                // transmit low portion of start bit
-                current_xmit_state = kLow;
-                IEC0bits.T2IE = kDisable; // turn off pulse
-                TRISBbits.TRISB9 = 1; // set output to nothing
-                delay_us_t1(4500);
-                break;
-        case kStopHigh:
-                current_message = -1; // no message remaining to transmit
-                current_xmit_state = kWaiting; // done transmitting after this
-                IEC0bits.T2IE = kDisable; // turn off pulse
-                TRISBbits.TRISB9 = 1; // set output to nothing
-                delay_us_t1(560);
-                break;
-        case kLow:
-                if (message_index >= 31) { // message sent, so send stop bit
-                        current_xmit_state = kStopHigh;
-                        IEC0bits.T2IE = kEnable; // turn on pulse
-                        delay_us_t1(560);
-                } else if (current_message % 2) { // if next bit is 1
-                        current_xmit_state = kOneHigh;
-                        IEC0bits.T2IE = kEnable; // turn on pulse
-                        delay_us_t1(560);
-                } else {
-                        current_xmit_state = kZeroHigh;
-                        IEC0bits.T2IE = kEnable; // turn on pulse
-                        delay_us_t1(560);
-                }
-                message_index++;
-                current_message << 1;
-                break;
-        case kWaiting:
-                if (current_message == -1) {
-                        return; // no message is configured
-                }
-                // transmit high portion of start bit
-                current_xmit_state = kStartHigh;
-                IEC0bits.T2IE = kEnable; // turn on pulse
-                delay_us_t1(4500);
-                break;
-        }
 }
-

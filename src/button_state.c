@@ -59,8 +59,6 @@ static enum BUTTON_STATE get_CN1_state(unsigned char current_val) {
 		return 0; // should never get here
 		XmitUART2('r',2); // just to give a hint something happened
 	}
-
-	return kNotPressed;
 }
 
 
