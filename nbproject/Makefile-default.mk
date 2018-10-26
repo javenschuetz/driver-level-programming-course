@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=src/button_state.c src/ChangeClk.c src/Timer.c src/UART2.c src/main_rx.c src/samsung_rx.c
+SOURCEFILES_QUOTED_IF_SPACED=src/button_state.c src/ChangeClk.c src/IO.c src/main.c src/Timer.c src/UART2.c src/IR.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/src/button_state.o ${OBJECTDIR}/src/ChangeClk.o ${OBJECTDIR}/src/Timer.o ${OBJECTDIR}/src/UART2.o ${OBJECTDIR}/src/main_rx.o ${OBJECTDIR}/src/samsung_rx.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/src/button_state.o.d ${OBJECTDIR}/src/ChangeClk.o.d ${OBJECTDIR}/src/Timer.o.d ${OBJECTDIR}/src/UART2.o.d ${OBJECTDIR}/src/main_rx.o.d ${OBJECTDIR}/src/samsung_rx.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/src/button_state.o ${OBJECTDIR}/src/ChangeClk.o ${OBJECTDIR}/src/IO.o ${OBJECTDIR}/src/main.o ${OBJECTDIR}/src/Timer.o ${OBJECTDIR}/src/UART2.o ${OBJECTDIR}/src/IR.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/src/button_state.o.d ${OBJECTDIR}/src/ChangeClk.o.d ${OBJECTDIR}/src/IO.o.d ${OBJECTDIR}/src/main.o.d ${OBJECTDIR}/src/Timer.o.d ${OBJECTDIR}/src/UART2.o.d ${OBJECTDIR}/src/IR.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/src/button_state.o ${OBJECTDIR}/src/ChangeClk.o ${OBJECTDIR}/src/Timer.o ${OBJECTDIR}/src/UART2.o ${OBJECTDIR}/src/main_rx.o ${OBJECTDIR}/src/samsung_rx.o
+OBJECTFILES=${OBJECTDIR}/src/button_state.o ${OBJECTDIR}/src/ChangeClk.o ${OBJECTDIR}/src/IO.o ${OBJECTDIR}/src/main.o ${OBJECTDIR}/src/Timer.o ${OBJECTDIR}/src/UART2.o ${OBJECTDIR}/src/IR.o
 
 # Source Files
-SOURCEFILES=src/button_state.c src/ChangeClk.c src/Timer.c src/UART2.c src/main_rx.c src/samsung_rx.c
+SOURCEFILES=src/button_state.c src/ChangeClk.c src/IO.c src/main.c src/Timer.c src/UART2.c src/IR.c
 
 
 CFLAGS=
@@ -108,6 +108,20 @@ ${OBJECTDIR}/src/ChangeClk.o: src/ChangeClk.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/ChangeClk.c  -o ${OBJECTDIR}/src/ChangeClk.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/ChangeClk.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
 	@${FIXDEPS} "${OBJECTDIR}/src/ChangeClk.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/src/IO.o: src/IO.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/src" 
+	@${RM} ${OBJECTDIR}/src/IO.o.d 
+	@${RM} ${OBJECTDIR}/src/IO.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  src/IO.c  -o ${OBJECTDIR}/src/IO.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/IO.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
+	@${FIXDEPS} "${OBJECTDIR}/src/IO.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/src/main.o: src/main.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/src" 
+	@${RM} ${OBJECTDIR}/src/main.o.d 
+	@${RM} ${OBJECTDIR}/src/main.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  src/main.c  -o ${OBJECTDIR}/src/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/main.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
+	@${FIXDEPS} "${OBJECTDIR}/src/main.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 ${OBJECTDIR}/src/Timer.o: src/Timer.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/Timer.o.d 
@@ -122,19 +136,12 @@ ${OBJECTDIR}/src/UART2.o: src/UART2.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/UART2.c  -o ${OBJECTDIR}/src/UART2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/UART2.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
 	@${FIXDEPS} "${OBJECTDIR}/src/UART2.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
-${OBJECTDIR}/src/main_rx.o: src/main_rx.c  nbproject/Makefile-${CND_CONF}.mk
+${OBJECTDIR}/src/IR.o: src/IR.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/src" 
-	@${RM} ${OBJECTDIR}/src/main_rx.o.d 
-	@${RM} ${OBJECTDIR}/src/main_rx.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  src/main_rx.c  -o ${OBJECTDIR}/src/main_rx.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/main_rx.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
-	@${FIXDEPS} "${OBJECTDIR}/src/main_rx.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
-${OBJECTDIR}/src/samsung_rx.o: src/samsung_rx.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/src" 
-	@${RM} ${OBJECTDIR}/src/samsung_rx.o.d 
-	@${RM} ${OBJECTDIR}/src/samsung_rx.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  src/samsung_rx.c  -o ${OBJECTDIR}/src/samsung_rx.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/samsung_rx.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
-	@${FIXDEPS} "${OBJECTDIR}/src/samsung_rx.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	@${RM} ${OBJECTDIR}/src/IR.o.d 
+	@${RM} ${OBJECTDIR}/src/IR.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  src/IR.c  -o ${OBJECTDIR}/src/IR.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/IR.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
+	@${FIXDEPS} "${OBJECTDIR}/src/IR.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 else
 ${OBJECTDIR}/src/button_state.o: src/button_state.c  nbproject/Makefile-${CND_CONF}.mk
@@ -151,6 +158,20 @@ ${OBJECTDIR}/src/ChangeClk.o: src/ChangeClk.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/ChangeClk.c  -o ${OBJECTDIR}/src/ChangeClk.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/ChangeClk.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
 	@${FIXDEPS} "${OBJECTDIR}/src/ChangeClk.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/src/IO.o: src/IO.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/src" 
+	@${RM} ${OBJECTDIR}/src/IO.o.d 
+	@${RM} ${OBJECTDIR}/src/IO.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  src/IO.c  -o ${OBJECTDIR}/src/IO.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/IO.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
+	@${FIXDEPS} "${OBJECTDIR}/src/IO.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/src/main.o: src/main.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/src" 
+	@${RM} ${OBJECTDIR}/src/main.o.d 
+	@${RM} ${OBJECTDIR}/src/main.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  src/main.c  -o ${OBJECTDIR}/src/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/main.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
+	@${FIXDEPS} "${OBJECTDIR}/src/main.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 ${OBJECTDIR}/src/Timer.o: src/Timer.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/Timer.o.d 
@@ -165,19 +186,12 @@ ${OBJECTDIR}/src/UART2.o: src/UART2.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/UART2.c  -o ${OBJECTDIR}/src/UART2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/UART2.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
 	@${FIXDEPS} "${OBJECTDIR}/src/UART2.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
-${OBJECTDIR}/src/main_rx.o: src/main_rx.c  nbproject/Makefile-${CND_CONF}.mk
+${OBJECTDIR}/src/IR.o: src/IR.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/src" 
-	@${RM} ${OBJECTDIR}/src/main_rx.o.d 
-	@${RM} ${OBJECTDIR}/src/main_rx.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  src/main_rx.c  -o ${OBJECTDIR}/src/main_rx.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/main_rx.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
-	@${FIXDEPS} "${OBJECTDIR}/src/main_rx.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
-	
-${OBJECTDIR}/src/samsung_rx.o: src/samsung_rx.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/src" 
-	@${RM} ${OBJECTDIR}/src/samsung_rx.o.d 
-	@${RM} ${OBJECTDIR}/src/samsung_rx.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  src/samsung_rx.c  -o ${OBJECTDIR}/src/samsung_rx.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/samsung_rx.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
-	@${FIXDEPS} "${OBJECTDIR}/src/samsung_rx.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	@${RM} ${OBJECTDIR}/src/IR.o.d 
+	@${RM} ${OBJECTDIR}/src/IR.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  src/IR.c  -o ${OBJECTDIR}/src/IR.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/IR.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
+	@${FIXDEPS} "${OBJECTDIR}/src/IR.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 endif
 

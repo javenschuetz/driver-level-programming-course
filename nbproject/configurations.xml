@@ -258,7 +258,7 @@
         <property key="programoptions.uselvpprogramming" value="false"/>
         <property key="voltagevalue" value="3.25"/>
       </PICkit3PlatformTool>
-      <item path="src/IO.c" ex="true" overriding="false">
+      <item path="src/IO.c" ex="false" overriding="false">
         <C30>
         </C30>
         <C30-AR>
@@ -282,9 +282,7 @@
         <C30Global>
         </C30Global>
       </item>
-      <item path="src/IR.c" ex="true" overriding="false">
-      </item>
-      <item path="src/main.c" ex="true" overriding="false">
+      <item path="src/IR.c" ex="false" overriding="false">
         <C30>
         </C30>
         <C30-AR>
@@ -295,6 +293,22 @@
         </C30-LD>
         <C30Global>
         </C30Global>
+      </item>
+      <item path="src/main.c" ex="false" overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="src/main_rx.c" ex="true" overriding="false">
+      </item>
+      <item path="src/samsung_rx.c" ex="true" overriding="false">
       </item>
     </conf>
   </confs>
