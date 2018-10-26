@@ -21,6 +21,9 @@ static char toggle_LED_in_t3interrupt = 0;
 static char toggle_IR_in_t2interrupt = 0;
 static unsigned char repeat_timer = 0;
 
+// callback
+static void (* timer3_callback)(void); // my callback!
+
 // ************************************************************ helper functions
 static inline void set_timer_priority(int priority) {
 	if (priority >= 0 && priority <= 7) {
@@ -134,7 +137,7 @@ void delay_us(uint16_t us, unsigned char timer_repeats) {
 	IEC0bits.T2IE = kEnable; // enable the interrup
 }
 
-void delay_us_32bit(uint32_t us) {
+void delay_us_32bit(uint32_t us, void (*cb)()) {
 	init_timer2_32(8);
 
 	double clock_freq = 8000000; // recall ints are 16 bit on this chip
@@ -148,6 +151,8 @@ void delay_us_32bit(uint32_t us) {
 	// start the timer & enable the interrupt
 	T2CONbits.TON = kEnable; // starts the timer
 	IEC0bits.T3IE = kEnable; // enable the interrupt
+
+	timer3_callback = cb;
 }
 
 // *********************************************************** interrupt handler
@@ -182,11 +187,8 @@ void delay_us_32bit(uint32_t us) {
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
 	IFS0bits.T3IF = 0; // disable interrupt
 
+	timer3_callback();
+
 	// currently a noop
-        Disp2String("\n\rpseudo watchdog fired!!");
-        timer_up();
-
-
-	T3CONbits.TON = kDisable; // note: to stop the combined timer, use t2con
-	IEC0bits.T3IE = kDisable; // stop the timer 2/3 combined interrupt
+	// Disp2String("\n\rpseudo watchdog fired!!"); TODO:currently disabled bc breaks the timing
 }

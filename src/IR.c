@@ -1,6 +1,6 @@
 /*
  * File:   IR.c
- * Author: Tilo
+ * Author: Ilia, Nathan
  *
  * Created on October 5, 2018, 5:29 PM
  */
@@ -69,7 +69,7 @@ void xmit_bit(int cycles_high, int cycles_low) {
         TMR1 = 0;
         PR1 = cycles_high;
         T1CONbits.TON = kEnable; // starts the timer
-        IEC0bits.T1IE = kEnable; // enable the interrup
+        IEC0bits.T1IE = kEnable; // enable the interrupt
         envelope_flag = 0;
 
         while (!envelope_flag) {
@@ -84,7 +84,7 @@ void xmit_bit(int cycles_high, int cycles_low) {
 }
 
 void xmit_samsung_signal(uint32_t msg) {
-        NewClk(8); // button debounce uses 32kHz clock. this resets it
+        NewClk(8); // button de-bounce uses 32kHz clock. this resets it
         TRISBbits.TRISB9 = 0; // enable pin output
         LATBbits.LATB9 = 0;
 

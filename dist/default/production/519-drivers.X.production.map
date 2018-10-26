@@ -20,7 +20,6 @@ Command:
   build/default/production/src/ChangeClk.o \
   build/default/production/src/Timer.o \
   build/default/production/src/UART2.o \
-  build/default/production/src/IR.o \
   build/default/production/src/main_rx.o \
   build/default/production/src/samsung_rx.o \
   --defsym=__MPLAB_BUILD=1 \
@@ -56,8 +55,6 @@ c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.
                               c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o) (__data_init_standard)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normal.Leo)
                               (__crt_start_mode_normal)
-c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(delay32.Leo)
-                              build/default/production/src/IR.o (___delay32)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(divsf3.eo)
                               build/default/production/src/Timer.o (___divsf3)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(divsi3.eo)
@@ -118,24 +115,23 @@ xc16-ld 1.35 (A)
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x200               0x466           0x699  (1689)
-.const                       0x666                0x44            0x66  (102)
-.text                        0x6aa               0xa9c           0xfea  (4074)
-.dinit                      0x1146                0x48            0x6c  (108)
-.init.delay32               0x118e                0x1c            0x2a  (42)
+.text                        0x200               0x400           0x600  (1536)
+.const                       0x600                0x24            0x36  (54)
+.text                        0x624               0x9e6           0xed9  (3801)
+.dinit                      0x100a                0x2e            0x45  (69)
 
-                 Total "program" memory used (bytes):         0x177f  (6015) 37%
+                 Total "program" memory used (bytes):         0x1554  (5460) 33%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x600]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-.nbss                        0x800                   0           0x326  (806)
-.ndata                       0xb26                   0            0x28  (40)
-.nbss                        0xb4e                   0             0xe  (14)
+.nbss                        0x800                   0           0x120  (288)
+.ndata                       0x920                   0            0x14  (20)
+.nbss                        0x934                   0             0xe  (14)
 
-                 Total "data" memory used (bytes):          0x35c  (860) 55%
+                 Total "data" memory used (bytes):          0x142  (322) 20%
 
 
 Dynamic Memory Usage
@@ -143,18 +139,18 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0xb5c                               0x2a4  (676)
+stack                        0x942                               0x4be  (1214)
 
-                 Maximum dynamic memory (bytes):          0x2a4  (676)
+                 Maximum dynamic memory (bytes):          0x4be  (1214)
 
 
 External Symbols in Data Memory (by address):
 
-                    0x0b58                  _clkval
+                    0x0940                  _clkval
 
 External Symbols in Data Memory (by name):
 
-                    0x0b58                  _clkval
+                    0x0940                  _clkval
 
 External Symbols in Program Memory (by address):
 
@@ -162,111 +158,103 @@ External Symbols in Program Memory (by address):
                   0x00023c                  __psv_init
                   0x000252                  __data_init_standard
                   0x000252                  __data_init
-                  0x0002c8                  __T3Interrupt
-                  0x000314                  __U2RXInterrupt
-                  0x00031c                  __U2TXInterrupt
-                  0x000324                  __T1Interrupt
-                  0x000362                  __CNInterrupt
-                  0x000384                  __DefaultInterrupt
-                  0x00038a                  ___divsf3
-                  0x00040e                  ___divsi3
-                  0x00042c                  ___fixsfsi
-                  0x00046e                  ___fixunssfsi
-                  0x0004a4                  ___floatsisf
-                  0x0004aa                  ___floatunsisf
-                  0x0004ae                  __fpack
-                  0x0004fa                  __funpack
-                  0x000524                  __funpack2
-                  0x000534                  __fPropagateNaN
-                  0x000546                  __fbopExit
-                  0x00054e                  __fbopReturnNaN
-                  0x000554                  ___mulsf3
-                  0x0005bc                  ___udivsi3
-                  0x0005dc                  ___floatdisf
-                  0x0005fc                  ___floatundisf
-                  0x00065a                  _strlen
-                  0x0007d4                  _set_LED_toggles_on_t2interrupt
-                  0x0007ea                  _set_IR_toggles_on_t2interrupt
-                  0x000800                  _set_LED_toggles_on_t3interrupt
-                  0x000816                  _delay_ms
-                  0x000890                  _delay_ms_500
-                  0x000908                  _delay_us
-                  0x000988                  _delay_us_32bit
-                  0x000a54                  _CN_init
-                  0x000a80                  _timer_up
-                  0x000c80                  _delay_us_t1
-                  0x000cf8                  _xmit_bit
-                  0x000d54                  _xmit_samsung_signal
-                  0x000dac                  _InitUART2
-                  0x000e14                  _XmitUART2
-                  0x000e50                  _Disp2Hex
-                  0x000eae                  _Disp2Hex32
-                  0x000f1c                  _Disp2Dec
-                  0x000f24                  _Disp2String
-                  0x000f46                  _get_CN0_state
-                  0x000fde                  _get_CN8_state
-                  0x00102a                  _get_button_state
-                  0x001068                  _NewClk
-                  0x00113a                  _main
-                  0x00118e                  ___delay32
+                  0x0002cc                  __T3Interrupt
+                  0x0002ec                  __U2RXInterrupt
+                  0x0002f4                  __U2TXInterrupt
+                  0x0002fc                  __CNInterrupt
+                  0x00031e                  __DefaultInterrupt
+                  0x000324                  ___divsf3
+                  0x0003a8                  ___divsi3
+                  0x0003c6                  ___fixsfsi
+                  0x000408                  ___fixunssfsi
+                  0x00043e                  ___floatsisf
+                  0x000444                  ___floatunsisf
+                  0x000448                  __fpack
+                  0x000494                  __funpack
+                  0x0004be                  __funpack2
+                  0x0004ce                  __fPropagateNaN
+                  0x0004e0                  __fbopExit
+                  0x0004e8                  __fbopReturnNaN
+                  0x0004ee                  ___mulsf3
+                  0x000556                  ___udivsi3
+                  0x000576                  ___floatdisf
+                  0x000596                  ___floatundisf
+                  0x0005f4                  _strlen
+                  0x00074e                  _set_LED_toggles_on_t2interrupt
+                  0x000764                  _set_IR_toggles_on_t2interrupt
+                  0x00077a                  _set_LED_toggles_on_t3interrupt
+                  0x000790                  _delay_ms
+                  0x00080a                  _delay_ms_500
+                  0x000882                  _delay_us
+                  0x000902                  _delay_us_32bit
+                  0x0009d4                  _CN_init
+                  0x000a00                  _timer_up
+                  0x000a22                  _timer3_callback
+                  0x000c70                  _InitUART2
+                  0x000cd8                  _XmitUART2
+                  0x000d14                  _Disp2Hex
+                  0x000d72                  _Disp2Hex32
+                  0x000de0                  _Disp2Dec
+                  0x000de8                  _Disp2String
+                  0x000e0a                  _get_CN0_state
+                  0x000ea2                  _get_CN8_state
+                  0x000eee                  _get_button_state
+                  0x000f2c                  _NewClk
+                  0x000ffe                  _main
                   0xf80000                  __FBS.sec
                   0xf80004                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x000a54                  _CN_init
-                  0x000f1c                  _Disp2Dec
-                  0x000e50                  _Disp2Hex
-                  0x000eae                  _Disp2Hex32
-                  0x000f24                  _Disp2String
-                  0x000dac                  _InitUART2
-                  0x001068                  _NewClk
-                  0x000e14                  _XmitUART2
-                  0x000362                  __CNInterrupt
-                  0x000384                  __DefaultInterrupt
+                  0x0009d4                  _CN_init
+                  0x000de0                  _Disp2Dec
+                  0x000d14                  _Disp2Hex
+                  0x000d72                  _Disp2Hex32
+                  0x000de8                  _Disp2String
+                  0x000c70                  _InitUART2
+                  0x000f2c                  _NewClk
+                  0x000cd8                  _XmitUART2
+                  0x0002fc                  __CNInterrupt
+                  0x00031e                  __DefaultInterrupt
                   0xf80000                  __FBS.sec
                   0xf80004                  __FGS.sec
-                  0x000324                  __T1Interrupt
-                  0x0002c8                  __T3Interrupt
-                  0x000314                  __U2RXInterrupt
-                  0x00031c                  __U2TXInterrupt
-                  0x00118e                  ___delay32
-                  0x00038a                  ___divsf3
-                  0x00040e                  ___divsi3
-                  0x00042c                  ___fixsfsi
-                  0x00046e                  ___fixunssfsi
-                  0x0005dc                  ___floatdisf
-                  0x0004a4                  ___floatsisf
-                  0x0005fc                  ___floatundisf
-                  0x0004aa                  ___floatunsisf
-                  0x000554                  ___mulsf3
-                  0x0005bc                  ___udivsi3
+                  0x0002cc                  __T3Interrupt
+                  0x0002ec                  __U2RXInterrupt
+                  0x0002f4                  __U2TXInterrupt
+                  0x000324                  ___divsf3
+                  0x0003a8                  ___divsi3
+                  0x0003c6                  ___fixsfsi
+                  0x000408                  ___fixunssfsi
+                  0x000576                  ___floatdisf
+                  0x00043e                  ___floatsisf
+                  0x000596                  ___floatundisf
+                  0x000444                  ___floatunsisf
+                  0x0004ee                  ___mulsf3
+                  0x000556                  ___udivsi3
                   0x000252                  __data_init
                   0x000252                  __data_init_standard
-                  0x000534                  __fPropagateNaN
-                  0x000546                  __fbopExit
-                  0x00054e                  __fbopReturnNaN
-                  0x0004ae                  __fpack
-                  0x0004fa                  __funpack
-                  0x000524                  __funpack2
+                  0x0004ce                  __fPropagateNaN
+                  0x0004e0                  __fbopExit
+                  0x0004e8                  __fbopReturnNaN
+                  0x000448                  __fpack
+                  0x000494                  __funpack
+                  0x0004be                  __funpack2
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x000816                  _delay_ms
-                  0x000890                  _delay_ms_500
-                  0x000908                  _delay_us
-                  0x000988                  _delay_us_32bit
-                  0x000c80                  _delay_us_t1
-                  0x000f46                  _get_CN0_state
-                  0x000fde                  _get_CN8_state
-                  0x00102a                  _get_button_state
-                  0x00113a                  _main
-                  0x0007ea                  _set_IR_toggles_on_t2interrupt
-                  0x0007d4                  _set_LED_toggles_on_t2interrupt
-                  0x000800                  _set_LED_toggles_on_t3interrupt
-                  0x00065a                  _strlen
-                  0x000a80                  _timer_up
-                  0x000cf8                  _xmit_bit
-                  0x000d54                  _xmit_samsung_signal
+                  0x000790                  _delay_ms
+                  0x00080a                  _delay_ms_500
+                  0x000882                  _delay_us
+                  0x000902                  _delay_us_32bit
+                  0x000e0a                  _get_CN0_state
+                  0x000ea2                  _get_CN8_state
+                  0x000eee                  _get_button_state
+                  0x000ffe                  _main
+                  0x000764                  _set_IR_toggles_on_t2interrupt
+                  0x00074e                  _set_LED_toggles_on_t2interrupt
+                  0x00077a                  _set_LED_toggles_on_t3interrupt
+                  0x0005f4                  _strlen
+                  0x000a22                  _timer3_callback
+                  0x000a00                  _timer_up
 
 Memory Configuration
 
@@ -294,7 +282,6 @@ LOAD build/default/production/src/button_state.o
 LOAD build/default/production/src/ChangeClk.o
 LOAD build/default/production/src/Timer.o
 LOAD build/default/production/src/UART2.o
-LOAD build/default/production/src/IR.o
 LOAD build/default/production/src/main_rx.o
 LOAD build/default/production/src/samsung_rx.o
                     0x0001                  __MPLAB_BUILD = 0x1
@@ -322,7 +309,7 @@ LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libfx-elf.a
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000200        0x466
+.text             0x000200        0x400
  *(.init)
  .init            0x000200         0x4c c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
                   0x000200                  __resetPRI
@@ -334,80 +321,78 @@ LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libfx-elf.a
  *(.user_init)
  *(.handle)
  *(.isr*)
- .isr.text        0x0002c8         0x4c build/default/production/src/Timer.o
-                  0x0002c8                  __T3Interrupt
- .isr.text        0x000314         0x10 build/default/production/src/UART2.o
-                  0x000314                  __U2RXInterrupt
-                  0x00031c                  __U2TXInterrupt
- .isr.text        0x000324         0x3e build/default/production/src/IR.o
-                  0x000324                  __T1Interrupt
- .isr.text        0x000362         0x22 build/default/production/src/samsung_rx.o
-                  0x000362                  __CNInterrupt
- .isr             0x000384          0x4 default_isr
-                  0x000384                  __DefaultInterrupt
+ .isr.text        0x0002cc         0x20 build/default/production/src/Timer.o
+                  0x0002cc                  __T3Interrupt
+ .isr.text        0x0002ec         0x10 build/default/production/src/UART2.o
+                  0x0002ec                  __U2RXInterrupt
+                  0x0002f4                  __U2TXInterrupt
+ .isr.text        0x0002fc         0x22 build/default/production/src/samsung_rx.o
+                  0x0002fc                  __CNInterrupt
+ .isr             0x00031e          0x4 default_isr
+                  0x00031e                  __DefaultInterrupt
  *(.libc)
  *(.libm)
  *(.libdsp)
  *(.lib*)
  .libpic30_crt_start_mode
-                  0x000388          0x2 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normal.Leo)
-                  0x000388                  __crt_start_mode
-                  0x000388                  __crt_start_mode_normal
- .libm.divfs3     0x00038a         0x84 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(divsf3.eo)
-                  0x00038a                  ___divsf3
- .libm.divsi3     0x00040e         0x1e c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(divsi3.eo)
-                  0x00040e                  ___divsi3
- .libm.fixsfsi    0x00042c         0x42 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fixsfsi.eo)
-                  0x00042c                  _(float, int, long long, short, float, short, int)
+                  0x000322          0x2 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normal.Leo)
+                  0x000322                  __crt_start_mode
+                  0x000322                  __crt_start_mode_normal
+ .libm.divfs3     0x000324         0x84 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(divsf3.eo)
+                  0x000324                  ___divsf3
+ .libm.divsi3     0x0003a8         0x1e c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(divsi3.eo)
+                  0x0003a8                  ___divsi3
+ .libm.fixsfsi    0x0003c6         0x42 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fixsfsi.eo)
+                  0x0003c6                  _(float, int, long long, short, float, short, int)
  .libm.fixunssfsi
-                  0x00046e         0x36 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fixunssfsi.eo)
-                  0x00046e                  ___fixunssfsi
+                  0x000408         0x36 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fixunssfsi.eo)
+                  0x000408                  ___fixunssfsi
  .libm.floatsisf
-                  0x0004a4          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatsisf.eo)
-                  0x0004a4                  ___floatsisf
+                  0x00043e          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatsisf.eo)
+                  0x00043e                  ___floatsisf
  .libm.floatunsisf
-                  0x0004aa          0x4 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatunsisf.eo)
-                  0x0004aa                  ___floatunsisf
- .libm.fpack      0x0004ae         0x4c c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fpack.eo)
-                  0x0004ae                  __fpack
- .libm.funpack    0x0004fa         0x2a c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(funpack.eo)
-                  0x0004fa                  __funpack
+                  0x000444          0x4 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatunsisf.eo)
+                  0x000444                  ___floatunsisf
+ .libm.fpack      0x000448         0x4c c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fpack.eo)
+                  0x000448                  __fpack
+ .libm.funpack    0x000494         0x2a c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(funpack.eo)
+                  0x000494                  __funpack
  .libm.funpack2
-                  0x000524         0x10 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(funpack2.eo)
-                  0x000524                  __funpack2
+                  0x0004be         0x10 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(funpack2.eo)
+                  0x0004be                  __funpack2
  .libm.fPropagateNaN
-                  0x000534         0x12 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(futil.eo)
-                  0x000534                  __fPropagateNaN
+                  0x0004ce         0x12 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(futil.eo)
+                  0x0004ce                  __fPropagateNaN
  .libm.fbobExit
-                  0x000546          0x8 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(futil.eo)
-                  0x000546                  __fbopExit
+                  0x0004e0          0x8 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(futil.eo)
+                  0x0004e0                  __fbopExit
  .libm.fbopReturnNaN
-                  0x00054e          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(futil.eo)
-                  0x00054e                  __fbopReturnNaN
- .libm.mulsf3     0x000554         0x68 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
-                  0x000554                  ___mulsf3
- .libm.udivsi3    0x0005bc         0x20 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(udivsi3.eo)
-                  0x0005bc                  ___udivsi3
+                  0x0004e8          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(futil.eo)
+                  0x0004e8                  __fbopReturnNaN
+ .libm.mulsf3     0x0004ee         0x68 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
+                  0x0004ee                  ___mulsf3
+ .libm.udivsi3    0x000556         0x20 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(udivsi3.eo)
+                  0x000556                  ___udivsi3
  .libm.floatdisf
-                  0x0005dc         0x20 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatdisf.eo)
-                  0x0005dc                  ___floatdisf
+                  0x000576         0x20 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatdisf.eo)
+                  0x000576                  ___floatdisf
  .libm.floatundisf
-                  0x0005fc         0x5e c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
-                  0x0005fc                  ___floatundisf
- .libc.strlen     0x00065a          0xc c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(strlen.XX_eo)
-                  0x00065a                  _strlen
+                  0x000596         0x5e c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
+                  0x000596                  ___floatundisf
+ .libc.strlen     0x0005f4          0xc c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(strlen.XX_eo)
+                  0x0005f4                  _strlen
 
 usercode
  *(usercode)
 
 __FBS             0xf80000          0x2
  *(__FBS.sec*)
- __FBS.sec        0xf80000          0x2 /CW/_FBSxTû
+ __FBS.sec        0xf80000          0x2 /CW/_FBSÈ¡Î
                   0xf80000                  __FBS.sec
 
 __FGS             0xf80004          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf80004          0x2 /CW/_FGS0Äú
+ __FGS.sec        0xf80004          0x2 /CW/_FGSÀ‘Î
                   0xf80004                  __FGS.sec
 
 __FOSCSEL
@@ -431,56 +416,51 @@ __FDS
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x406a
+.debug_info       0x000000       0x37d5
  *(.debug_info)
  .debug_info      0x000000        0x323 build/default/production/src/button_state.o
  .debug_info      0x000323        0x546 build/default/production/src/ChangeClk.o
- .debug_info      0x000869        0xbfc build/default/production/src/Timer.o
- .debug_info      0x001465        0xe29 build/default/production/src/UART2.o
- .debug_info      0x00228e        0xb47 build/default/production/src/IR.o
- .debug_info      0x002dd5        0x5e6 build/default/production/src/main_rx.o
- .debug_info      0x0033bb        0xcaf build/default/production/src/samsung_rx.o
+ .debug_info      0x000869        0xb37 build/default/production/src/Timer.o
+ .debug_info      0x0013a0        0xe29 build/default/production/src/UART2.o
+ .debug_info      0x0021c9        0x5e6 build/default/production/src/main_rx.o
+ .debug_info      0x0027af       0x1026 build/default/production/src/samsung_rx.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x793
+.debug_abbrev     0x000000        0x699
  *(.debug_abbrev)
  .debug_abbrev    0x000000         0xa3 build/default/production/src/button_state.o
  .debug_abbrev    0x0000a3        0x123 build/default/production/src/ChangeClk.o
- .debug_abbrev    0x0001c6        0x134 build/default/production/src/Timer.o
- .debug_abbrev    0x0002fa        0x123 build/default/production/src/UART2.o
- .debug_abbrev    0x00041d        0x116 build/default/production/src/IR.o
- .debug_abbrev    0x000533         0xf0 build/default/production/src/main_rx.o
- .debug_abbrev    0x000623        0x170 build/default/production/src/samsung_rx.o
+ .debug_abbrev    0x0001c6        0x150 build/default/production/src/Timer.o
+ .debug_abbrev    0x000316        0x123 build/default/production/src/UART2.o
+ .debug_abbrev    0x000439         0xf0 build/default/production/src/main_rx.o
+ .debug_abbrev    0x000529        0x170 build/default/production/src/samsung_rx.o
 
-.debug_line       0x000000        0x7c6
+.debug_line       0x000000        0x6a7
  *(.debug_line)
  .debug_line      0x000000         0x81 build/default/production/src/button_state.o
  .debug_line      0x000081         0xfa build/default/production/src/ChangeClk.o
- .debug_line      0x00017b        0x168 build/default/production/src/Timer.o
- .debug_line      0x0002e3        0x15a build/default/production/src/UART2.o
- .debug_line      0x00043d        0x143 build/default/production/src/IR.o
- .debug_line      0x000580        0x104 build/default/production/src/main_rx.o
- .debug_line      0x000684        0x142 build/default/production/src/samsung_rx.o
+ .debug_line      0x00017b        0x164 build/default/production/src/Timer.o
+ .debug_line      0x0002df        0x15a build/default/production/src/UART2.o
+ .debug_line      0x000439        0x104 build/default/production/src/main_rx.o
+ .debug_line      0x00053d        0x16a build/default/production/src/samsung_rx.o
 
-.debug_frame      0x000000        0x588
+.debug_frame      0x000000        0x4d0
  *(.debug_frame)
  .debug_frame     0x000000         0x84 build/default/production/src/button_state.o
  .debug_frame     0x000084         0x30 build/default/production/src/ChangeClk.o
  .debug_frame     0x0000b4        0x184 build/default/production/src/Timer.o
  .debug_frame     0x000238         0xf4 build/default/production/src/UART2.o
- .debug_frame     0x00032c         0xd4 build/default/production/src/IR.o
- .debug_frame     0x000400         0x4c build/default/production/src/main_rx.o
- .debug_frame     0x00044c        0x13c build/default/production/src/samsung_rx.o
+ .debug_frame     0x00032c         0x4c build/default/production/src/main_rx.o
+ .debug_frame     0x000378        0x158 build/default/production/src/samsung_rx.o
 
-.debug_str        0x000000        0x19c
+.debug_str        0x000000        0x16c
  *(.debug_str)
  .debug_str       0x000000         0x22 build/default/production/src/button_state.o
  .debug_str       0x000022         0x16 build/default/production/src/ChangeClk.o
- .debug_str       0x000038         0x70 build/default/production/src/Timer.o
- .debug_str       0x0000a8         0x57 build/default/production/src/UART2.o
- .debug_str       0x0000ff         0x39 build/default/production/src/IR.o
- .debug_str       0x000138         0x21 build/default/production/src/main_rx.o
- .debug_str       0x000159         0x43 build/default/production/src/samsung_rx.o
+ .debug_str       0x000038         0x66 build/default/production/src/Timer.o
+ .debug_str       0x00009e         0x57 build/default/production/src/UART2.o
+ .debug_str       0x0000f5         0x21 build/default/production/src/main_rx.o
+ .debug_str       0x000116         0x56 build/default/production/src/samsung_rx.o
 
 .debug_loc
  *(.debug_loc)
@@ -489,7 +469,7 @@ __FDS
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x278
+                  0x000000        0x234
  *(.debug_pubnames)
  .debug_pubnames
                   0x000000         0x4b build/default/production/src/button_state.o
@@ -500,16 +480,14 @@ __FDS
  .debug_pubnames
                   0x000131         0x98 build/default/production/src/UART2.o
  .debug_pubnames
-                  0x0001c9         0x58 build/default/production/src/IR.o
+                  0x0001c9         0x1b build/default/production/src/main_rx.o
  .debug_pubnames
-                  0x000221         0x1b build/default/production/src/main_rx.o
- .debug_pubnames
-                  0x00023c         0x3c build/default/production/src/samsung_rx.o
+                  0x0001e4         0x50 build/default/production/src/samsung_rx.o
 
 .debug_ranges
  *(.debug_ranges)
 
-.debug_aranges    0x000000         0xa8
+.debug_aranges    0x000000         0x90
  *(.debug_aranges)
  .debug_aranges
                   0x000000         0x18 build/default/production/src/button_state.o
@@ -520,11 +498,9 @@ __FDS
  .debug_aranges
                   0x000048         0x18 build/default/production/src/UART2.o
  .debug_aranges
-                  0x000060         0x18 build/default/production/src/IR.o
+                  0x000060         0x18 build/default/production/src/main_rx.o
  .debug_aranges
-                  0x000078         0x18 build/default/production/src/main_rx.o
- .debug_aranges
-                  0x000090         0x18 build/default/production/src/samsung_rx.o
+                  0x000078         0x18 build/default/production/src/samsung_rx.o
                     0x0000                  WREG0 = 0x0
                     0x0000                  _WREG0 = 0x0
                     0x0002                  WREG1 = 0x2
@@ -931,94 +907,87 @@ LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a
 END GROUP
 OUTPUT(dist/default/production/519-drivers.X.production.elf elf32-pic30)
-LOAD /CW/_FGS0Äú
-LOAD /CW/_FBSxTû
+LOAD /CW/_FGSÀ‘Î
+LOAD /CW/_FBSÈ¡Î
+LOAD jump_table
 LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x0000a8        0x50e
+                  0x000090        0x44b
  .debug_pubtypes
-                  0x0000a8         0x33 build/default/production/src/button_state.o
+                  0x000090         0x33 build/default/production/src/button_state.o
  .debug_pubtypes
-                  0x0000db         0x7a build/default/production/src/ChangeClk.o
+                  0x0000c3         0x7a build/default/production/src/ChangeClk.o
  .debug_pubtypes
-                  0x000155         0xe0 build/default/production/src/Timer.o
+                  0x00013d         0xc1 build/default/production/src/Timer.o
  .debug_pubtypes
-                  0x000235        0x113 build/default/production/src/UART2.o
+                  0x0001fe        0x113 build/default/production/src/UART2.o
  .debug_pubtypes
-                  0x000348         0xe0 build/default/production/src/IR.o
+                  0x000311         0x8f build/default/production/src/main_rx.o
  .debug_pubtypes
-                  0x000428         0x8f build/default/production/src/main_rx.o
- .debug_pubtypes
-                  0x0004b7         0xff build/default/production/src/samsung_rx.o
+                  0x0003a0        0x13b build/default/production/src/samsung_rx.o
 
 __c30_signature
-                  0x0005b6         0x96
+                  0x0004db         0x8a
  __c30_signature
-                  0x0005b6          0x6 build/default/production/src/button_state.o
+                  0x0004db          0x6 build/default/production/src/button_state.o
  __c30_signature
-                  0x0005bc          0x6 build/default/production/src/ChangeClk.o
+                  0x0004e1          0x6 build/default/production/src/ChangeClk.o
  __c30_signature
-                  0x0005c2          0x6 build/default/production/src/Timer.o
+                  0x0004e7          0x6 build/default/production/src/Timer.o
  __c30_signature
-                  0x0005c8          0x6 build/default/production/src/UART2.o
+                  0x0004ed          0x6 build/default/production/src/UART2.o
  __c30_signature
-                  0x0005ce          0x6 build/default/production/src/IR.o
+                  0x0004f3          0x6 build/default/production/src/main_rx.o
  __c30_signature
-                  0x0005d4          0x6 build/default/production/src/main_rx.o
+                  0x0004f9          0x6 build/default/production/src/samsung_rx.o
  __c30_signature
-                  0x0005da          0x6 build/default/production/src/samsung_rx.o
+                  0x0004ff          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x0005e0          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
+                  0x000505          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
  __c30_signature
-                  0x0005e6          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
+                  0x00050b          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(divsf3.eo)
  __c30_signature
-                  0x0005ec          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(delay32.Leo)
+                  0x000511          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(divsi3.eo)
  __c30_signature
-                  0x0005f2          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(divsf3.eo)
+                  0x000517          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fixsfsi.eo)
  __c30_signature
-                  0x0005f8          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(divsi3.eo)
+                  0x00051d          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fixunssfsi.eo)
  __c30_signature
-                  0x0005fe          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fixsfsi.eo)
+                  0x000523          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatsisf.eo)
  __c30_signature
-                  0x000604          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fixunssfsi.eo)
+                  0x000529          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatunsisf.eo)
  __c30_signature
-                  0x00060a          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatsisf.eo)
+                  0x00052f          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fpack.eo)
  __c30_signature
-                  0x000610          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatunsisf.eo)
+                  0x000535          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(funpack.eo)
  __c30_signature
-                  0x000616          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fpack.eo)
+                  0x00053b          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(funpack2.eo)
  __c30_signature
-                  0x00061c          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(funpack.eo)
+                  0x000541          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(futil.eo)
  __c30_signature
-                  0x000622          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(funpack2.eo)
+                  0x000547          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
  __c30_signature
-                  0x000628          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(futil.eo)
+                  0x00054d          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(udivsi3.eo)
  __c30_signature
-                  0x00062e          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
+                  0x000553          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatdisf.eo)
  __c30_signature
-                  0x000634          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(udivsi3.eo)
+                  0x000559          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
  __c30_signature
-                  0x00063a          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatdisf.eo)
- __c30_signature
-                  0x000640          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
- __c30_signature
-                  0x000646          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(strlen.XX_eo)
+                  0x00055f          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(strlen.XX_eo)
 
-.nbss               0x0800        0x326
- .nbss              0x0800        0x326 build/default/production/src/samsung_rx.o
+.nbss               0x0800        0x120
+ .nbss              0x0800        0x120 build/default/production/src/samsung_rx.o
 
-.ndata              0x0b26         0x28
- .ndata             0x0b26         0x14 build/default/production/src/IR.o
- .ndata             0x0b3a         0x14 build/default/production/src/main_rx.o
+.ndata              0x0920         0x14
+ .ndata             0x0920         0x14 build/default/production/src/main_rx.o
 
-.nbss               0x0b4e          0xe
- .nbss              0x0b4e          0x6 build/default/production/src/button_state.o
- .nbss              0x0b54          0x4 build/default/production/src/Timer.o
- .nbss              0x0b58          0x2 build/default/production/src/UART2.o
-                    0x0b58                  _clkval
- .nbss              0x0b5a          0x2 build/default/production/src/IR.o
+.nbss               0x0934          0xe
+ .nbss              0x0934          0x6 build/default/production/src/button_state.o
+ .nbss              0x093a          0x6 build/default/production/src/Timer.o
+ .nbss              0x0940          0x2 build/default/production/src/UART2.o
+                    0x0940                  _clkval
 
 .ivt._T3Interrupt
                   0x000024          0x2
@@ -1034,11 +1003,6 @@ __c30_signature
                   0x000052          0x2
  .ivt._U2TXInterrupt
                   0x000052          0x2 build/default/production/src/UART2.o
-
-.ivt._T1Interrupt
-                  0x00001a          0x2
- .ivt._T1Interrupt
-                  0x00001a          0x2 build/default/production/src/IR.o
 
 .config_DSWDTEN
                   0xf80010          0x2
@@ -1066,47 +1030,39 @@ __c30_signature
  .ivt._CNInterrupt
                   0x00003a          0x2 build/default/production/src/samsung_rx.o
 
-.const              0x8666         0x44 load address 0x000666  
- .const             0x8666         0x22 build/default/production/src/Timer.o
- .const             0x8688         0x12 build/default/production/src/IR.o
- .const             0x869a          0xc build/default/production/src/samsung_rx.o
- .const             0x86a6          0x4 build/default/production/src/main_rx.o
+.const              0x8600         0x24 load address 0x000600  
+ .const             0x8600         0x18 build/default/production/src/samsung_rx.o
+ .const             0x8618          0x8 build/default/production/src/Timer.o
+ .const             0x8620          0x4 build/default/production/src/main_rx.o
 
-.text             0x0006aa        0xa9c
- .text            0x0006aa        0x364 build/default/production/src/Timer.o
-                  0x0007d4                  _set_LED_toggles_on_t2interrupt
-                  0x0007ea                  _set_IR_toggles_on_t2interrupt
-                  0x000800                  _set_LED_toggles_on_t3interrupt
-                  0x000816                  _delay_ms
-                  0x000890                  _delay_ms_500
-                  0x000908                  _delay_us
-                  0x000988                  _delay_us_32bit
- .text            0x000a0e        0x1de build/default/production/src/samsung_rx.o
-                  0x000a54                  _CN_init
-                  0x000a80                  _timer_up
- .text            0x000bec        0x1c0 build/default/production/src/IR.o
-                  0x000c80                  _delay_us_t1
-                  0x000cf8                  _xmit_bit
-                  0x000d54                  _xmit_samsung_signal
- .text            0x000dac        0x19a build/default/production/src/UART2.o
-                  0x000dac                  _InitUART2
-                  0x000e14                  _XmitUART2
-                  0x000e50                  _Disp2Hex
-                  0x000eae                  _Disp2Hex32
-                  0x000f1c                  _Disp2Dec
-                  0x000f24                  _Disp2String
- .text            0x000f46        0x122 build/default/production/src/button_state.o
-                  0x000f46                  _get_CN0_state
-                  0x000fde                  _get_CN8_state
-                  0x00102a                  _get_button_state
- .text            0x001068         0x74 build/default/production/src/ChangeClk.o
-                  0x001068                  _NewClk
- .text            0x0010dc         0x6a build/default/production/src/main_rx.o
-                  0x00113a                  _main
+.text             0x000624        0x9e6
+ .text            0x000624        0x36a build/default/production/src/Timer.o
+                  0x00074e                  _set_LED_toggles_on_t2interrupt
+                  0x000764                  _set_IR_toggles_on_t2interrupt
+                  0x00077a                  _set_LED_toggles_on_t3interrupt
+                  0x000790                  _delay_ms
+                  0x00080a                  _delay_ms_500
+                  0x000882                  _delay_us
+                  0x000902                  _delay_us_32bit
+ .text            0x00098e        0x2e2 build/default/production/src/samsung_rx.o
+                  0x0009d4                  _CN_init
+                  0x000a00                  _timer_up
+                  0x000a22                  _timer3_callback
+ .text            0x000c70        0x19a build/default/production/src/UART2.o
+                  0x000c70                  _InitUART2
+                  0x000cd8                  _XmitUART2
+                  0x000d14                  _Disp2Hex
+                  0x000d72                  _Disp2Hex32
+                  0x000de0                  _Disp2Dec
+                  0x000de8                  _Disp2String
+ .text            0x000e0a        0x122 build/default/production/src/button_state.o
+                  0x000e0a                  _get_CN0_state
+                  0x000ea2                  _get_CN8_state
+                  0x000eee                  _get_button_state
+ .text            0x000f2c         0x74 build/default/production/src/ChangeClk.o
+                  0x000f2c                  _NewClk
+ .text            0x000fa0         0x6a build/default/production/src/main_rx.o
+                  0x000ffe                  _main
 
-.dinit            0x001146         0x48
- .dinit           0x001146         0x48 data_init
-
-.init.delay32     0x00118e         0x1c
- .init.delay32    0x00118e         0x1c c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(delay32.Leo)
-                  0x00118e                  ___delay32
+.dinit            0x00100a         0x2e
+ .dinit           0x00100a         0x2e data_init

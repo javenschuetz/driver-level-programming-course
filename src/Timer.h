@@ -15,7 +15,7 @@ void set_IR_toggles_on_t2interrupt(unsigned char perform_toggles);
 // fire Interrupt after a few ms
 void delay_ms(uint16_t ms);
 void delay_us(uint16_t us, unsigned char repeat_timer);
-void delay_us_32bit(uint32_t us);
+void delay_us_32bit(uint32_t us, void (* timer3_callback)(void));
 void delay_ms_500(uint16_t ms);
 
 void __attribute__ ((interrupt, no_auto_psv)) _T2Interrupt(void); // interrupt handler
