@@ -142,39 +142,39 @@ static void interpret_signal(void) {
     }
 
     Disp2Hex32(output);
-//    switch (output){
-//        case POWER_SWITCH:
-//            Disp2String("Power Switched");
-//            break;
-//        case VOLUME_DOWN:
-//            Disp2String("Volume Down");
-//            break;
-//        case VOLUME_UP:
-//            Disp2String("Volume Up");
-//            break;
-//        case CHANNEL_DOWN:
-//            Disp2String("Channel Down");
-//            break;
-//        case CHANNEL_UP:
-//            Disp2String("Channel Up");
-//            break;
-//        default:
-//            Disp2String("Wrong Message");
-//            break;
-//    }
+   switch (output){
+       case POWER_SWITCH:
+           Disp2String("Power Switched");
+           break;
+       case VOLUME_DOWN:
+           Disp2String("Volume Down");
+           break;
+       case VOLUME_UP:
+           Disp2String("Volume Up");
+           break;
+       case CHANNEL_DOWN:
+           Disp2String("Channel Down");
+           break;
+       case CHANNEL_UP:
+           Disp2String("Channel Up");
+           break;
+       default:
+           Disp2String("Wrong Message");
+           break;
+   }
 }
 
 static void print_result(void) {
-    int i;
+    // int i;
     convert_times_to_us();
 
     //sends hex values
-    for (i = 0; i < 90; i++) {
-            Disp2Hex32(signal_raw[i][kPinValues]); // signal values at interrupt time
-            Disp2Hex32(signal_raw[i][kElapsedTimes]); // elapsed times before interrupt
-            XmitUART2('\r', 1);
-            XmitUART2('\n', 1);
-    }
+    // for (i = 0; i < 90; i++) {
+    //         Disp2Hex32(signal_raw[i][kPinValues]); // signal values at interrupt time
+    //         Disp2Hex32(signal_raw[i][kElapsedTimes]); // elapsed times before interrupt
+    //         XmitUART2('\r', 1);
+    //         XmitUART2('\n', 1);
+    // }
     interpret_signal();
 }
 
@@ -184,7 +184,7 @@ static void handle_CN_interrupt(uint32_t tmr2_snapshot) {
 
         if (raw_i == 0) {
                 // note: 500kHz clock was too slow detect many of the transitions
-                delay_us_32bit(1000000, timer3_callback); // todo: give it watchdog functionality
+                delay_us_32bit(140000, timer3_callback); // todo: give it watchdog functionality
                 prev_tmr = 0;
         }
 
