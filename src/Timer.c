@@ -1,15 +1,13 @@
-/*
- * File:   Timer.c
- * Author: Nathan
- *
- * Created on September 15, 2018, 8:46 PM
- */
-
+// libraries and header
 #include "xc.h"
 #include "Timer.h"
-#include "ChangeClk.h"
 
+// drivers
+#include "ChangeClk.h"
 #include "UART2.h" // for testing / debugging only
+
+// other dependencies
+#include "samsung_rx.h"
 
 // Magic Numbers
 static const char kEnable = 1;
@@ -108,6 +106,19 @@ void delay_ms(uint16_t ms) {
 	IEC0bits.T2IE = kEnable; // enable the interrupt
 }
 
+void delay_ms_500(uint16_t ms) {
+	init_timer2(500);
+
+	uint32_t clock_freq = 500000;
+	double prescaling_factor = 1.0;
+	// pr is period of the timer before an interrupt occurs
+	PR2 = (clock_freq/ MS_PER_S) * prescaling_factor * kMagicNumber * ms;
+
+	// start the timer & enable the interrupt
+	T2CONbits.TON = kEnable; // starts the timer
+	IEC0bits.T2IE = kEnable; // enable the interrupt
+}
+
 void delay_us(uint16_t us, unsigned char timer_repeats) {
 	init_timer2(8);
         repeat_timer = timer_repeats;
@@ -140,27 +151,41 @@ void delay_us_32bit(uint32_t us) {
 }
 
 // *********************************************************** interrupt handler
-void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void) {
-        // note: commenting so much out gives us almost exactly 13.0us for the carrier
-        // need to fix performance is only thing
-	IFS0bits.T2IF = 0; // clear flag
+// void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void) {
+//         // note: commenting so much out gives us almost exactly 13.0us for the carrier
+//         // need to fix performance is only thing
+// 	IFS0bits.T2IF = 0; // clear flag
 
-        // toggle_io seems to be too slow...
-        // todo - use ifdef
-	// toggle_io_if_necessary();
-        // LATBbits.LATB9 = !LATBbits.LATB9; // this toggles the IR
+//         // toggle_io seems to be too slow...
+//         // todo - use ifdef
+// 	// toggle_io_if_necessary();
+//         // LATBbits.LATB9 = !LATBbits.LATB9; // this toggles the IR
 
-        // commented out for performance reasons
-        // todo - use an ifdef and a macro
-        if (repeat_timer != 1) {
-        	T2CONbits.TON = kDisable; // stop the timer
-        	IEC0bits.T2IE = kDisable; // stop the interrup
-        }
-}
+//         // commented out for performance reasons
+//         // todo - use an ifdef and a macro
+//         if (repeat_timer != 1) {
+//         	T2CONbits.TON = kDisable; // stop the timer
+//         	IEC0bits.T2IE = kDisable; // stop the interrup
+//         }
+// }
+
+
+// from blinking LEDs
+// void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
+// 	IFS0bits.T3IF = 0; // disable interrupt
+// 	toggle_io_if_necessary();
+
+// 	T3CONbits.TON = kDisable; // note: to stop the combined timer, use t2con
+// 	IEC0bits.T3IE = kDisable; // stop the timer 2/3 combined interrupt
+// }
 
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
 	IFS0bits.T3IF = 0; // disable interrupt
-	toggle_io_if_necessary();
+
+	// currently a noop
+        Disp2String("\n\rpseudo watchdog fired!!");
+        timer_up();
+
 
 	T3CONbits.TON = kDisable; // note: to stop the combined timer, use t2con
 	IEC0bits.T3IE = kDisable; // stop the timer 2/3 combined interrupt

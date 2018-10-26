@@ -6,9 +6,10 @@
 // other
 #include "UART2.h" // just for debugging
 
-// Magic Numbers
+// Static variables
 static unsigned int CN0_val = 0;
 static unsigned int CN1_val = 0;
+static unsigned int CN8_val = 0;
 
 // ************************************************************ helper functions
 enum BUTTON_STATE get_CN0_state(unsigned char current_val) {
@@ -61,6 +62,30 @@ static enum BUTTON_STATE get_CN1_state(unsigned char current_val) {
 	}
 }
 
+enum BUTTON_STATE get_CN8_state(unsigned char current_val) {
+	unsigned char prev_val = CN8_val;
+	unsigned char combined_val = (prev_val << 1) + current_val;
+	CN8_val = current_val;
+
+	// note: 2 bits, first is prev, second is current. Enums defined in this way in header
+	switch (combined_val) {
+	case kJustPressed:
+		return kJustPressed;
+		break;
+	case kPressed:
+		return kPressed;
+		break;
+	case kJustReleased:
+		return kJustReleased;
+		break;
+	case kNotPressed:
+		return kNotPressed;
+		break;
+	default:
+		return 0; // should never get here
+		XmitUART2('q',2); // just to give a hint something happened
+	}
+}
 
 // ************************************************************ core functions
 enum BUTTON_STATE get_button_state(enum BUTTON_NAME button, unsigned char value) {
@@ -71,6 +96,9 @@ enum BUTTON_STATE get_button_state(enum BUTTON_NAME button, unsigned char value)
 		break;
 	case BTN_CN1:
 		state = get_CN1_state(value);
+		break;
+    case BTN_CN8:
+		state = get_CN8_state(value);
 		break;
 	default:
 		state = 0; // should never get here

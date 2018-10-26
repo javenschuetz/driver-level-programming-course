@@ -180,9 +180,31 @@ void Disp2Hex32(unsigned long int DispData32)   // Displays 32 bit number in Hex
 
 void Disp2Dec(unsigned int DispData)
 {
-  //  XmitUART2(' ',1);  // Disp Gap
-  //  XmitUART2(DispData + 0x30 ,1);
-  //  return;
+
+
+	// not currently working!!!
+	return;
+
+
+
+	// XmitUART2(' ',1);  // Disp Gap
+
+	// unsigned int quotient, remainder, divisor;
+	// char first_digit_found = 0;
+
+	// for (divisor = 100000000; divisor > 1; divisor /= 10) {
+	// 	quotient = DispData / divisor;
+	// 	if (quotient != 0) {
+	// 		first_digit_found = 1;
+	// 	}
+	// 	if (first_digit_found) {
+	// 		XmitUART2(quotient + 0x30, 1);
+	// 		DispData -= (quotient * divisor);
+	// 	}
+	// }
+
+	// XmitUART2(remainder + 0x30, 1);
+	// return;
 }
 
 
@@ -201,3 +223,4 @@ void Disp2String(char *str) //Displays String of characters
 
     return;
 }
+

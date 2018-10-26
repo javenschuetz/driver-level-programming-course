@@ -103,6 +103,8 @@ void xmit_samsung_signal(uint32_t msg) {
 
         // stop bit
         xmit_bit(US_516, US_516);
+//        // re-enable CN interrupts
+//        IEC1bits.CNIE = kEnable;
 }
 
 // this is the orchestration interrupt

@@ -12,6 +12,7 @@
 #include "button_state.h" // state machine
 #include "IR.h"
 #include "ChangeClk.h"
+#include "libpic30.h"
 
 // Magic Numbers
 static const char kSetPinToInput = 1;
@@ -25,6 +26,8 @@ static const float kMagicNumber = 1.0/2.0; // for the timers, processor specific
 // statics
 static char btn_verbose_mode = 0;
 static char xmit_mode = 1;
+static volatile unsigned char bothButtonsPushed = 0;
+static volatile char power_is_on = 0;
 
 // ************************************************************ helper functions
 static void init_CN0(void) {
@@ -41,14 +44,21 @@ static void init_CN1(void) {
         CNEN1bits.CN1IE = kEnable; // enable CN0 interrupts
 }
 
+static void init_CN8(void) {
+        // note: pin 14 == RA6 == CN8
+        TRISAbits.TRISA6 = kSetPinToInput; // configure IO pin 8/CN8 to be input
+        CNPU1bits.CN8PUE = kPullUpMode; // set pin to be 'pull up' (ie, connected to ground)
+        CNEN1bits.CN8IE = kEnable; // enable CN8 interrupts
+}
+
 static inline void set_timer_priority(int priority) {
         if (priority >= 0 && priority <= 7) {
-                IPC15bits.RTCIP = priority;
+                IPC2bits.T3IP = priority;
         }
 }
 
 static inline void init_timer3(int frequency) {
-        // basic config
+        // basic configuration
         NewClk(frequency); // Switch clock: 32 for 32kHz, 500 for 500 kHz, 8 for 8MHz
 
         T3CONbits.TCKPS = kDisable; // set pre-scaler (divides timer speed by );
@@ -87,6 +97,7 @@ void set_btn_verbose_mode(unsigned char verbose_on) {
 void CN_init(void) {
         init_CN0();
         init_CN1();
+        init_CN8();
 
         IFS1bits.CNIF = 0; // clear interrupt flag if it isn't already
         IPC4bits.CNIP = 0b101; // set CN interrupt to priority 5
@@ -94,51 +105,64 @@ void CN_init(void) {
 }
 
 // *********************************************************** interrupt handler
-static volatile char power_is_on = 0;
-void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void)
-{
-        // button was pressed. Lets debounce, then investigate
+void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
+    // button was pressed. Lets debounce, then investigate
 
-        IEC1bits.CNIE = kDisable; // disable CN interrupts in general
-        IFS1bits.CNIF = 0; // clear interrupt flag
-        delay_ms(50); // using 8MHz timer in order to reuse timer 2 without disrupting other drivers
-        Idle(); // note: we're relying on timer to wake us up, but anything could wake us!
+    IEC1bits.CNIE = kDisable; // disable CN interrupts in general
+    IFS1bits.CNIF = 0; // clear interrupt flag
 
-        unsigned char CN0_just_pressed = get_button_state(BTN_CN0, PORTAbits.RA4==0) == kJustPressed;
-        unsigned char CN1_just_pressed = get_button_state(BTN_CN1, PORTBbits.RB4==0) == kJustPressed;
+    __delay32(4000000/20);
 
-        if(CN0_just_pressed && CN1_just_pressed) {
-                if (btn_verbose_mode) {
-                        Disp2String("\n\rBoth buttons pressed!");
-                }
-                if (!power_is_on) {
-                        xmit_samsung_signal(kPowerToggleBits);
-                        power_is_on = 1;
-                } else {
-                        xmit_mode = !xmit_mode;
-                }
-        } else if (CN1_just_pressed) {
-                if (btn_verbose_mode) {
-                        Disp2String("\n\rRB4/CN1 pressed!");
-                }
-                if (xmit_mode) {
-                        xmit_samsung_signal(kChannelUpBits);
-                } else {
-                        xmit_samsung_signal(kVolumeUpBits);
-                }
-        } else if (CN0_just_pressed) {
-                if (btn_verbose_mode) {
-                        Disp2String("\n\rRA4/CN0 pressed!");
-                }
-                if (xmit_mode) {
-                        xmit_samsung_signal(kChannelDownBits);
-                } else {
-                        xmit_samsung_signal(kVolumeDownBits);
-                }
-        } else {
-                // for future implementation
+    unsigned char CN0_just_pressed = get_button_state(BTN_CN0, PORTAbits.RA4==0) == kJustPressed;
+    unsigned char CN1_just_pressed = get_button_state(BTN_CN1, PORTBbits.RB4==0) == kJustPressed;
+    unsigned char CN8_just_pressed = get_button_state(BTN_CN8, PORTAbits.RA6==0) == kJustPressed;
+
+    if(CN0_just_pressed && CN1_just_pressed) {
+            if (btn_verbose_mode) {
+                    Disp2String("\n\rBoth buttons pressed!");
+            }
+            if (power_is_on) {
+                xmit_mode = !xmit_mode;
+            } else {
+                    bothButtonsPushed = 1;
+            }
+    } else if (CN1_just_pressed) {
+            if (btn_verbose_mode) {
+                    Disp2String("\n\rRB4/CN1 pressed!");
+            }
+            if (xmit_mode) {
+                    xmit_samsung_signal(kChannelUpBits);
+            } else {
+                    xmit_samsung_signal(kVolumeUpBits);
+            }
+    } else if (CN0_just_pressed) {
+            if (btn_verbose_mode) {
+                    Disp2String("\n\rRA4/CN0 pressed!");
+            }
+            if (xmit_mode) {
+                    xmit_samsung_signal(kChannelDownBits);
+            } else {
+                    xmit_samsung_signal(kVolumeDownBits);
+            }
+    } else {
+            // for future implementation
+    }
+
+    if(CN8_just_pressed){
+        if(power_is_on){
+            __delay32(4000000*3);
+            if(get_button_state(BTN_CN8, PORTAbits.RA6==0) == kPressed){
+                xmit_samsung_signal(kPowerToggleBits);
+                power_is_on = 0;
+            }
         }
+        else{
+            xmit_samsung_signal(kPowerToggleBits);
+            power_is_on = 1;
+        }
+    }
+    // re-enable CN interrupts
+    IEC1bits.CNIE = kEnable;
 
-        // re-enable CN interrupts
-        IEC1bits.CNIE = kEnable;
+    bothButtonsPushed = 0;
 }
