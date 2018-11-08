@@ -22,8 +22,11 @@
 #include "Timer.h"
 #include "IO.h"
 #include "IR.h"
+#include "ADC.h"
 
 #include "ChangeClk.h"
+#include "comparator.h"
+#include "samsung_rx.h"
 #define FCY 4000000UL;
 
 // other includes
@@ -164,17 +167,23 @@ static inline void begin_samsung_xmitter(void) {
 
 // ************************************************************************ main
 int main(void) { // runs at 1st power-up automatically
-        init_clock(8);
+        init_clock(32); //starts the clock
 
-        // prev assignments
-        // begin_flicker_LED();
-        // begin_btn_debug_mode();
+        // CVREFinit(1.5);
 
-        begin_samsung_xmitter();
+        // ComparatorInit();
+
+        // TRISBbits.TRISB9 = kOutputEnable; // set RB9 as output for LED
+        // LATBbits.LATB9 = 1; // to test the output is configured
+        // CN_init();
+
+        init_ADC();
 
         while(1) {
-                Disp2String("\n\rShould not get here!");
-                Idle();
+                do_ADC();
+                // delay_ms(500);
+                // __delay32(1600/(2*2));
+                // Idle();
         }
         return 0;
 }

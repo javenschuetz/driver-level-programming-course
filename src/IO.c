@@ -97,72 +97,98 @@ void set_btn_verbose_mode(unsigned char verbose_on) {
 void CN_init(void) {
         init_CN0();
         init_CN1();
-        init_CN8();
+//        init_CN8();
 
         IFS1bits.CNIF = 0; // clear interrupt flag if it isn't already
         IPC4bits.CNIP = 0b101; // set CN interrupt to priority 5
         IEC1bits.CNIE = kEnable; // enable CN interrupts in general
 }
 
+extern volatile int countTarget;
+static int countButton = 0;
+
 // *********************************************************** interrupt handler
 void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
-    // button was pressed. Lets debounce, then investigate
-
     IEC1bits.CNIE = kDisable; // disable CN interrupts in general
     IFS1bits.CNIF = 0; // clear interrupt flag
-
-    __delay32(4000000/20);
-
+    
+    /**
+     * Debounce counter:
+     * 20 is calculated by using numbers from calculating clock 
+     * to 1/2 is from the magic number var, 1/10 is from how we 
+     * want 1/10 seconds length
+     */
+    __delay32(16000/20);
+    
+    //check the state of the buttons
     unsigned char CN0_just_pressed = get_button_state(BTN_CN0, PORTAbits.RA4==0) == kJustPressed;
     unsigned char CN1_just_pressed = get_button_state(BTN_CN1, PORTBbits.RB4==0) == kJustPressed;
-    unsigned char CN8_just_pressed = get_button_state(BTN_CN8, PORTAbits.RA6==0) == kJustPressed;
-
-    if(CN0_just_pressed && CN1_just_pressed) {
-            if (btn_verbose_mode) {
-                    Disp2String("\n\rBoth buttons pressed!");
-            }
-            if (power_is_on) {
-                xmit_mode = !xmit_mode;
-            } else {
-                    bothButtonsPushed = 1;
-            }
-    } else if (CN1_just_pressed) {
-            if (btn_verbose_mode) {
-                    Disp2String("\n\rRB4/CN1 pressed!");
-            }
-            if (xmit_mode) {
-                    xmit_samsung_signal(kChannelUpBits);
-            } else {
-                    xmit_samsung_signal(kVolumeUpBits);
-            }
-    } else if (CN0_just_pressed) {
-            if (btn_verbose_mode) {
-                    Disp2String("\n\rRA4/CN0 pressed!");
-            }
-            if (xmit_mode) {
-                    xmit_samsung_signal(kChannelDownBits);
-            } else {
-                    xmit_samsung_signal(kVolumeDownBits);
-            }
-    } else {
-            // for future implementation
+    
+    //count number of button being pressed
+    if(CN0_just_pressed) {
+        countButton++;
     }
-
-    if(CN8_just_pressed){
-        if(power_is_on){
-            __delay32(4000000*3);
-            if(get_button_state(BTN_CN8, PORTAbits.RA6==0) == kPressed){
-                xmit_samsung_signal(kPowerToggleBits);
-                power_is_on = 0;
-            }
-        }
-        else{
-            xmit_samsung_signal(kPowerToggleBits);
-            power_is_on = 1;
-        }
+    //set the global var countTarget to count button
+    else if (CN1_just_pressed){
+        countTarget = countButton;
+        Disp2Hex(countTarget);      //display the mount of times freq. is divided
+        countButton = 0;            //resets the push button count
     }
+    
+/**************************DON'T DELETE - Assignment 3*************************/
+//    unsigned char CN0_just_pressed = get_button_state(BTN_CN0, PORTAbits.RA4==0) == kJustPressed;
+//    unsigned char CN1_just_pressed = get_button_state(BTN_CN1, PORTBbits.RB4==0) == kJustPressed;
+//    unsigned char CN8_just_pressed = get_button_state(BTN_CN8, PORTAbits.RA6==0) == kJustPressed;
+//
+//    if(CN0_just_pressed && CN1_just_pressed) {
+//            if (btn_verbose_mode) {
+//                    Disp2String("\n\rBoth buttons pressed!");
+//            }
+//            if (power_is_on) {
+//                xmit_mode = !xmit_mode;
+//            } else {
+//                    bothButtonsPushed = 1;
+//            }
+//    } else if (CN1_just_pressed) {
+//            if (btn_verbose_mode) {
+//                    Disp2String("\n\rRB4/CN1 pressed!");
+//            }
+//            if (xmit_mode) {
+//                    xmit_samsung_signal(kChannelUpBits);
+//            } else {
+//                    xmit_samsung_signal(kVolumeUpBits);
+//            }
+//    } else if (CN0_just_pressed) {
+//            if (btn_verbose_mode) {
+//                    Disp2String("\n\rRA4/CN0 pressed!");
+//            }
+//            if (xmit_mode) {
+//                    xmit_samsung_signal(kChannelDownBits);
+//            } else {
+//                    xmit_samsung_signal(kVolumeDownBits);
+//            }
+//    } else {
+//            // for future implementation
+//    }
+//
+//    if(CN8_just_pressed){
+//        if(power_is_on){
+//            __delay32(4000000*3);
+//            if(get_button_state(BTN_CN8, PORTAbits.RA6==0) == kPressed){
+//                xmit_samsung_signal(kPowerToggleBits);
+//                power_is_on = 0;
+//            }
+//        }
+//        else{
+//            xmit_samsung_signal(kPowerToggleBits);
+//            power_is_on = 1;
+//        }
+//    }
+/*********************************DON'T DELETE********************************/
+    
+    
     // re-enable CN interrupts
     IEC1bits.CNIE = kEnable;
 
-    bothButtonsPushed = 0;
+//    bothButtonsPushed = 0;
 }

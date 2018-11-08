@@ -86,6 +86,7 @@ void timer3_callback(void) {
 
 
 // ************************************************************** process signal
+//converts recorded times in raw data to microseconds
 static void convert_times_to_us(void) {
         int j;
         for (j = 0; j < 90; j++) {
@@ -94,21 +95,26 @@ static void convert_times_to_us(void) {
         }
 }
 
+//Using numbers calculated above for limits of highs and lows
 static int interpret_high_low_pattern(int low_duration, int high_duration, int iters) {
-    if (iters > 67){
-        isStarted = 0;
-    }
-
-    if (isStarted == 0){
-        if ((low_duration > startHigh1) && (high_duration < startHigh2)){
-            isStarted = 1;
-            return 2;
-        } else {
-            isStarted = 0;
-            return -1;
+        //calculates the amount of digital signals passed, to destinguish between
+        //header and the message
+        if (iters > 67){
+                isStarted = 0;
         }
-    }
 
+        //checks the start bit
+        if (isStarted == 0){
+        if ((low_duration > startHigh1) && (high_duration < startHigh2)){
+                isStarted = 1;
+                return 2; //arbitrary chosen number
+        } else {
+                isStarted = 0;
+                return -1;
+        }
+}
+
+    //checks 1s and 0s of the message
     if ((low_duration > bitLow1) && (low_duration < bitLow2)){
         if ((high_duration > bitLow1) && (high_duration < bitLow2)){
             return 0x0;         //somehow works better this way
@@ -123,12 +129,15 @@ static int interpret_high_low_pattern(int low_duration, int high_duration, int i
     return -1;
 }
 
+//receives converted 1s and zero and records them into the output message
 static void interpret_signal(void) {
     int i;
     unsigned long int output = 0x0;
-    unsigned int token = 0x0;
+    unsigned int token = 0x0;   //paresed data from 1s and 0s
     int startedConv = 0;
 
+    //for every two values (1 high and 1 low) convert to digital logic
+    //record into output by XOR and bit shift left
     for (i = 1; i < 67; i= i + 2) {      //first one is unnecessary
         token = interpret_high_low_pattern(signal_raw[i][kElapsedTimes], signal_raw[i+1][kElapsedTimes], i);
         if (token == 2){
@@ -139,43 +148,45 @@ static void interpret_signal(void) {
             if (i < 65)
                 output = output << 1;
         }
-    }
-
-    Disp2Hex32(output);
-   switch (output){
-       case POWER_SWITCH:
-           Disp2String("Power Switched");
-           break;
-       case VOLUME_DOWN:
-           Disp2String("Volume Down");
-           break;
-       case VOLUME_UP:
-           Disp2String("Volume Up");
-           break;
-       case CHANNEL_DOWN:
-           Disp2String("Channel Down");
-           break;
-       case CHANNEL_UP:
-           Disp2String("Channel Up");
-           break;
-       default:
-           Disp2String("Wrong Message");
-           break;
-   }
 }
 
-static void print_result(void) {
-    // int i;
-    convert_times_to_us();
+        //outputs the HEX value and the appropriate message
+        Disp2Hex32(output);
+        switch (output){
+        case POWER_SWITCH:
+                Disp2String("Power Switched");
+                break;
+        case VOLUME_DOWN:
+                Disp2String("Volume Down");
+                break;
+        case VOLUME_UP:
+                Disp2String("Volume Up");
+                break;
+        case CHANNEL_DOWN:
+                Disp2String("Channel Down");
+                break;
+        case CHANNEL_UP:
+                Disp2String("Channel Up");
+                break;
+        default:
+                Disp2String("Wrong Message");
+                break;
+        }
+}
 
-    //sends hex values
-    // for (i = 0; i < 90; i++) {
-    //         Disp2Hex32(signal_raw[i][kPinValues]); // signal values at interrupt time
-    //         Disp2Hex32(signal_raw[i][kElapsedTimes]); // elapsed times before interrupt
-    //         XmitUART2('\r', 1);
-    //         XmitUART2('\n', 1);
-    // }
-    interpret_signal();
+//calls the function to print the result
+static void print_result(void) {
+        // int i;
+        convert_times_to_us();
+
+        //sends hex values
+        // for (i = 0; i < 90; i++) {
+        //         Disp2Hex32(signal_raw[i][kPinValues]); // signal values at interrupt time
+        //         Disp2Hex32(signal_raw[i][kElapsedTimes]); // elapsed times before interrupt
+        //         XmitUART2('\r', 1);
+        //         XmitUART2('\n', 1);
+        // }
+        interpret_signal();
 }
 
 static void handle_CN_interrupt(uint32_t tmr2_snapshot) {
@@ -194,7 +205,7 @@ static void handle_CN_interrupt(uint32_t tmr2_snapshot) {
                 signal_raw[raw_i][kElapsedTimes] = tmr2_snapshot - prev_tmr;
                 prev_tmr = tmr2_snapshot;
         } else {
-                // nop
+
         }
 
         raw_i++;

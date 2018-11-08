@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <executable name="dist/default/production/519-drivers.X.production.elf">
+  <executable name="dist/default/debug/519-drivers.X.debug.elf">
     <memory name="data">
       <units>bytes</units>
       <length>1536</length>
-      <used>72</used>
-      <free>1464</free>
+      <used>152</used>
+      <free>1384</free>
     </memory>
     <memory name="program">
       <units>bytes</units>
       <length>16128</length>
-      <used>6990</used>
-      <free>9138</free>
+      <used>6942</used>
+      <free>9186</free>
     </memory>
   </executable>
 </project>

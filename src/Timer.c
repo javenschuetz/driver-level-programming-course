@@ -23,6 +23,7 @@ static unsigned char repeat_timer = 0;
 
 // callback
 static void (* timer3_callback)(void); // my callback!
+static void (* timer2_callback)(void); // my callback!
 
 // ************************************************************ helper functions
 static inline void set_timer_priority(int priority) {
@@ -96,6 +97,10 @@ void set_LED_toggles_on_t3interrupt(unsigned char perform_toggles) {
 	}
 }
 
+void timer2_default_callback(void) {
+	return;
+}
+
 void delay_ms(uint16_t ms) {
 	init_timer2(32);
 
@@ -103,6 +108,8 @@ void delay_ms(uint16_t ms) {
 	float prescaling_factor = 1.0;
 	// pr is period of the timer before an interrupt occurs
 	PR2 = (clock_freq/ MS_PER_S) * prescaling_factor * kMagicNumber * ms;
+
+	timer2_callback = timer2_default_callback;
 
 	// start the timer & enable the interrupt
 	T2CONbits.TON = kEnable; // starts the timer
@@ -156,23 +163,18 @@ void delay_us_32bit(uint32_t us, void (*cb)()) {
 }
 
 // *********************************************************** interrupt handler
-// void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void) {
-//         // note: commenting so much out gives us almost exactly 13.0us for the carrier
-//         // need to fix performance is only thing
-// 	IFS0bits.T2IF = 0; // clear flag
+void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void) {
+        // note: commenting so much out gives us almost exactly 13.0us for the carrier
+        // need to fix performance is only thing
+	IFS0bits.T2IF = 0; // clear flag
 
-//         // toggle_io seems to be too slow...
-//         // todo - use ifdef
-// 	// toggle_io_if_necessary();
-//         // LATBbits.LATB9 = !LATBbits.LATB9; // this toggles the IR
+	timer2_callback();
 
-//         // commented out for performance reasons
-//         // todo - use an ifdef and a macro
-//         if (repeat_timer != 1) {
-//         	T2CONbits.TON = kDisable; // stop the timer
-//         	IEC0bits.T2IE = kDisable; // stop the interrup
-//         }
-// }
+        // if (repeat_timer != 1) {
+        	T2CONbits.TON = kDisable; // stop the timer
+        	IEC0bits.T2IE = kDisable; // stop the interrup
+        // }
+}
 
 
 // from blinking LEDs

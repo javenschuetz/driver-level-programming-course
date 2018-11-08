@@ -10,6 +10,7 @@
       <itemPath>src/IR.h</itemPath>
       <itemPath>src/Timer.h</itemPath>
       <itemPath>src/UART2.h</itemPath>
+      <itemPath>src/Comparator.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -28,6 +29,7 @@
       <itemPath>src/main_rx.c</itemPath>
       <itemPath>src/samsung_rx.c</itemPath>
       <itemPath>src/samsung_rx.h</itemPath>
+      <itemPath>src/Comparator.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -256,9 +258,9 @@
         <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
         <property key="programoptions.usehighvoltageonmclr" value="true"/>
         <property key="programoptions.uselvpprogramming" value="false"/>
-        <property key="voltagevalue" value="3.25"/>
+        <property key="voltagevalue" value="3.375"/>
       </PICkit3PlatformTool>
-      <item path="src/IO.c" ex="true" overriding="false">
+      <item path="src/IO.c" ex="false" overriding="false">
         <C30>
         </C30>
         <C30-AR>
@@ -270,7 +272,7 @@
         <C30Global>
         </C30Global>
       </item>
-      <item path="src/IO.h" ex="true" overriding="false">
+      <item path="src/IO.h" ex="false" overriding="false">
         <C30>
         </C30>
         <C30-AR>
@@ -294,7 +296,43 @@
         <C30Global>
         </C30Global>
       </item>
-      <item path="src/main.c" ex="true" overriding="false">
+      <item path="src/main.c" ex="false" overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="src/main_rx.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="src/samsung_rx.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="src/samsung_rx.h" ex="true" overriding="false">
         <C30>
         </C30>
         <C30-AR>

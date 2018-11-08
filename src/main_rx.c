@@ -113,10 +113,6 @@ int main(void) { // runs at 1st power-up automatically
         init_clock(8);
         CN_init();
 
-        // Disp2String(500);
-
-        // Disp2Hex32(32);
-
         while(1) {
                 Idle();
         }
