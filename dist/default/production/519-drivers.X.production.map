@@ -129,11 +129,11 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200               0x614           0x91e  (2334)
 .const                       0x814                0x2e            0x45  (69)
-.text                        0x842               0xb80          0x1140  (4416)
-.dinit                      0x13c2                0x56            0x81  (129)
-.init.delay32               0x1418                0x1c            0x2a  (42)
+.text                        0x842               0xb7e          0x113d  (4413)
+.dinit                      0x13c0                0x56            0x81  (129)
+.init.delay32               0x1416                0x1c            0x2a  (42)
 
-                 Total "program" memory used (bytes):         0x1b4e  (6990) 43%
+                 Total "program" memory used (bytes):         0x1b4b  (6987) 43%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x600]
@@ -223,28 +223,28 @@ External Symbols in Program Memory (by address):
                   0x000f50                  _Disp2String
                   0x000f72                  _init_ADC
                   0x00108c                  _do_ADC
-                  0x0010f0                  _get_CN0_state
-                  0x001188                  _get_CN8_state
-                  0x0011d4                  _get_button_state
-                  0x001212                  _CVREFinit
-                  0x0012b4                  _ComparatorInit
-                  0x0012e4                  _NewClk
-                  0x0013b6                  _main
-                  0x001418                  ___delay32
+                  0x0010e8                  _get_CN0_state
+                  0x001180                  _get_CN8_state
+                  0x0011cc                  _get_button_state
+                  0x00120a                  _CVREFinit
+                  0x0012ac                  _ComparatorInit
+                  0x0012dc                  _NewClk
+                  0x0013ae                  _main
+                  0x001416                  ___delay32
                   0xf80000                  __FBS.sec
                   0xf80004                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
                   0x000daa                  _CN_init
-                  0x001212                  _CVREFinit
-                  0x0012b4                  _ComparatorInit
+                  0x00120a                  _CVREFinit
+                  0x0012ac                  _ComparatorInit
                   0x000f48                  _Disp2Dec
                   0x000e7c                  _Disp2Hex
                   0x000eda                  _Disp2Hex32
                   0x000f50                  _Disp2String
                   0x000dd8                  _InitUART2
-                  0x0012e4                  _NewClk
+                  0x0012dc                  _NewClk
                   0x000e40                  _XmitUART2
                   0x0002cc                  __CNInterrupt
                   0x0003f2                  __CompInterrupt
@@ -256,7 +256,7 @@ External Symbols in Program Memory (by name):
                   0x0003e2                  __U2RXInterrupt
                   0x0003ea                  __U2TXInterrupt
                   0x000440                  ___addsf3
-                  0x001418                  ___delay32
+                  0x001416                  ___delay32
                   0x0004fa                  ___divsf3
                   0x00057e                  ___divsi3
                   0x00059c                  ___eqsf2
@@ -289,11 +289,11 @@ External Symbols in Program Memory (by name):
                   0x000aaa                  _delay_us
                   0x000b2a                  _delay_us_32bit
                   0x00108c                  _do_ADC
-                  0x0010f0                  _get_CN0_state
-                  0x001188                  _get_CN8_state
-                  0x0011d4                  _get_button_state
+                  0x0010e8                  _get_CN0_state
+                  0x001180                  _get_CN8_state
+                  0x0011cc                  _get_button_state
                   0x000f72                  _init_ADC
-                  0x0013b6                  _main
+                  0x0013ae                  _main
                   0x000982                  _set_IR_toggles_on_t2interrupt
                   0x00096c                  _set_LED_toggles_on_t2interrupt
                   0x000998                  _set_LED_toggles_on_t3interrupt
@@ -450,12 +450,12 @@ usercode
 
 __FBS             0xf80000          0x2
  *(__FBS.sec*)
- __FBS.sec        0xf80000          0x2 /CW/_FBSØŸé
+ __FBS.sec        0xf80000          0x2 /CW/_FBSàéù
                   0xf80000                  __FBS.sec
 
 __FGS             0xf80004          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf80004          0x2 /CW/_FGS˜é
+ __FGS.sec        0xf80004          0x2 /CW/_FGS iù
                   0xf80004                  __FGS.sec
 
 __FOSCSEL
@@ -507,11 +507,11 @@ __FDS
  .debug_line      0x000000         0x81 build/default/production/src/button_state.o
  .debug_line      0x000081         0xfa build/default/production/src/ChangeClk.o
  .debug_line      0x00017b        0x167 build/default/production/src/IO.o
- .debug_line      0x0002e2        0x105 build/default/production/src/main.o
- .debug_line      0x0003e7        0x171 build/default/production/src/Timer.o
- .debug_line      0x000558        0x15a build/default/production/src/UART2.o
- .debug_line      0x0006b2        0x136 build/default/production/src/Comparator.o
- .debug_line      0x0007e8        0x116 build/default/production/src/ADC.o
+ .debug_line      0x0002e2        0x107 build/default/production/src/main.o
+ .debug_line      0x0003e9        0x171 build/default/production/src/Timer.o
+ .debug_line      0x00055a        0x15a build/default/production/src/UART2.o
+ .debug_line      0x0006b4        0x136 build/default/production/src/Comparator.o
+ .debug_line      0x0007ea        0x114 build/default/production/src/ADC.o
 
 .debug_frame      0x000000        0x5da
  *(.debug_frame)
@@ -988,8 +988,8 @@ LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a
 END GROUP
 OUTPUT(dist/default/production/519-drivers.X.production.elf elf32-pic30)
-LOAD /CW/_FGS˜é
-LOAD /CW/_FBSØŸé
+LOAD /CW/_FGS iù
+LOAD /CW/_FBSàéù
 LOAD jump_table
 LOAD default_isr
 LOAD data_init
@@ -1150,7 +1150,7 @@ __c30_signature
  .const             0x8836          0x8 build/default/production/src/Timer.o
  .const             0x883e          0x4 build/default/production/src/main.o
 
-.text             0x000842        0xb80
+.text             0x000842        0xb7e
  .text            0x000842        0x374 build/default/production/src/Timer.o
                   0x00096c                  _set_LED_toggles_on_t2interrupt
                   0x000982                  _set_IR_toggles_on_t2interrupt
@@ -1170,24 +1170,24 @@ __c30_signature
                   0x000eda                  _Disp2Hex32
                   0x000f48                  _Disp2Dec
                   0x000f50                  _Disp2String
- .text            0x000f72        0x17e build/default/production/src/ADC.o
+ .text            0x000f72        0x176 build/default/production/src/ADC.o
                   0x000f72                  _init_ADC
                   0x00108c                  _do_ADC
- .text            0x0010f0        0x122 build/default/production/src/button_state.o
-                  0x0010f0                  _get_CN0_state
-                  0x001188                  _get_CN8_state
-                  0x0011d4                  _get_button_state
- .text            0x001212         0xd2 build/default/production/src/Comparator.o
-                  0x001212                  _CVREFinit
-                  0x0012b4                  _ComparatorInit
- .text            0x0012e4         0x74 build/default/production/src/ChangeClk.o
-                  0x0012e4                  _NewClk
- .text            0x001358         0x6a build/default/production/src/main.o
-                  0x0013b6                  _main
+ .text            0x0010e8        0x122 build/default/production/src/button_state.o
+                  0x0010e8                  _get_CN0_state
+                  0x001180                  _get_CN8_state
+                  0x0011cc                  _get_button_state
+ .text            0x00120a         0xd2 build/default/production/src/Comparator.o
+                  0x00120a                  _CVREFinit
+                  0x0012ac                  _ComparatorInit
+ .text            0x0012dc         0x74 build/default/production/src/ChangeClk.o
+                  0x0012dc                  _NewClk
+ .text            0x001350         0x70 build/default/production/src/main.o
+                  0x0013ae                  _main
 
-.dinit            0x0013c2         0x56
- .dinit           0x0013c2         0x56 data_init
+.dinit            0x0013c0         0x56
+ .dinit           0x0013c0         0x56 data_init
 
-.init.delay32     0x001418         0x1c
- .init.delay32    0x001418         0x1c c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(delay32.Leo)
-                  0x001418                  ___delay32
+.init.delay32     0x001416         0x1c
+ .init.delay32    0x001416         0x1c c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(delay32.Leo)
+                  0x001416                  ___delay32

@@ -126,7 +126,7 @@ static inline void begin_flicker_LED(void) {
 
         set_LED_toggles_on_t2interrupt(kEnable); // cause RB8 to toggle each interrupt
         while (1) {
-                delay_ms(1000);
+                delay_ms(300);
                 Idle();
         }
 }
@@ -176,14 +176,16 @@ int main(void) { // runs at 1st power-up automatically
         // TRISBbits.TRISB9 = kOutputEnable; // set RB9 as output for LED
         // LATBbits.LATB9 = 1; // to test the output is configured
         // CN_init();
+        // XmitUART2('x', 3);
+
 
         init_ADC();
 
         while(1) {
                 do_ADC();
-                // delay_ms(500);
+                delay_ms(300);
                 // __delay32(1600/(2*2));
-                // Idle();
+                Idle();
         }
         return 0;
 }

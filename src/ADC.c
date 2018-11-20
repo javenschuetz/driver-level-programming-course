@@ -4,6 +4,7 @@
 
 // drivers
 #include "UART2.h" // for testing / debugging only
+#include "ChangeClk.h"
 
 // other dependencies
 
@@ -93,15 +94,17 @@ void do_ADC(void) {
         XmitUART2('\r', 1);
 
         int i;
-        for (i = 0; i < 20; i++) {
-                XmitUART2(' ', 1);
-        }
-        
-        XmitUART2('\r', 1);
 
-        for (i = 0; i < buffer_value / 50; i++) {
+        // XmitUART2('\r', 1);
+
+        for (i = 0; i < buffer_value / 30; i++) {
                 XmitUART2(220, 1);
         }
 
         Disp2Hex(buffer_value);
+
+        for (i = 0; i < 20; i++) {
+                XmitUART2(' ', 1);
+        }
+
 }
