@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=src/button_state.c src/ChangeClk.c src/IO.c src/main.c src/Timer.c src/UART2.c src/Comparator.c src/ADC.c
+SOURCEFILES_QUOTED_IF_SPACED=src/button_state.c src/ChangeClk.c src/IO.c src/main.c src/Timer.c src/UART2.c src/Comparator.c src/ADC.c src/SenseCapApp.c src/misc.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/src/button_state.o ${OBJECTDIR}/src/ChangeClk.o ${OBJECTDIR}/src/IO.o ${OBJECTDIR}/src/main.o ${OBJECTDIR}/src/Timer.o ${OBJECTDIR}/src/UART2.o ${OBJECTDIR}/src/Comparator.o ${OBJECTDIR}/src/ADC.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/src/button_state.o.d ${OBJECTDIR}/src/ChangeClk.o.d ${OBJECTDIR}/src/IO.o.d ${OBJECTDIR}/src/main.o.d ${OBJECTDIR}/src/Timer.o.d ${OBJECTDIR}/src/UART2.o.d ${OBJECTDIR}/src/Comparator.o.d ${OBJECTDIR}/src/ADC.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/src/button_state.o ${OBJECTDIR}/src/ChangeClk.o ${OBJECTDIR}/src/IO.o ${OBJECTDIR}/src/main.o ${OBJECTDIR}/src/Timer.o ${OBJECTDIR}/src/UART2.o ${OBJECTDIR}/src/Comparator.o ${OBJECTDIR}/src/ADC.o ${OBJECTDIR}/src/SenseCapApp.o ${OBJECTDIR}/src/misc.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/src/button_state.o.d ${OBJECTDIR}/src/ChangeClk.o.d ${OBJECTDIR}/src/IO.o.d ${OBJECTDIR}/src/main.o.d ${OBJECTDIR}/src/Timer.o.d ${OBJECTDIR}/src/UART2.o.d ${OBJECTDIR}/src/Comparator.o.d ${OBJECTDIR}/src/ADC.o.d ${OBJECTDIR}/src/SenseCapApp.o.d ${OBJECTDIR}/src/misc.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/src/button_state.o ${OBJECTDIR}/src/ChangeClk.o ${OBJECTDIR}/src/IO.o ${OBJECTDIR}/src/main.o ${OBJECTDIR}/src/Timer.o ${OBJECTDIR}/src/UART2.o ${OBJECTDIR}/src/Comparator.o ${OBJECTDIR}/src/ADC.o
+OBJECTFILES=${OBJECTDIR}/src/button_state.o ${OBJECTDIR}/src/ChangeClk.o ${OBJECTDIR}/src/IO.o ${OBJECTDIR}/src/main.o ${OBJECTDIR}/src/Timer.o ${OBJECTDIR}/src/UART2.o ${OBJECTDIR}/src/Comparator.o ${OBJECTDIR}/src/ADC.o ${OBJECTDIR}/src/SenseCapApp.o ${OBJECTDIR}/src/misc.o
 
 # Source Files
-SOURCEFILES=src/button_state.c src/ChangeClk.c src/IO.c src/main.c src/Timer.c src/UART2.c src/Comparator.c src/ADC.c
+SOURCEFILES=src/button_state.c src/ChangeClk.c src/IO.c src/main.c src/Timer.c src/UART2.c src/Comparator.c src/ADC.c src/SenseCapApp.c src/misc.c
 
 
 CFLAGS=
@@ -150,6 +150,20 @@ ${OBJECTDIR}/src/ADC.o: src/ADC.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/ADC.c  -o ${OBJECTDIR}/src/ADC.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/ADC.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
 	@${FIXDEPS} "${OBJECTDIR}/src/ADC.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/src/SenseCapApp.o: src/SenseCapApp.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/src" 
+	@${RM} ${OBJECTDIR}/src/SenseCapApp.o.d 
+	@${RM} ${OBJECTDIR}/src/SenseCapApp.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  src/SenseCapApp.c  -o ${OBJECTDIR}/src/SenseCapApp.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/SenseCapApp.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
+	@${FIXDEPS} "${OBJECTDIR}/src/SenseCapApp.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/src/misc.o: src/misc.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/src" 
+	@${RM} ${OBJECTDIR}/src/misc.o.d 
+	@${RM} ${OBJECTDIR}/src/misc.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  src/misc.c  -o ${OBJECTDIR}/src/misc.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/misc.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
+	@${FIXDEPS} "${OBJECTDIR}/src/misc.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 else
 ${OBJECTDIR}/src/button_state.o: src/button_state.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/src" 
@@ -206,6 +220,20 @@ ${OBJECTDIR}/src/ADC.o: src/ADC.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/src/ADC.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/ADC.c  -o ${OBJECTDIR}/src/ADC.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/ADC.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
 	@${FIXDEPS} "${OBJECTDIR}/src/ADC.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/src/SenseCapApp.o: src/SenseCapApp.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/src" 
+	@${RM} ${OBJECTDIR}/src/SenseCapApp.o.d 
+	@${RM} ${OBJECTDIR}/src/SenseCapApp.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  src/SenseCapApp.c  -o ${OBJECTDIR}/src/SenseCapApp.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/SenseCapApp.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
+	@${FIXDEPS} "${OBJECTDIR}/src/SenseCapApp.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/src/misc.o: src/misc.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/src" 
+	@${RM} ${OBJECTDIR}/src/misc.o.d 
+	@${RM} ${OBJECTDIR}/src/misc.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  src/misc.c  -o ${OBJECTDIR}/src/misc.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/misc.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off  
+	@${FIXDEPS} "${OBJECTDIR}/src/misc.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 endif
 

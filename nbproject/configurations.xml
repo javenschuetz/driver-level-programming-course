@@ -11,6 +11,7 @@
       <itemPath>src/Timer.h</itemPath>
       <itemPath>src/UART2.h</itemPath>
       <itemPath>src/Comparator.h</itemPath>
+      <itemPath>src/SenseCapApp.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -32,6 +33,9 @@
       <itemPath>src/Comparator.c</itemPath>
       <itemPath>src/ADC.c</itemPath>
       <itemPath>src/ADC.h</itemPath>
+      <itemPath>src/SenseCapApp.c</itemPath>
+      <itemPath>src/misc.c</itemPath>
+      <itemPath>src/misc.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -227,6 +231,7 @@
         <property key="UART 1" value="true"/>
         <property key="UART 2" value="true"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>
@@ -259,7 +264,7 @@
         <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
         <property key="programoptions.usehighvoltageonmclr" value="true"/>
         <property key="programoptions.uselvpprogramming" value="false"/>
-        <property key="voltagevalue" value="3.375"/>
+        <property key="voltagevalue" value="3.5"/>
       </PICkit3PlatformTool>
       <item path="src/IO.c" ex="false" overriding="false">
         <C30>

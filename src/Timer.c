@@ -141,7 +141,9 @@ void delay_us(uint16_t us, unsigned char timer_repeats) {
 
 	// start the timer & enable the interrupt
 	T2CONbits.TON = kEnable; // starts the timer
-	IEC0bits.T2IE = kEnable; // enable the interrup
+	IEC0bits.T2IE = kEnable; // enable the interrupt
+    //Test here
+    XmitUART2('y',1);
 }
 
 void delay_us_32bit(uint32_t us, void (*cb)()) {
@@ -172,7 +174,7 @@ void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void) {
 
         // if (repeat_timer != 1) {
         	T2CONbits.TON = kDisable; // stop the timer
-        	IEC0bits.T2IE = kDisable; // stop the interrup
+        	IEC0bits.T2IE = kDisable; // stop the interrupt
         // }
 }
 
@@ -190,6 +192,9 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
 	IFS0bits.T3IF = 0; // disable interrupt
 
 	timer3_callback();
+    
+    T2CONbits.TON = kDisable; // stop the timer
+    IEC0bits.T3IE = kDisable; // stop the interrupt
 
 	// currently a noop
 	// Disp2String("\n\rpseudo watchdog fired!!"); TODO:currently disabled bc breaks the timing

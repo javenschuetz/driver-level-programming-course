@@ -6,5 +6,6 @@ src/Timer.h  \
 src/IO.h  \
 src/IR.h  \
 src/ADC.h  \
+ src/SenseCapApp.h  \
 src/comparator.h  \
- src/samsung_rx.h 
+src/samsung_rx.h 

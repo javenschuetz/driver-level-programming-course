@@ -23,6 +23,7 @@
 #include "IO.h"
 #include "IR.h"
 #include "ADC.h"
+#include "SenseCapApp.h"
 
 #include "ChangeClk.h"
 #include "comparator.h"
@@ -97,18 +98,18 @@ static const char kEnableNesting = 0;
 
 // ************************************************************ helper functions
 static inline void init_clock(unsigned int freq) { // shared code
-        //Clock output on REFO
-        TRISBbits.TRISB15 = kOutputEnable;  // Set RB15 as output for REFO
-        REFOCONbits.ROEN = kEnable; // Ref oscillator is disabled
-        REFOCONbits.ROSSLP = kDisable; // true = Ref oscillator is kDisabled in sleep
-        REFOCONbits.ROSEL = 0; // Output base clk showing clock switching
-        REFOCONbits.RODIV = 0b0000;
+    //Clock output on REFO
+    TRISBbits.TRISB15 = kOutputEnable;  // Set RB15 as output for REFO
+    REFOCONbits.ROEN = kEnable; // Ref oscillator is disabled
+    REFOCONbits.ROSSLP = kDisable; // true = Ref oscillator is kDisabled in sleep
+    REFOCONbits.ROSEL = 0; // Output base clk showing clock switching
+    REFOCONbits.RODIV = 0b0000;
 
-        // accuracy++
-        OSCTUNbits.TUN = 0b011111; // improve clock accuracy slightly
+    // accuracy++
+    OSCTUNbits.TUN = 0b011111; // improve clock accuracy slightly
 
-        // 'create' the clock
-        NewClk(freq); // Switch clock: 32 for 32kHz, 500 for 500 kHz, 8 for 8MHz
+    // 'create' the clock
+    NewClk(freq); // Switch clock: 32 for 32kHz, 500 for 500 kHz, 8 for 8MHz
 }
 
 /*
@@ -122,13 +123,13 @@ Assignment 1
         note: requires baud 300 for 32kHz, 9600 for 8MHz
 */
 static inline void begin_flicker_LED(void) {
-        TRISBbits.TRISB8 = kOutputEnable; // set RB8 as output for LED
+    TRISBbits.TRISB8 = kOutputEnable; // set RB8 as output for LED
 
-        set_LED_toggles_on_t2interrupt(kEnable); // cause RB8 to toggle each interrupt
-        while (1) {
-                delay_ms(300);
-                Idle();
-        }
+    set_LED_toggles_on_t2interrupt(kEnable); // cause RB8 to toggle each interrupt
+    while (1) {
+        delay_ms(300);
+        Idle();
+    }
 }
 
 /*
@@ -167,25 +168,42 @@ static inline void begin_samsung_xmitter(void) {
 
 // ************************************************************************ main
 int main(void) { // runs at 1st power-up automatically
-        init_clock(32); //starts the clock
-
-        // CVREFinit(1.5);
-
-        // ComparatorInit();
+        init_clock(500); //starts the clock
 
         // TRISBbits.TRISB9 = kOutputEnable; // set RB9 as output for LED
         // LATBbits.LATB9 = 1; // to test the output is configured
         // CN_init();
         // XmitUART2('x', 3);
 
+        // ADC assignment
+        // init_ADC();
 
-        init_ADC();
 
-        while(1) {
-                do_ADC();
-                delay_ms(300);
-                // __delay32(1600/(2*2));
-                Idle();
-        }
-        return 0;
+        // UART test
+        // XmitUART2('X',3);
+
+    while(1) {
+        // ADC assignment
+        // do_ADC();
+
+        // CTMU assignment
+        float delta_t = 50;
+        float current_uA = 55;
+
+        CTMUinit(current_uA);
+        __delay32(200); // TODO calc based on delta_t
+        sampleCap(current_uA, delta_t);
+
+
+
+//            delay_us(200,0);
+//            XmitUART2('x',1);
+//            CTMUCONbits.CTMUEN = 1;     //re-enable the current source
+//                delay_ms(300);
+
+//                     __delay32(6000000*3);
+
+//                Idle();
+    }
+    return 0;
 }
