@@ -34,7 +34,7 @@
 #include <xc.h> // include processor files - each processor file is guarded.
 
 void CTMUinit(float);
-void sampleCap(float current_uA, float delta_t);
+void sampleCapacitance(float current_uA, float delta_t);
 
 #endif	/* SENSE_CAP_APP_H */
 

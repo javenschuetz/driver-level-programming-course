@@ -142,11 +142,9 @@ void delay_us(uint16_t us, unsigned char timer_repeats) {
 	// start the timer & enable the interrupt
 	T2CONbits.TON = kEnable; // starts the timer
 	IEC0bits.T2IE = kEnable; // enable the interrupt
-    //Test here
-    XmitUART2('y',1);
 }
 
-void delay_us_32bit(uint32_t us, void (*cb)()) {
+void delay_us_32bit(uint32_t us) {
 	init_timer2_32(8);
 
 	double clock_freq = 8000000; // recall ints are 16 bit on this chip
@@ -160,8 +158,11 @@ void delay_us_32bit(uint32_t us, void (*cb)()) {
 	// start the timer & enable the interrupt
 	T2CONbits.TON = kEnable; // starts the timer
 	IEC0bits.T3IE = kEnable; // enable the interrupt
+}
 
+void delay_us_32bit_cb(uint32_t us, void (*cb)()) {
 	timer3_callback = cb;
+	delay_us_32bit(us);
 }
 
 // *********************************************************** interrupt handler
@@ -178,24 +179,14 @@ void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void) {
         // }
 }
 
-
-// from blinking LEDs
-// void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
-// 	IFS0bits.T3IF = 0; // disable interrupt
-// 	toggle_io_if_necessary();
-
-// 	T3CONbits.TON = kDisable; // note: to stop the combined timer, use t2con
-// 	IEC0bits.T3IE = kDisable; // stop the timer 2/3 combined interrupt
-// }
-
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
 	IFS0bits.T3IF = 0; // disable interrupt
 
-	timer3_callback();
-    
-    T2CONbits.TON = kDisable; // stop the timer
-    IEC0bits.T3IE = kDisable; // stop the interrupt
+	T2CONbits.TON = kDisable; // stop the timer
+	IEC0bits.T3IE = kDisable; // stop the interrupt
 
-	// currently a noop
-	// Disp2String("\n\rpseudo watchdog fired!!"); TODO:currently disabled bc breaks the timing
+	if (timer3_callback) {
+		timer3_callback();
+	}
+	timer3_callback = 0; // 0 = NULL
 }

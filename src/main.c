@@ -166,44 +166,25 @@ static inline void begin_samsung_xmitter(void) {
         }
 }
 
+#define FCY 4000000UL;
 // ************************************************************************ main
 int main(void) { // runs at 1st power-up automatically
-        init_clock(500); //starts the clock
+        init_clock(8); //starts the clock
 
-        // TRISBbits.TRISB9 = kOutputEnable; // set RB9 as output for LED
-        // LATBbits.LATB9 = 1; // to test the output is configured
-        // CN_init();
-        // XmitUART2('x', 3);
+        // UART sanity test
+        XmitUART2('\r',1);
+        XmitUART2('\n',1);
+        Disp2String("PIC started!");
 
-        // ADC assignment
-        // init_ADC();
+        // TODO - calc time dynamically
+        float time_us = 500;
+        float current_uA = 5.5;
 
-
-        // UART test
-        // XmitUART2('X',3);
-
-    while(1) {
-        // ADC assignment
-        // do_ADC();
-
-        // CTMU assignment
-        float delta_t = 50;
-        float current_uA = 55;
-
-        CTMUinit(current_uA);
-        __delay32(200); // TODO calc based on delta_t
-        sampleCap(current_uA, delta_t);
-
-
-
-//            delay_us(200,0);
-//            XmitUART2('x',1);
-//            CTMUCONbits.CTMUEN = 1;     //re-enable the current source
-//                delay_ms(300);
-
-//                     __delay32(6000000*3);
-
-//                Idle();
-    }
+        while(1) {
+                CTMUinit(current_uA); // todo - refactor outside while
+                delay_us_32bit(time_us);
+                Idle();
+                sampleCapacitance(current_uA, time_us);
+        }
     return 0;
 }
