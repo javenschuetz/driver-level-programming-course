@@ -5,8 +5,11 @@
  * Created on October 5, 2018, 5:29 PM
  */
 
-#include "xc.h"
+// libraries and header
 #include "IR.h"
+#include "xc.h"
+
+// project files
 #include "IO.h"
 #include "Timer.h"
 #include "ChangeClk.h"
@@ -42,7 +45,7 @@ static inline void set_timer_priority(int priority) {
 
 static inline void init_timer1(int frequency) {
         // basic config
-//        NewClk(frequency); // Switch clock: 32 for 32kHz, 500 for 500 kHz, 8 for 8MHz
+        // NewClk(frequency); // Switch clock: 32 for 32kHz, 500 for 500 kHz, 8 for 8MHz
 
         T1CONbits.TCKPS = kDisable; // set pre-scaler (divides timer speed by );
         T1CONbits.TCS = kInternalClk; // use internal clock (ie, not external)
@@ -96,7 +99,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
         IFS0bits.T1IF = 0; // clear interrupt flag
         IEC0bits.T1IE = kDisable; // disable the interrupt
         T1CONbits.TON = kDisable; // stops the timer
-//        delay_us(13, 1);
+        // delay_us(13, 1);
 
         switch (current_xmit_state) {
         case kStartHigh:
@@ -122,7 +125,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
                 break;
         case kLow:
                 current_xmit_state = kOneHigh;
-                
+
                 TRISBbits.TRISB9 = 0; // enable pin output
                 LATBbits.LATB9 = 1;
                 delay_us_t1(260);//(560);

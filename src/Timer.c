@@ -1,12 +1,10 @@
 // libraries and header
-#include "xc.h"
 #include "Timer.h"
+#include "xc.h"
 
-// drivers
+// project files
 #include "ChangeClk.h"
 #include "UART2.h" // for testing / debugging only
-
-// other dependencies
 #include "samsung_rx.h"
 
 // Magic Numbers

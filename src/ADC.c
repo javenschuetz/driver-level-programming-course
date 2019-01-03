@@ -1,24 +1,17 @@
 // libraries and header
-#include "xc.h"
 #include "ADC.h"
+#include "xc.h"
 
-// drivers
-#include "UART2.h" // for testing / debugging only
+// project files
 #include "ChangeClk.h"
-
-// other dependencies
-
-// Magic Numbers
-static const char kEnable = 1;
-static const char kDisable = 0;
-static const int kUseInternalRC = 1;
-
-// statics
+#include "UART2.h" // for testing / debugging only
 
 // callback
-static void (* todo_callback)(void); // my callback!
+static void (* todo_callback)(void);
 
 
+
+// ****************************************************************** the driver
 void init_ADC(void) {
         // chona & chosa
         // note - an5 is RA3 / pin 8
@@ -68,6 +61,7 @@ void init_ADC(void) {
         static const int kUseSysDerivedClock = 0;
         AD1CON3bits.ADRC = kUseSysDerivedClock; // might need to toggle this sometimes
         AD1CON3bits.SAMC = 0b11111; // determines sample rate
+
         // ADON
         AD1CON1bits.ADON = 1; // turns ADC on
 }

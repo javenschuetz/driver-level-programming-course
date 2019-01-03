@@ -5,14 +5,15 @@
  * Created on October 5, 2018, 5:29 PM
  */
 
-#include "xc.h"
+// libraries and header
 #include "IR.h"
+#include "libpic30.h"
+#include "xc.h"
+
+// project files
+#include "ChangeClk.h"
 #include "IO.h"
 #include "Timer.h"
-#include "ChangeClk.h"
-
-#define FCY 4000000UL; // for __delay32()
-#include "libpic30.h"
 
 // magic numbers
 static const float kMagicNumber = 1.0/2.0; // for the timers, processor specific :p
@@ -103,8 +104,9 @@ void xmit_samsung_signal(uint32_t msg) {
 
         // stop bit
         xmit_bit(US_516, US_516);
-//        // re-enable CN interrupts
-//        IEC1bits.CNIE = kEnable;
+
+        // re-enable CN interrupts
+        // IEC1bits.CNIE = kEnable;
 }
 
 // this is the orchestration interrupt

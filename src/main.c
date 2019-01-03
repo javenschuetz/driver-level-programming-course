@@ -11,27 +11,22 @@
 #include <p24F16KA101.h> // main lib for pic ?
 #include "libpic30.h"
 
-// standard libraries
+// libraries
 #include <stdio.h>
 #include <math.h>
 #include <errno.h>
 #include <stdint.h>
 
-// driver code
-#include "UART2.h"
-#include "ChangeClk.h"
-#include "Timer.h"
-#include "IO.h"
-#include "IR.h"
+// project files
 #include "ADC.h"
-#include "SenseCapApp.h"
-
 #include "ChangeClk.h"
 #include "comparator.h"
+#include "IO.h"
+#include "IR.h"
 #include "samsung_rx.h"
-#define FCY 4000000UL;
-
-// other includes
+#include "SenseCapApp.h"
+#include "Timer.h"
+#include "UART2.h"
 
 
 //// CONFIGURATION BITS ////
@@ -88,14 +83,15 @@
 #define dsen() {__asm__ volatile ("BSET DSCON, #15");} // dsen = deep sleep kEnable?
 
 // GLOBAL VARIABLES
-// unsigned int temp;
-// unsigned int i;
+#define FCY 4000000UL;
 
 // Magic Numbers
 static const char kOutputEnable = 0;
 static const char kEnable = 1;
 static const char kDisable = 0;
 static const char kEnableNesting = 0;
+
+
 
 // ************************************************************ helper functions
 static inline void init_clock(unsigned int freq) { // shared code
@@ -154,7 +150,8 @@ static inline void begin_btn_debug_mode(void) {
 
 /*
 Assignment 3
-        1. in-progress
+        Samsung remote control - transmission and receiver. Uses carrier wave
+        and envelope.
 */
 static inline void begin_samsung_xmitter(void) {
         CN_init();

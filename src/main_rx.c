@@ -10,23 +10,18 @@
 #include <p24fxxxx.h> // other lib for pic?
 #include <p24F16KA101.h> // main lib for pic ?
 
-// standard libraries
-#include <stdio.h>
-#include <math.h>
+// libraries
 #include <errno.h>
+#include <math.h>
+#include <stdio.h>
 #include <stdint.h>
 
 // driver code
-#include "UART2.h"
 #include "ChangeClk.h"
-#include "Timer.h"
-#include "samsung_rx.h"
 #include "IR.h"
-
-#include "ChangeClk.h"
-#define FCY 4000000UL;
-
-// other includes
+#include "samsung_rx.h"
+#include "Timer.h"
+#include "UART2.h"
 
 
 //// CONFIGURATION BITS ////
@@ -83,8 +78,8 @@
 #define dsen() {__asm__ volatile ("BSET DSCON, #15");} // dsen = deep sleep kEnable?
 
 // GLOBAL VARIABLES
-// unsigned int temp;
-// unsigned int i;
+#define FCY 4000000UL;
+
 
 // Magic Numbers
 static const char kOutputEnable = 0;

@@ -1,18 +1,16 @@
 // IO.c
 
 // libraries & header
-#include "xc.h"
 #include "IO.h"
-
-// for debounce
-#include "Timer.h"
-
-// other
-#include "UART2.h" // for testing / debugging only
-#include "button_state.h" // state machine
-#include "IR.h"
-#include "ChangeClk.h"
 #include "libpic30.h"
+#include "xc.h"
+
+// project files
+#include "button_state.h" // state machine
+#include "ChangeClk.h"
+#include "IR.h"
+#include "Timer.h"
+#include "UART2.h" // for testing / debugging only
 
 // Magic Numbers
 static const char kSetPinToInput = 1;
@@ -28,6 +26,8 @@ static char btn_verbose_mode = 0;
 static char xmit_mode = 1;
 static volatile unsigned char bothButtonsPushed = 0;
 static volatile char power_is_on = 0;
+
+
 
 // ************************************************************ helper functions
 static void init_CN0(void) {
@@ -85,6 +85,8 @@ static void delay_us_t3(uint16_t us) {
         IEC0bits.T3IE = kEnable; // enable the interrup
 }
 
+
+
 // *************************************************************** API functions
 void set_btn_verbose_mode(unsigned char verbose_on) {
         if (verbose_on == 1) {
@@ -107,34 +109,36 @@ void CN_init(void) {
 extern volatile int countTarget;
 static int countButton = 0;
 
+
+
 // *********************************************************** interrupt handler
 void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
-    IEC1bits.CNIE = kDisable; // disable CN interrupts in general
-    IFS1bits.CNIF = 0; // clear interrupt flag
-    
-    /**
-     * Debounce counter:
-     * 20 is calculated by using numbers from calculating clock 
-     * to 1/2 is from the magic number var, 1/10 is from how we 
-     * want 1/10 seconds length
-     */
-    __delay32(16000/20);
-    
-    //check the state of the buttons
-    unsigned char CN0_just_pressed = get_button_state(BTN_CN0, PORTAbits.RA4==0) == kJustPressed;
-    unsigned char CN1_just_pressed = get_button_state(BTN_CN1, PORTBbits.RB4==0) == kJustPressed;
-    
-    //count number of button being pressed
-    if(CN0_just_pressed) {
-        countButton++;
-    }
-    //set the global var countTarget to count button
-    else if (CN1_just_pressed){
-        countTarget = countButton;
-        Disp2Hex(countTarget);      //display the mount of times freq. is divided
-        countButton = 0;            //resets the push button count
-    }
-    
+        IEC1bits.CNIE = kDisable; // disable CN interrupts in general
+        IFS1bits.CNIF = 0; // clear interrupt flag
+
+        /**
+        * Debounce counter:
+        * 20 is calculated by using numbers from calculating clock
+        * to 1/2 is from the magic number var, 1/10 is from how we
+        * want 1/10 seconds length
+        */
+        __delay32(16000/20);
+
+        //check the state of the buttons
+        unsigned char CN0_just_pressed = get_button_state(BTN_CN0, PORTAbits.RA4==0) == kJustPressed;
+        unsigned char CN1_just_pressed = get_button_state(BTN_CN1, PORTBbits.RB4==0) == kJustPressed;
+
+        //count number of button being pressed
+        if(CN0_just_pressed) {
+                countButton++;
+        }
+        //set the global var countTarget to count button
+        else if (CN1_just_pressed){
+                countTarget = countButton;
+                Disp2Hex(countTarget);      //display the mount of times freq. is divided
+                countButton = 0;            //resets the push button count
+        }
+
 /**************************DON'T DELETE - Assignment 3*************************/
 //    unsigned char CN0_just_pressed = get_button_state(BTN_CN0, PORTAbits.RA4==0) == kJustPressed;
 //    unsigned char CN1_just_pressed = get_button_state(BTN_CN1, PORTBbits.RB4==0) == kJustPressed;
@@ -185,10 +189,10 @@ void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
 //        }
 //    }
 /*********************************DON'T DELETE********************************/
-    
-    
-    // re-enable CN interrupts
-    IEC1bits.CNIE = kEnable;
 
-//    bothButtonsPushed = 0;
+
+        // re-enable CN interrupts
+        IEC1bits.CNIE = kEnable;
+
+        // bothButtonsPushed = 0;
 }

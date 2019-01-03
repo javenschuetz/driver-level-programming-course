@@ -1,16 +1,16 @@
 
 // libraries & header
 #include "samsung_rx.h"
-#include <string.h>         //string conc
-#include <stdlib.h>         //string conc
-#include "xc.h"
 #include "libpic30.h"
+#include <stdlib.h>         //string conc
+#include <string.h>         //string conc
 #include <stdint.h> // for uint32_t
+#include "xc.h"
 
 // drivers
-#include "UART2.h" // for testing / debugging only
 #include "ChangeClk.h"
 #include "timer.h"
+#include "UART2.h" // for testing / debugging only
 
 // values for messages
 #define POWER_SWITCH 0xe0e040bf
@@ -65,6 +65,7 @@ void CN_init(void) {
 }
 
 
+
 // ******************************************************************** timer up
 void timer_up(void) {
         // print 2 blank lines
@@ -85,6 +86,7 @@ void timer3_callback(void) {
 }
 
 
+
 // ************************************************************** process signal
 //converts recorded times in raw data to microseconds
 static void convert_times_to_us(void) {
@@ -99,56 +101,56 @@ static void convert_times_to_us(void) {
 static int interpret_high_low_pattern(int low_duration, int high_duration, int iters) {
         //calculates the amount of digital signals passed, to destinguish between
         //header and the message
-        if (iters > 67){
+        if (iters > 67) {
                 isStarted = 0;
         }
 
         //checks the start bit
-        if (isStarted == 0){
-        if ((low_duration > startHigh1) && (high_duration < startHigh2)){
-                isStarted = 1;
-                return 2; //arbitrary chosen number
+        if (isStarted == 0) {
+                if ((low_duration > startHigh1) && (high_duration < startHigh2)) {
+                        isStarted = 1;
+                        return 2; //arbitrary chosen number
+                } else {
+                        isStarted = 0;
+                        return -1;
+                }
+        }
+
+        //checks 1s and 0s of the message
+        if ((low_duration > bitLow1) && (low_duration < bitLow2)) {
+                if ((high_duration > bitLow1) && (high_duration < bitLow2)) {
+                        return 0x0;         //somehow works better this way
+                }
+                if ((high_duration > bitHigh1) && (high_duration < bitHigh2)) {
+                        return 0x1;         //somehow works better this way
+                }
         } else {
-                isStarted = 0;
                 return -1;
         }
-}
 
-    //checks 1s and 0s of the message
-    if ((low_duration > bitLow1) && (low_duration < bitLow2)){
-        if ((high_duration > bitLow1) && (high_duration < bitLow2)){
-            return 0x0;         //somehow works better this way
-        }
-        if ((high_duration > bitHigh1) && (high_duration < bitHigh2)){
-            return 0x1;         //somehow works better this way
-        }
-    } else {
         return -1;
-    }
-
-    return -1;
 }
 
 //receives converted 1s and zero and records them into the output message
 static void interpret_signal(void) {
-    int i;
-    unsigned long int output = 0x0;
-    unsigned int token = 0x0;   //paresed data from 1s and 0s
-    int startedConv = 0;
+        int i;
+        unsigned long int output = 0x0;
+        unsigned int token = 0x0;   //paresed data from 1s and 0s
+        int startedConv = 0;
 
-    //for every two values (1 high and 1 low) convert to digital logic
-    //record into output by XOR and bit shift left
-    for (i = 1; i < 67; i= i + 2) {      //first one is unnecessary
-        token = interpret_high_low_pattern(signal_raw[i][kElapsedTimes], signal_raw[i+1][kElapsedTimes], i);
-        if (token == 2){
-            startedConv = 1;
+        //for every two values (1 high and 1 low) convert to digital logic
+        //record into output by XOR and bit shift left
+        for (i = 1; i < 67; i= i + 2) {      //first one is unnecessary
+                token = interpret_high_low_pattern(signal_raw[i][kElapsedTimes], signal_raw[i+1][kElapsedTimes], i);
+                if (token == 2) {
+                    startedConv = 1;
+                }
+                if (startedConv && token != 2) {
+                    output = output ^ token;
+                    if (i < 65)
+                        output = output << 1;
+                }
         }
-        if (startedConv && token != 2){
-            output = output ^ token;
-            if (i < 65)
-                output = output << 1;
-        }
-}
 
         //outputs the HEX value and the appropriate message
         Disp2Hex32(output);

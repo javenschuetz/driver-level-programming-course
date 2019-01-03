@@ -5,20 +5,19 @@
  * Created on November 19, 2018, 7:02 PM
  */
 
-// libraries
+// libraries and header
+#include "SenseCapApp.h"
 #include <libpic30.h>
-#include "xc.h"
-#include "UART2.h"
 #include "string.h"
+#include "UART2.h"
+#include "xc.h"
 
 // project files
-#include "SenseCapApp.h"
-#include "misc.h"
-#include "comparator.h"
 #include "ADC.h"
+#include "comparator.h"
+#include "misc.h"
 #include "Timer.h"
 
-#define FCY 4000000UL;
 #define MILI 0.001
 #define MICRO 0.000001
 #define NANO 0.000000001
@@ -55,6 +54,7 @@ void CTMUinit(){
         AD1CON3bits.SAMC = 0b11111;     // determines sample rate
         AD1CON1bits.ADSIDL = 0;         // continue conversion when in idle mode
 }
+
 /**
  * Turns on the CTMU and the current source. As well, turns on the ADC module
  * @param current
@@ -75,8 +75,8 @@ void start_current_source(float current) {
                 CTMUICONbits.IRNG = 0b01;
         } else if (current == 5.5) {
                 CTMUICONbits.IRNG = 0b10;
-//                CTMUICONbits.ITRIM = 0b000001; // for Nathan's laptop - reduce current a bit
-                 CTMUICONbits.ITRIM = 0b001000; // note - Ilia's laptop needed 0b001000 for 5.5uA
+                // CTMUICONbits.ITRIM = 0b000001; // for Nathan's laptop - reduce current a bit
+                CTMUICONbits.ITRIM = 0b001000; // note - Ilia's laptop needed 0b001000 for 5.5uA
         } else if (current == 55) {
                 CTMUICONbits.IRNG = 0b11;
                 CTMUICONbits.ITRIM = 0b000111; // increase current a bit
@@ -84,7 +84,7 @@ void start_current_source(float current) {
                 Disp2String("Invalid Current!");
                 return;
         }
-        
+
         CTMUCONbits.IDISSEN = 0;        // break the GND path
         CTMUCONbits.CTMUEN = 1;         // enable current source
         CTMUCONbits.EDG2STAT = 1;       // current source is on
@@ -109,7 +109,7 @@ static double calc_voltage(float step_value) {
 }
 
 /**
- * calculates capacitance with dt, dV, and current. Using the following 
+ * calculates capacitance with dt, dV, and current. Using the following
  * function: I = C*(dV/dt)
  * @param time_us - dt
  * @param current_uA - current
@@ -136,27 +136,24 @@ static void print_results(double voltage, double capacitance) {
 
         // print capacitance
         char *unit[2];
-        
+
         if(capacitance < NANO){
-            //pico
-            capacitance /= PICO;
-            strcpy(unit, "pF"); //unit = "pF";
+                //pico
+                capacitance /= PICO;
+                strcpy(unit, "pF"); //unit = "pF";
+        } else if (capacitance < MICRO){
+                //nano
+                capacitance /= NANO;
+                strcpy(unit, "nF");
+        } else if (capacitance < MILI){
+                //micro
+                capacitance /= MICRO;
+                strcpy(unit, "uF");
+        } else{
+                //print error
+                strcpy(unit, "??");
         }
-        else if (capacitance < MICRO){
-            //nano
-            capacitance /= NANO;
-            strcpy(unit, "nF");
-        }
-        else if (capacitance < MILI){
-            //micro
-            capacitance /= MICRO;
-            strcpy(unit, "uF");
-        }
-        else{
-            //print error
-            strcpy(unit, "??");
-        }
-        
+
         char *capacitance_s[100];
         strcat(capacitance_s, "capacitance: ");
         strcat(capacitance_s, sprintf(capacitance_s, "%g", capacitance));
@@ -206,7 +203,7 @@ static int sampleVoltage(float time_us){
         while (AD1CON1bits.DONE != kADCDone) {} // busy wait until conversion is complete
 
         int step_value = ADC1BUF0 & 0x03ff; // stores last 10 bits of sample result
- 
+
         AD1CON1bits.SAMP = 1; // 1 = stop holding cap value
         CTMUCONbits.IDISSEN = 1; // discharge the capacitor during printing
         __delay32(time_us*8);   // recalculate the cycles, assuming 8MHz clock
@@ -215,11 +212,11 @@ static int sampleVoltage(float time_us){
 
 /**
  * Runs a test voltage measurement to decide which current and time to use,
- * Adopts accordingly by figuring out the amount of voltage generated. For 
+ * Adopts accordingly by figuring out the amount of voltage generated. For
  * big capacitors, the voltage would be low, so increase the time. For low
- * capacitors the voltage will hit the rail, so decrease the current and time. 
+ * capacitors the voltage will hit the rail, so decrease the current and time.
  * For low capacitors, if the voltage is below 1V, increment time and measure
- * again. For mid range capacitors, just calculate the capacitance. 
+ * again. For mid range capacitors, just calculate the capacitance.
  */
 void sample_capacitance_adaptive(){
         float time_us = 5000; // test value to decide which current to use
@@ -228,7 +225,7 @@ void sample_capacitance_adaptive(){
         // calculated for 5ms, 55uA, and 1uF, used as Vref
         double expectedVoltageValue = 0.3f; // limiting value for lower caps
         double capacitance = 0;
-        
+
         // adapt the current and time
         // first measure one time
         start_current_source(current_uA);
@@ -237,38 +234,36 @@ void sample_capacitance_adaptive(){
         double voltage = calc_voltage(step_value);
 
         // change the current and measure again if needed
-        if (voltage < 0.10){    // if the voltage is too low, the cap is big
-            time_us = 1500000;  // testing time for big caps
-            cycles = us_to_cycles(time_us);
-            start_current_source(current_uA);
-            __delay32(cycles);
-            int step_value = sampleVoltage(time_us);
-            double voltage2 = calc_voltage(step_value);
-            // calculate the capacitance with 2 different voltage values
-            capacitance = calc_capacitance(time_us, current_uA, (voltage2 - voltage));
-        }
-        else if (voltage > expectedVoltageValue){
-            current_uA = 5.5;      // lower the current for smaller caps
-            time_us = 37;          // calculated for 100pF - 37us
-            cycles = us_to_cycles(time_us);
-            start_current_source(current_uA);
-            __delay32(cycles);
-            int step_value = sampleVoltage(time_us);
-            voltage = calc_voltage(step_value);
-            // increase time until the voltage reaches 1V to avoid noise floor
-            while (voltage < 1){
-                time_us += time_us;
+        if (voltage < 0.10) {    // if the voltage is too low, the cap is big
+                time_us = 1500000;  // testing time for big caps
+                cycles = us_to_cycles(time_us);
+                start_current_source(current_uA);
+                __delay32(cycles);
+                int step_value = sampleVoltage(time_us);
+                double voltage2 = calc_voltage(step_value);
+                // calculate the capacitance with 2 different voltage values
+                capacitance = calc_capacitance(time_us, current_uA, (voltage2 - voltage));
+        } else if (voltage > expectedVoltageValue) {
+                current_uA = 5.5;      // lower the current for smaller caps
+                time_us = 37;          // calculated for 100pF - 37us
                 cycles = us_to_cycles(time_us);
                 start_current_source(current_uA);
                 __delay32(cycles);
                 int step_value = sampleVoltage(time_us);
                 voltage = calc_voltage(step_value);
-            }
-            capacitance = calc_capacitance(time_us, current_uA, voltage);
+                // increase time until the voltage reaches 1V to avoid noise floor
+                while (voltage < 1) {
+                        time_us += time_us;
+                        cycles = us_to_cycles(time_us);
+                        start_current_source(current_uA);
+                        __delay32(cycles);
+                        int step_value = sampleVoltage(time_us);
+                        voltage = calc_voltage(step_value);
+                }
+                capacitance = calc_capacitance(time_us, current_uA, voltage);
+        } else { // when the cap is around 1uF
+                capacitance = calc_capacitance(time_us, current_uA, voltage);
         }
-        else{ // when the cap is around 1uF
-            capacitance = calc_capacitance(time_us, current_uA, voltage);
-        }
-        
+
         print_results(voltage, capacitance);
 }
