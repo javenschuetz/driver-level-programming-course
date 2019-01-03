@@ -1,6 +1,6 @@
 # driver-level-programming course
 
-A course on embedded driver-level programming using the PIC24F microcontroller. Work by Ilia and Nathan.
+A course on embedded driver-level programming using the PIC24F microcontroller. Work by Ilia Gaissinski and Nathan Schuetz.
 
 ## Projects
 
