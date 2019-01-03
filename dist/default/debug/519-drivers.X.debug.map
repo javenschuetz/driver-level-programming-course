@@ -4,9 +4,14 @@ Tool Name:
   c:\program files (x86)\microchip\xc16\v1.35\bin\bin\..\bin/elf-ld.exe
 
 Command:
+  -TC:\\Users\\Tilo\\AppData\\Local\\Temp\\tmp000032bc.00 \
+  -TC:\\Users\\Tilo\\AppData\\Local\\Temp\\tmp000032bc.01 \
+  -TC:\\Users\\Tilo\\AppData\\Local\\Temp\\tmp000032bc.02 \
+  -TC:\\Users\\Tilo\\AppData\\Local\\Temp\\tmp000032bc.03 \
+  -TC:\\Users\\Tilo\\AppData\\Local\\Temp\\tmp000032bc.04 \
   -p24F16KA101 \
   -o \
-  dist/default/production/519-drivers.X.production.elf \
+  dist/default/debug/519-drivers.X.debug.elf \
   -Lc:/program files (x86)/microchip/xc16/v1.35/bin/bin/.. \
   -Lc:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib \
   -Lc:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../support/PIC24E/gld \
@@ -16,18 +21,21 @@ Command:
   -Lc:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../support/dsPIC33C/gld \
   -Lc:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../support/dsPIC33E/gld \
   -Lc:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../support/dsPIC33F/gld \
-  build/default/production/src/button_state.o \
-  build/default/production/src/ChangeClk.o \
-  build/default/production/src/IO.o \
-  build/default/production/src/main.o \
-  build/default/production/src/Timer.o \
-  build/default/production/src/UART2.o \
-  build/default/production/src/Comparator.o \
-  build/default/production/src/ADC.o \
-  build/default/production/src/SenseCapApp.o \
-  build/default/production/src/misc.o \
+  build/default/debug/src/button_state.o \
+  build/default/debug/src/ChangeClk.o \
+  build/default/debug/src/IO.o \
+  build/default/debug/src/main.o \
+  build/default/debug/src/Timer.o \
+  build/default/debug/src/UART2.o \
+  build/default/debug/src/Comparator.o \
+  build/default/debug/src/ADC.o \
+  build/default/debug/src/SenseCapApp.o \
+  build/default/debug/src/misc.o \
   --defsym=__MPLAB_BUILD=1 \
-  -Tp24F16KA101.gld.00 \
+  --defsym=__MPLAB_DEBUG=1 \
+  --defsym=__DEBUG=1 \
+  --defsym=__MPLAB_DEBUGGER_PK3=1 \
+  -Tp24F16KA101.gld.05 \
   --stack=16 \
   --check-sections \
   --data-init \
@@ -39,10 +47,10 @@ Command:
   --stackguard=16 \
   --no-force-link \
   --smart-io \
-  -Map=dist/default/production/519-drivers.X.production.map \
+  -Map=dist/default/debug/519-drivers.X.debug.map \
   --report-mem \
   --memorysummary \
-  dist/default/production/memoryfile.xml \
+  dist/default/debug/memoryfile.xml \
   -start-group \
   --library=lega-pic30-elf \
   --library=m-elf \
@@ -60,25 +68,25 @@ c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normal.Leo)
                               (__crt_start_mode_normal)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(delay32.Leo)
-                              build/default/production/src/IO.o (___delay32)
+                              build/default/debug/src/IO.o (___delay32)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(addsf3.eo)
-                              build/default/production/src/Comparator.o (___subsf3)
+                              build/default/debug/src/Comparator.o (___subsf3)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(divsf3.eo)
-                              build/default/production/src/Timer.o (___divsf3)
+                              build/default/debug/src/Timer.o (___divsf3)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(divsi3.eo)
-                              build/default/production/src/IO.o (___divsi3)
+                              build/default/debug/src/IO.o (___divsi3)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(feqltle.eo)
-                              build/default/production/src/SenseCapApp.o (___eqsf2)
+                              build/default/debug/src/SenseCapApp.o (___eqsf2)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fgtge.eo)
-                              build/default/production/src/Comparator.o (___gtsf2)
+                              build/default/debug/src/Comparator.o (___gtsf2)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fixsfsi.eo)
-                              build/default/production/src/Timer.o (_(float, int, long long, short, float, short, int))
+                              build/default/debug/src/Timer.o (_(float, int, long long, short, float, short, int))
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fixunssfsi.eo)
-                              build/default/production/src/IO.o (___fixunssfsi)
+                              build/default/debug/src/IO.o (___fixunssfsi)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatsisf.eo)
-                              build/default/production/src/IO.o (___floatsisf)
+                              build/default/debug/src/IO.o (___floatsisf)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatunsisf.eo)
-                              build/default/production/src/IO.o (___floatunsisf)
+                              build/default/debug/src/IO.o (___floatunsisf)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fpack.eo)
                               c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(addsf3.eo) (__fpack)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(funpack.eo)
@@ -88,7 +96,7 @@ c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(funpack
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(futil.eo)
                               c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(addsf3.eo) (__fPropagateNaN)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
-                              build/default/production/src/IO.o (___mulsf3)
+                              build/default/debug/src/IO.o (___mulsf3)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(udivsi3.eo)
                               c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(divsi3.eo) (___udivsi3)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(fcompare.eo)
@@ -98,13 +106,13 @@ c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatdi
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
                               c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatunsisf.eo) (___floatundisf)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(memcpy.XX_eo)
-                              build/default/production/src/SenseCapApp.o (_memcpy)
+                              build/default/debug/src/SenseCapApp.o (_memcpy)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(strcat.XX_eo)
-                              build/default/production/src/SenseCapApp.o (_strcat)
+                              build/default/debug/src/SenseCapApp.o (_strcat)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(strlen.XX_eo)
-                              build/default/production/src/UART2.o (_strlen)
+                              build/default/debug/src/UART2.o (_strlen)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(sprintf_gG.XXeo)
-                              build/default/production/src/SenseCapApp.o (__sprintf_gG)
+                              build/default/debug/src/SenseCapApp.o (__sprintf_gG)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(xprintf_gG.XXeo)
                               c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(sprintf_gG.XXeo) (___Printf_gG)
 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(xputfld_gG.XXeo)
@@ -195,23 +203,28 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200              0x153e          0x1fdd  (8157)
 .const                      0x173e                0xd8           0x144  (324)
-.text                       0x1816               0xf0c          0x1692  (5778)
-.dinit                      0x2722                0xb2           0x10b  (267)
-.text                       0x27d4               0x18c           0x252  (594)
-.init.delay32               0x2960                0x1c            0x2a  (42)
+.text                       0x1816               0xf20          0x16b0  (5808)
+.dinit                      0x2736                0xb2           0x10b  (267)
+.text                       0x27e8               0x18c           0x252  (594)
+.init.delay32               0x2974                0x1c            0x2a  (42)
 
-                 Total "program" memory used (bytes):         0x3b3a  (15162) 94%
+                 Total "program" memory used (bytes):         0x3b58  (15192) 94%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x600]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-.ndata                       0x800                   0            0x2a  (42)
-.nbss                        0x82a                   0            0x1c  (28)
-.data                        0x846                   0            0x74  (116)
+reserve_data_0x800           0x800                0x20            0x20  (32)
+reserve_data_0x820           0x820                 0x2             0x2  (2)
+reserve_data_0x822           0x822                 0x2             0x2  (2)
+reserve_data_0x824           0x824                 0x2             0x2  (2)
+reserve_data_0x826           0x826                0x2a            0x2a  (42)
+.ndata                       0x850                   0            0x2a  (42)
+.nbss                        0x87a                   0            0x1c  (28)
+.data                        0x896                   0            0x74  (116)
 
-                 Total "data" memory used (bytes):           0xba  (186) 12%
+                 Total "data" memory used (bytes):          0x10a  (266) 17%
 
 
 Dynamic Memory Usage
@@ -219,27 +232,27 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0x8ba                               0x546  (1350)
+stack                        0x90a                               0x4f6  (1270)
 
-                 Maximum dynamic memory (bytes):          0x546  (1350)
+                 Maximum dynamic memory (bytes):          0x4f6  (1270)
 
 
 External Symbols in Data Memory (by address):
 
-                    0x0840                  _countTarget
-                    0x0842                  _clkval
+                    0x0890                  _countTarget
+                    0x0892                  _clkval
 
 External Symbols in Data Memory (by name):
 
-                    0x0842                  _clkval
-                    0x0840                  _countTarget
+                    0x0892                  _clkval
+                    0x0890                  _countTarget
 
 External Symbols in Program Memory (by address):
 
                   0x000200                  __resetPRI
                   0x00023c                  __psv_init
-                  0x000252                  __data_init_standard
                   0x000252                  __data_init
+                  0x000252                  __data_init_standard
                   0x0002cc                  __CNInterrupt
                   0x000378                  __T2Interrupt
                   0x0003c8                  __T3Interrupt
@@ -251,9 +264,9 @@ External Symbols in Program Memory (by address):
                   0x000478                  ___addsf3
                   0x000532                  ___divsf3
                   0x0005b6                  ___divsi3
+                  0x0005d4                  ___ltsf2
                   0x0005d4                  ___eqsf2
                   0x0005d4                  ___lesf2
-                  0x0005d4                  ___ltsf2
                   0x0005d8                  ___gtsf2
                   0x0005d8                  ___gesf2
                   0x0005dc                  ___fixsfsi
@@ -287,9 +300,9 @@ External Symbols in Program Memory (by address):
                   0x000fee                  __Puttxt
                   0x001166                  __Vacopy
                   0x00116a                  __Dnorm
+                  0x001202                  ___ltdf2
                   0x001202                  ___ledf2
                   0x001202                  ___eqdf2
-                  0x001202                  ___ltdf2
                   0x00120c                  ___gtdf2
                   0x00120c                  ___gedf2
                   0x001216                  ___divdf3
@@ -302,9 +315,9 @@ External Symbols in Program Memory (by address):
                   0x0013ea                  ___floatsidf
                   0x0013f0                  ___muldf3
                   0x0014dc                  ___subdf3
+                  0x0014e0                  ___mulp32peds3
                   0x0014e0                  ___mulp32eds3
                   0x0014e0                  ___mulsi3
-                  0x0014e0                  ___mulp32peds3
                   0x0014ec                  ___adddf3
                   0x0015e8                  __dcompare
                   0x00163a                  __dPropagateNaN
@@ -315,51 +328,52 @@ External Symbols in Program Memory (by address):
                   0x001816                  _CTMUinit
                   0x001886                  _start_current_source
                   0x001940                  _calc_capacitance
-                  0x001b1a                  _sample_capacitance_adaptive
-                  0x001daa                  _set_LED_toggles_on_t2interrupt
-                  0x001dc0                  _set_IR_toggles_on_t2interrupt
-                  0x001dd6                  _set_LED_toggles_on_t3interrupt
-                  0x001dec                  _timer2_default_callback
-                  0x001df2                  _delay_ms
-                  0x001e6c                  _delay_us_500
-                  0x001ee4                  _delay_us
-                  0x001f64                  _delay_us_32bit
-                  0x001fea                  _delay_us_32bit_cb
-                  0x0021da                  _set_btn_verbose_mode
-                  0x0021f0                  _CN_init
-                  0x00221e                  _InitUART2
-                  0x002286                  _XmitUART2
-                  0x0022c2                  _Disp2Hex
-                  0x002320                  _Disp2Hex32
-                  0x00238e                  _Disp2Dec
-                  0x002396                  _Disp2String
-                  0x0023b8                  _init_ADC
-                  0x0024d2                  _do_ADC
-                  0x00252e                  _get_CN0_state
-                  0x0025c6                  _get_CN8_state
-                  0x002612                  _get_button_state
-                  0x002650                  _CVREFinit
-                  0x0026f2                  _ComparatorInit
-                  0x0027d4                  _itoa
-                  0x0028de                  _main
-                  0x0028ec                  _NewClk
-                  0x002960                  ___delay32
+                  0x001ade                  _sample_capacitance_adaptive
+                  0x001c52                  _sampleVoltage
+                  0x001dbe                  _set_LED_toggles_on_t2interrupt
+                  0x001dd4                  _set_IR_toggles_on_t2interrupt
+                  0x001dea                  _set_LED_toggles_on_t3interrupt
+                  0x001e00                  _timer2_default_callback
+                  0x001e06                  _delay_ms
+                  0x001e80                  _delay_us_500
+                  0x001ef8                  _delay_us
+                  0x001f78                  _delay_us_32bit
+                  0x001ffe                  _delay_us_32bit_cb
+                  0x0021ee                  _set_btn_verbose_mode
+                  0x002204                  _CN_init
+                  0x002232                  _InitUART2
+                  0x00229a                  _XmitUART2
+                  0x0022d6                  _Disp2Hex
+                  0x002334                  _Disp2Hex32
+                  0x0023a2                  _Disp2Dec
+                  0x0023aa                  _Disp2String
+                  0x0023cc                  _init_ADC
+                  0x0024e6                  _do_ADC
+                  0x002542                  _get_CN0_state
+                  0x0025da                  _get_CN8_state
+                  0x002626                  _get_button_state
+                  0x002664                  _CVREFinit
+                  0x002706                  _ComparatorInit
+                  0x0027e8                  _itoa
+                  0x0028f2                  _main
+                  0x002900                  _NewClk
+                  0x002974                  ___delay32
                   0xf80000                  __FBS.sec
                   0xf80004                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x0021f0                  _CN_init
+                  0x002204                  _CN_init
                   0x001816                  _CTMUinit
-                  0x002650                  _CVREFinit
-                  0x0026f2                  _ComparatorInit
-                  0x00238e                  _Disp2Dec
-                  0x0022c2                  _Disp2Hex
-                  0x002320                  _Disp2Hex32
-                  0x002396                  _Disp2String
-                  0x00221e                  _InitUART2
-                  0x0028ec                  _NewClk
-                  0x002286                  _XmitUART2
+                  0x002664                  _CVREFinit
+                  0x002706                  _ComparatorInit
+                  0x0023a2                  _Disp2Dec
+                  0x0022d6                  _Disp2Hex
+                  0x002334                  _Disp2Hex32
+                  0x0023aa                  _Disp2String
+                  0x002232                  _InitUART2
+                  0x002900                  _NewClk
+                  0x00229a                  _XmitUART2
                   0x0002cc                  __CNInterrupt
                   0x00042a                  __CompInterrupt
                   0x000470                  __DefaultInterrupt
@@ -379,7 +393,7 @@ External Symbols in Program Memory (by name):
                   0x0009fe                  ___Putfld_gG
                   0x0014ec                  ___adddf3
                   0x000478                  ___addsf3
-                  0x002960                  ___delay32
+                  0x002974                  ___delay32
                   0x001216                  ___divdf3
                   0x000532                  ___divsf3
                   0x0005b6                  ___divsi3
@@ -433,31 +447,32 @@ External Symbols in Program Memory (by name):
                   0x000200                  __resetPRI
                   0x00087c                  __sprintf_gG
                   0x001940                  _calc_capacitance
-                  0x001df2                  _delay_ms
-                  0x001ee4                  _delay_us
-                  0x001f64                  _delay_us_32bit
-                  0x001fea                  _delay_us_32bit_cb
-                  0x001e6c                  _delay_us_500
+                  0x001e06                  _delay_ms
+                  0x001ef8                  _delay_us
+                  0x001f78                  _delay_us_32bit
+                  0x001ffe                  _delay_us_32bit_cb
+                  0x001e80                  _delay_us_500
                   0x000f42                  _div
-                  0x0024d2                  _do_ADC
-                  0x00252e                  _get_CN0_state
-                  0x0025c6                  _get_CN8_state
-                  0x002612                  _get_button_state
-                  0x0023b8                  _init_ADC
-                  0x0027d4                  _itoa
+                  0x0024e6                  _do_ADC
+                  0x002542                  _get_CN0_state
+                  0x0025da                  _get_CN8_state
+                  0x002626                  _get_button_state
+                  0x0023cc                  _init_ADC
+                  0x0027e8                  _itoa
                   0x000f58                  _ldiv
-                  0x0028de                  _main
+                  0x0028f2                  _main
                   0x000840                  _memcpy
-                  0x001b1a                  _sample_capacitance_adaptive
-                  0x001dc0                  _set_IR_toggles_on_t2interrupt
-                  0x001daa                  _set_LED_toggles_on_t2interrupt
-                  0x001dd6                  _set_LED_toggles_on_t3interrupt
-                  0x0021da                  _set_btn_verbose_mode
+                  0x001c52                  _sampleVoltage
+                  0x001ade                  _sample_capacitance_adaptive
+                  0x001dd4                  _set_IR_toggles_on_t2interrupt
+                  0x001dbe                  _set_LED_toggles_on_t2interrupt
+                  0x001dea                  _set_LED_toggles_on_t3interrupt
+                  0x0021ee                  _set_btn_verbose_mode
                   0x001886                  _start_current_source
                   0x00084e                  _strcat
                   0x000f82                  _strchr
                   0x000862                  _strlen
-                  0x001dec                  _timer2_default_callback
+                  0x001e00                  _timer2_default_callback
                   0x00086e                  sprintf_gG.XXeo:_prout
 
 Memory Configuration
@@ -482,17 +497,45 @@ FDS              0xf80010           0x000002
 
 Linker script and memory map
 
-LOAD build/default/production/src/button_state.o
-LOAD build/default/production/src/ChangeClk.o
-LOAD build/default/production/src/IO.o
-LOAD build/default/production/src/main.o
-LOAD build/default/production/src/Timer.o
-LOAD build/default/production/src/UART2.o
-LOAD build/default/production/src/Comparator.o
-LOAD build/default/production/src/ADC.o
-LOAD build/default/production/src/SenseCapApp.o
-LOAD build/default/production/src/misc.o
+
+reserve_data_0x800
+                    0x0800         0x20
+                    0x0820                  . = 0x20
+ *fill*             0x0800         0x2000
+
+reserve_data_0x820
+                    0x0820          0x2
+                    0x0822                  . = 0x2
+ *fill*             0x0820          0x200
+
+reserve_data_0x822
+                    0x0822          0x2
+                    0x0824                  . = 0x2
+ *fill*             0x0822          0x200
+
+reserve_data_0x824
+                    0x0824          0x2
+                    0x0826                  . = 0x2
+ *fill*             0x0824          0x200
+
+reserve_data_0x826
+                    0x0826         0x2a
+                    0x0850                  . = 0x2a
+ *fill*             0x0826         0x2a00
+LOAD build/default/debug/src/button_state.o
+LOAD build/default/debug/src/ChangeClk.o
+LOAD build/default/debug/src/IO.o
+LOAD build/default/debug/src/main.o
+LOAD build/default/debug/src/Timer.o
+LOAD build/default/debug/src/UART2.o
+LOAD build/default/debug/src/Comparator.o
+LOAD build/default/debug/src/ADC.o
+LOAD build/default/debug/src/SenseCapApp.o
+LOAD build/default/debug/src/misc.o
                     0x0001                  __MPLAB_BUILD = 0x1
+                    0x0001                  __MPLAB_DEBUG = 0x1
+                    0x0001                  __DEBUG = 0x1
+                    0x0001                  __MPLAB_DEBUGGER_PK3 = 0x1
 LOAD pPIC24Fxxx
 LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libfx-elf.a
                     0xf80000                  __FBS = 0xf80000
@@ -529,15 +572,15 @@ LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libfx-elf.a
  *(.user_init)
  *(.handle)
  *(.isr*)
- .isr.text        0x0002cc         0xac build/default/production/src/IO.o
+ .isr.text        0x0002cc         0xac build/default/debug/src/IO.o
                   0x0002cc                  __CNInterrupt
- .isr.text        0x000378         0xa2 build/default/production/src/Timer.o
+ .isr.text        0x000378         0xa2 build/default/debug/src/Timer.o
                   0x000378                  __T2Interrupt
                   0x0003c8                  __T3Interrupt
- .isr.text        0x00041a         0x10 build/default/production/src/UART2.o
+ .isr.text        0x00041a         0x10 build/default/debug/src/UART2.o
                   0x00041a                  __U2RXInterrupt
                   0x000422                  __U2TXInterrupt
- .isr.text        0x00042a         0x46 build/default/production/src/Comparator.o
+ .isr.text        0x00042a         0x46 build/default/debug/src/Comparator.o
                   0x00042a                  __CompInterrupt
  .isr             0x000470          0x4 default_isr
                   0x000470                  __DefaultInterrupt
@@ -697,12 +740,12 @@ usercode
 
 __FBS             0xf80000          0x2
  *(__FBS.sec*)
- __FBS.sec        0xf80000          0x2 /CW/_FBSð³(´__FBS.sec
+ __FBS.sec        0xf80000          0x2 /CW/_FBSp¨__FBS.sec
                   0xf80000                  __FBS.sec
 
 __FGS             0xf80004          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf80004          0x2 /CW/_FGS
+ __FGS.sec        0xf80004          0x2 /CW/_FGSx(°(__FGS.sec
                   0xf80004                  __FGS.sec
 
 __FOSCSEL
@@ -726,70 +769,70 @@ __FDS
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x67c9
+.debug_info       0x000000       0x67d8
  *(.debug_info)
- .debug_info      0x000000        0x323 build/default/production/src/button_state.o
- .debug_info      0x000323        0x546 build/default/production/src/ChangeClk.o
- .debug_info      0x000869       0x1498 build/default/production/src/IO.o
- .debug_info      0x001d01        0x811 build/default/production/src/main.o
- .debug_info      0x002512        0xbca build/default/production/src/Timer.o
- .debug_info      0x0030dc        0xe29 build/default/production/src/UART2.o
- .debug_info      0x003f05        0xa11 build/default/production/src/Comparator.o
- .debug_info      0x004916        0xb71 build/default/production/src/ADC.o
- .debug_info      0x005487       0x120d build/default/production/src/SenseCapApp.o
- .debug_info      0x006694        0x135 build/default/production/src/misc.o
+ .debug_info      0x000000        0x323 build/default/debug/src/button_state.o
+ .debug_info      0x000323        0x546 build/default/debug/src/ChangeClk.o
+ .debug_info      0x000869       0x1498 build/default/debug/src/IO.o
+ .debug_info      0x001d01        0x811 build/default/debug/src/main.o
+ .debug_info      0x002512        0xbca build/default/debug/src/Timer.o
+ .debug_info      0x0030dc        0xe29 build/default/debug/src/UART2.o
+ .debug_info      0x003f05        0xa11 build/default/debug/src/Comparator.o
+ .debug_info      0x004916        0xb71 build/default/debug/src/ADC.o
+ .debug_info      0x005487       0x121c build/default/debug/src/SenseCapApp.o
+ .debug_info      0x0066a3        0x135 build/default/debug/src/misc.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0xae3
  *(.debug_abbrev)
- .debug_abbrev    0x000000         0xa3 build/default/production/src/button_state.o
- .debug_abbrev    0x0000a3        0x123 build/default/production/src/ChangeClk.o
- .debug_abbrev    0x0001c6        0x176 build/default/production/src/IO.o
- .debug_abbrev    0x00033c        0x159 build/default/production/src/main.o
- .debug_abbrev    0x000495        0x150 build/default/production/src/Timer.o
- .debug_abbrev    0x0005e5        0x123 build/default/production/src/UART2.o
- .debug_abbrev    0x000708        0x10b build/default/production/src/Comparator.o
- .debug_abbrev    0x000813         0xdc build/default/production/src/ADC.o
- .debug_abbrev    0x0008ef        0x195 build/default/production/src/SenseCapApp.o
- .debug_abbrev    0x000a84         0x5f build/default/production/src/misc.o
+ .debug_abbrev    0x000000         0xa3 build/default/debug/src/button_state.o
+ .debug_abbrev    0x0000a3        0x123 build/default/debug/src/ChangeClk.o
+ .debug_abbrev    0x0001c6        0x176 build/default/debug/src/IO.o
+ .debug_abbrev    0x00033c        0x159 build/default/debug/src/main.o
+ .debug_abbrev    0x000495        0x150 build/default/debug/src/Timer.o
+ .debug_abbrev    0x0005e5        0x123 build/default/debug/src/UART2.o
+ .debug_abbrev    0x000708        0x10b build/default/debug/src/Comparator.o
+ .debug_abbrev    0x000813         0xdc build/default/debug/src/ADC.o
+ .debug_abbrev    0x0008ef        0x195 build/default/debug/src/SenseCapApp.o
+ .debug_abbrev    0x000a84         0x5f build/default/debug/src/misc.o
 
 .debug_line       0x000000        0xadb
  *(.debug_line)
- .debug_line      0x000000         0x81 build/default/production/src/button_state.o
- .debug_line      0x000081         0xfa build/default/production/src/ChangeClk.o
- .debug_line      0x00017b        0x167 build/default/production/src/IO.o
- .debug_line      0x0002e2        0x10a build/default/production/src/main.o
- .debug_line      0x0003ec        0x17b build/default/production/src/Timer.o
- .debug_line      0x000567        0x15a build/default/production/src/UART2.o
- .debug_line      0x0006c1        0x136 build/default/production/src/Comparator.o
- .debug_line      0x0007f7        0x114 build/default/production/src/ADC.o
- .debug_line      0x00090b        0x189 build/default/production/src/SenseCapApp.o
- .debug_line      0x000a94         0x47 build/default/production/src/misc.o
+ .debug_line      0x000000         0x81 build/default/debug/src/button_state.o
+ .debug_line      0x000081         0xfa build/default/debug/src/ChangeClk.o
+ .debug_line      0x00017b        0x167 build/default/debug/src/IO.o
+ .debug_line      0x0002e2        0x10a build/default/debug/src/main.o
+ .debug_line      0x0003ec        0x17b build/default/debug/src/Timer.o
+ .debug_line      0x000567        0x15a build/default/debug/src/UART2.o
+ .debug_line      0x0006c1        0x136 build/default/debug/src/Comparator.o
+ .debug_line      0x0007f7        0x114 build/default/debug/src/ADC.o
+ .debug_line      0x00090b        0x189 build/default/debug/src/SenseCapApp.o
+ .debug_line      0x000a94         0x47 build/default/debug/src/misc.o
 
 .debug_frame      0x000000        0x766
  *(.debug_frame)
- .debug_frame     0x000000         0x84 build/default/production/src/button_state.o
- .debug_frame     0x000084         0x30 build/default/production/src/ChangeClk.o
- .debug_frame     0x0000b4        0x13a build/default/production/src/IO.o
- .debug_frame     0x0001ee         0x68 build/default/production/src/main.o
- .debug_frame     0x000256        0x1fc build/default/production/src/Timer.o
- .debug_frame     0x000452         0xf4 build/default/production/src/UART2.o
- .debug_frame     0x000546         0x80 build/default/production/src/Comparator.o
- .debug_frame     0x0005c6         0x4c build/default/production/src/ADC.o
- .debug_frame     0x000612        0x124 build/default/production/src/SenseCapApp.o
- .debug_frame     0x000736         0x30 build/default/production/src/misc.o
+ .debug_frame     0x000000         0x84 build/default/debug/src/button_state.o
+ .debug_frame     0x000084         0x30 build/default/debug/src/ChangeClk.o
+ .debug_frame     0x0000b4        0x13a build/default/debug/src/IO.o
+ .debug_frame     0x0001ee         0x68 build/default/debug/src/main.o
+ .debug_frame     0x000256        0x1fc build/default/debug/src/Timer.o
+ .debug_frame     0x000452         0xf4 build/default/debug/src/UART2.o
+ .debug_frame     0x000546         0x80 build/default/debug/src/Comparator.o
+ .debug_frame     0x0005c6         0x4c build/default/debug/src/ADC.o
+ .debug_frame     0x000612        0x124 build/default/debug/src/SenseCapApp.o
+ .debug_frame     0x000736         0x30 build/default/debug/src/misc.o
 
 .debug_str        0x000000        0x2e3
  *(.debug_str)
- .debug_str       0x000000         0x22 build/default/production/src/button_state.o
- .debug_str       0x000022         0x16 build/default/production/src/ChangeClk.o
- .debug_str       0x000038         0x7f build/default/production/src/IO.o
- .debug_str       0x0000b7         0x36 build/default/production/src/main.o
- .debug_str       0x0000ed         0x66 build/default/production/src/Timer.o
- .debug_str       0x000153         0x57 build/default/production/src/UART2.o
- .debug_str       0x0001aa         0x46 build/default/production/src/Comparator.o
- .debug_str       0x0001f0         0x4e build/default/production/src/ADC.o
- .debug_str       0x00023e         0xa5 build/default/production/src/SenseCapApp.o
+ .debug_str       0x000000         0x22 build/default/debug/src/button_state.o
+ .debug_str       0x000022         0x16 build/default/debug/src/ChangeClk.o
+ .debug_str       0x000038         0x7f build/default/debug/src/IO.o
+ .debug_str       0x0000b7         0x36 build/default/debug/src/main.o
+ .debug_str       0x0000ed         0x66 build/default/debug/src/Timer.o
+ .debug_str       0x000153         0x57 build/default/debug/src/UART2.o
+ .debug_str       0x0001aa         0x46 build/default/debug/src/Comparator.o
+ .debug_str       0x0001f0         0x4e build/default/debug/src/ADC.o
+ .debug_str       0x00023e         0xa5 build/default/debug/src/SenseCapApp.o
 
 .debug_loc
  *(.debug_loc)
@@ -798,28 +841,28 @@ __FDS
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x377
+                  0x000000        0x389
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000         0x4b build/default/production/src/button_state.o
+                  0x000000         0x4b build/default/debug/src/button_state.o
  .debug_pubnames
-                  0x00004b         0x1d build/default/production/src/ChangeClk.o
+                  0x00004b         0x1d build/default/debug/src/ChangeClk.o
  .debug_pubnames
-                  0x000068         0x48 build/default/production/src/IO.o
+                  0x000068         0x48 build/default/debug/src/IO.o
  .debug_pubnames
-                  0x0000b0         0x1b build/default/production/src/main.o
+                  0x0000b0         0x1b build/default/debug/src/main.o
  .debug_pubnames
-                  0x0000cb        0x10c build/default/production/src/Timer.o
+                  0x0000cb        0x10c build/default/debug/src/Timer.o
  .debug_pubnames
-                  0x0001d7         0x98 build/default/production/src/UART2.o
+                  0x0001d7         0x98 build/default/debug/src/UART2.o
  .debug_pubnames
-                  0x00026f         0x56 build/default/production/src/Comparator.o
+                  0x00026f         0x56 build/default/debug/src/Comparator.o
  .debug_pubnames
-                  0x0002c5         0x2a build/default/production/src/ADC.o
+                  0x0002c5         0x2a build/default/debug/src/ADC.o
  .debug_pubnames
-                  0x0002ef         0x6d build/default/production/src/SenseCapApp.o
+                  0x0002ef         0x7f build/default/debug/src/SenseCapApp.o
  .debug_pubnames
-                  0x00035c         0x1b build/default/production/src/misc.o
+                  0x00036e         0x1b build/default/debug/src/misc.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -827,25 +870,25 @@ __FDS
 .debug_aranges    0x000000         0xf0
  *(.debug_aranges)
  .debug_aranges
-                  0x000000         0x18 build/default/production/src/button_state.o
+                  0x000000         0x18 build/default/debug/src/button_state.o
  .debug_aranges
-                  0x000018         0x18 build/default/production/src/ChangeClk.o
+                  0x000018         0x18 build/default/debug/src/ChangeClk.o
  .debug_aranges
-                  0x000030         0x18 build/default/production/src/IO.o
+                  0x000030         0x18 build/default/debug/src/IO.o
  .debug_aranges
-                  0x000048         0x18 build/default/production/src/main.o
+                  0x000048         0x18 build/default/debug/src/main.o
  .debug_aranges
-                  0x000060         0x18 build/default/production/src/Timer.o
+                  0x000060         0x18 build/default/debug/src/Timer.o
  .debug_aranges
-                  0x000078         0x18 build/default/production/src/UART2.o
+                  0x000078         0x18 build/default/debug/src/UART2.o
  .debug_aranges
-                  0x000090         0x18 build/default/production/src/Comparator.o
+                  0x000090         0x18 build/default/debug/src/Comparator.o
  .debug_aranges
-                  0x0000a8         0x18 build/default/production/src/ADC.o
+                  0x0000a8         0x18 build/default/debug/src/ADC.o
  .debug_aranges
-                  0x0000c0         0x18 build/default/production/src/SenseCapApp.o
+                  0x0000c0         0x18 build/default/debug/src/SenseCapApp.o
  .debug_aranges
-                  0x0000d8         0x18 build/default/production/src/misc.o
+                  0x0000d8         0x18 build/default/debug/src/misc.o
                     0x0000                  WREG0 = 0x0
                     0x0000                  _WREG0 = 0x0
                     0x0002                  WREG1 = 0x2
@@ -1251,9 +1294,9 @@ LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30
 LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a
 END GROUP
-OUTPUT(dist/default/production/519-drivers.X.production.elf elf32-pic30)
-LOAD /CW/_FGS
-LOAD /CW/_FBSð³(´__FBS.sec
+OUTPUT(dist/default/debug/519-drivers.X.debug.elf elf32-pic30)
+LOAD /CW/_FGSx(°(__FGS.sec
+LOAD /CW/_FBSp¨__FBS.sec
 LOAD jump_table
 LOAD default_isr
 LOAD data_init
@@ -1261,46 +1304,46 @@ LOAD data_init
 .debug_pubtypes
                   0x0000f0        0x81d
  .debug_pubtypes
-                  0x0000f0         0x33 build/default/production/src/button_state.o
+                  0x0000f0         0x33 build/default/debug/src/button_state.o
  .debug_pubtypes
-                  0x000123         0x7a build/default/production/src/ChangeClk.o
+                  0x000123         0x7a build/default/debug/src/ChangeClk.o
  .debug_pubtypes
-                  0x00019d        0x1b7 build/default/production/src/IO.o
+                  0x00019d        0x1b7 build/default/debug/src/IO.o
  .debug_pubtypes
-                  0x000354         0xcf build/default/production/src/main.o
+                  0x000354         0xcf build/default/debug/src/main.o
  .debug_pubtypes
-                  0x000423         0xc1 build/default/production/src/Timer.o
+                  0x000423         0xc1 build/default/debug/src/Timer.o
  .debug_pubtypes
-                  0x0004e4        0x113 build/default/production/src/UART2.o
+                  0x0004e4        0x113 build/default/debug/src/UART2.o
  .debug_pubtypes
-                  0x0005f7         0xd5 build/default/production/src/Comparator.o
+                  0x0005f7         0xd5 build/default/debug/src/Comparator.o
  .debug_pubtypes
-                  0x0006cc         0xeb build/default/production/src/ADC.o
+                  0x0006cc         0xeb build/default/debug/src/ADC.o
  .debug_pubtypes
-                  0x0007b7        0x156 build/default/production/src/SenseCapApp.o
+                  0x0007b7        0x156 build/default/debug/src/SenseCapApp.o
 
 __c30_signature
                   0x00090d        0x180
  __c30_signature
-                  0x00090d          0x6 build/default/production/src/button_state.o
+                  0x00090d          0x6 build/default/debug/src/button_state.o
  __c30_signature
-                  0x000913          0x6 build/default/production/src/ChangeClk.o
+                  0x000913          0x6 build/default/debug/src/ChangeClk.o
  __c30_signature
-                  0x000919          0x6 build/default/production/src/IO.o
+                  0x000919          0x6 build/default/debug/src/IO.o
  __c30_signature
-                  0x00091f          0x6 build/default/production/src/main.o
+                  0x00091f          0x6 build/default/debug/src/main.o
  __c30_signature
-                  0x000925          0x6 build/default/production/src/Timer.o
+                  0x000925          0x6 build/default/debug/src/Timer.o
  __c30_signature
-                  0x00092b          0x6 build/default/production/src/UART2.o
+                  0x00092b          0x6 build/default/debug/src/UART2.o
  __c30_signature
-                  0x000931          0x6 build/default/production/src/Comparator.o
+                  0x000931          0x6 build/default/debug/src/Comparator.o
  __c30_signature
-                  0x000937          0x6 build/default/production/src/ADC.o
+                  0x000937          0x6 build/default/debug/src/ADC.o
  __c30_signature
-                  0x00093d          0x6 build/default/production/src/SenseCapApp.o
+                  0x00093d          0x6 build/default/debug/src/SenseCapApp.o
  __c30_signature
-                  0x000943          0x6 build/default/production/src/misc.o
+                  0x000943          0x6 build/default/debug/src/misc.o
  __c30_signature
                   0x000949          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
  __c30_signature
@@ -1410,132 +1453,133 @@ __c30_signature
  __c30_signature
                   0x000a87          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a(floatundidf.eo)
 
-.ndata              0x0800         0x2a
- .ndata             0x0800         0x16 build/default/production/src/IO.o
- .ndata             0x0816         0x14 build/default/production/src/main.o
+.ndata              0x0850         0x2a
+ .ndata             0x0850         0x16 build/default/debug/src/IO.o
+ .ndata             0x0866         0x14 build/default/debug/src/main.o
 
-.nbss               0x082a         0x1c
- .nbss              0x082a          0x8 build/default/production/src/Timer.o
- .nbss              0x0832          0x6 build/default/production/src/button_state.o
- .nbss              0x0838          0x6 build/default/production/src/IO.o
- .nbss              0x083e          0x4 build/default/production/src/Comparator.o
-                    0x0840                  _countTarget
- .nbss              0x0842          0x2 build/default/production/src/UART2.o
-                    0x0842                  _clkval
- .nbss              0x0844          0x2 build/default/production/src/ADC.o
+.nbss               0x087a         0x1c
+ .nbss              0x087a          0x8 build/default/debug/src/Timer.o
+ .nbss              0x0882          0x6 build/default/debug/src/button_state.o
+ .nbss              0x0888          0x6 build/default/debug/src/IO.o
+ .nbss              0x088e          0x4 build/default/debug/src/Comparator.o
+                    0x0890                  _countTarget
+ .nbss              0x0892          0x2 build/default/debug/src/UART2.o
+                    0x0892                  _clkval
+ .nbss              0x0894          0x2 build/default/debug/src/ADC.o
 
-.data               0x0846         0x74
- .data              0x0846         0x58 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(xldtob_gG.XXeo)
- .data              0x089e         0x1a c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(xprintf_gG.XXeo)
- .data              0x08b8          0x2 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(xgenld_gG.XXeo)
+.data               0x0896         0x74
+ .data              0x0896         0x58 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(xldtob_gG.XXeo)
+ .data              0x08ee         0x1a c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(xprintf_gG.XXeo)
+ .data              0x0908          0x2 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a(xgenld_gG.XXeo)
 
 .ivt._CNInterrupt
                   0x00003a          0x2
  .ivt._CNInterrupt
-                  0x00003a          0x2 build/default/production/src/IO.o
+                  0x00003a          0x2 build/default/debug/src/IO.o
 
 .config_DSWDTEN
                   0xf80010          0x2
  .config_DSWDTEN
-                  0xf80010          0x2 build/default/production/src/main.o
+                  0xf80010          0x2 build/default/debug/src/main.o
 
 .config_BKBUG     0xf8000e          0x2
- .config_BKBUG    0xf8000e          0x2 build/default/production/src/main.o
+ .config_BKBUG    0xf8000e          0x2 build/default/debug/src/main.o
 
 .config_MCLRE     0xf8000c          0x2
- .config_MCLRE    0xf8000c          0x2 build/default/production/src/main.o
+ .config_MCLRE    0xf8000c          0x2 build/default/debug/src/main.o
 
 .config_FWDTEN    0xf8000a          0x2
  .config_FWDTEN
-                  0xf8000a          0x2 build/default/production/src/main.o
+                  0xf8000a          0x2 build/default/debug/src/main.o
 
 .config_FCKSM     0xf80008          0x2
- .config_FCKSM    0xf80008          0x2 build/default/production/src/main.o
+ .config_FCKSM    0xf80008          0x2 build/default/debug/src/main.o
 
 .config_IESO      0xf80006          0x2
- .config_IESO     0xf80006          0x2 build/default/production/src/main.o
+ .config_IESO     0xf80006          0x2 build/default/debug/src/main.o
 
 .ivt._T2Interrupt
                   0x000022          0x2
  .ivt._T2Interrupt
-                  0x000022          0x2 build/default/production/src/Timer.o
+                  0x000022          0x2 build/default/debug/src/Timer.o
 
 .ivt._T3Interrupt
                   0x000024          0x2
  .ivt._T3Interrupt
-                  0x000024          0x2 build/default/production/src/Timer.o
+                  0x000024          0x2 build/default/debug/src/Timer.o
 
 .ivt._U2RXInterrupt
                   0x000050          0x2
  .ivt._U2RXInterrupt
-                  0x000050          0x2 build/default/production/src/UART2.o
+                  0x000050          0x2 build/default/debug/src/UART2.o
 
 .ivt._U2TXInterrupt
                   0x000052          0x2
  .ivt._U2TXInterrupt
-                  0x000052          0x2 build/default/production/src/UART2.o
+                  0x000052          0x2 build/default/debug/src/UART2.o
 
 .ivt._CompInterrupt
                   0x000038          0x2
  .ivt._CompInterrupt
-                  0x000038          0x2 build/default/production/src/Comparator.o
+                  0x000038          0x2 build/default/debug/src/Comparator.o
 
 .const              0x973e         0xd8 load address 0x00173e  
- .const             0x973e         0x52 build/default/production/src/SenseCapApp.o
- .const             0x9790         0x48 build/default/production/src/misc.o
- .const             0x97d8         0x1a build/default/production/src/ADC.o
- .const             0x97f2         0x12 build/default/production/src/main.o
- .const             0x9804          0xa build/default/production/src/IO.o
- .const             0x980e          0x8 build/default/production/src/Timer.o
+ .const             0x973e         0x52 build/default/debug/src/SenseCapApp.o
+ .const             0x9790         0x48 build/default/debug/src/misc.o
+ .const             0x97d8         0x1a build/default/debug/src/ADC.o
+ .const             0x97f2         0x12 build/default/debug/src/main.o
+ .const             0x9804          0xa build/default/debug/src/IO.o
+ .const             0x980e          0x8 build/default/debug/src/Timer.o
 
-.text             0x001816        0xf0c
- .text            0x001816        0x468 build/default/production/src/SenseCapApp.o
+.text             0x001816        0xf20
+ .text            0x001816        0x47c build/default/debug/src/SenseCapApp.o
                   0x001816                  _CTMUinit
                   0x001886                  _start_current_source
                   0x001940                  _calc_capacitance
-                  0x001b1a                  _sample_capacitance_adaptive
- .text            0x001c7e        0x37e build/default/production/src/Timer.o
-                  0x001daa                  _set_LED_toggles_on_t2interrupt
-                  0x001dc0                  _set_IR_toggles_on_t2interrupt
-                  0x001dd6                  _set_LED_toggles_on_t3interrupt
-                  0x001dec                  _timer2_default_callback
-                  0x001df2                  _delay_ms
-                  0x001e6c                  _delay_us_500
-                  0x001ee4                  _delay_us
-                  0x001f64                  _delay_us_32bit
-                  0x001fea                  _delay_us_32bit_cb
- .text            0x001ffc        0x222 build/default/production/src/IO.o
-                  0x0021da                  _set_btn_verbose_mode
-                  0x0021f0                  _CN_init
- .text            0x00221e        0x19a build/default/production/src/UART2.o
-                  0x00221e                  _InitUART2
-                  0x002286                  _XmitUART2
-                  0x0022c2                  _Disp2Hex
-                  0x002320                  _Disp2Hex32
-                  0x00238e                  _Disp2Dec
-                  0x002396                  _Disp2String
- .text            0x0023b8        0x176 build/default/production/src/ADC.o
-                  0x0023b8                  _init_ADC
-                  0x0024d2                  _do_ADC
- .text            0x00252e        0x122 build/default/production/src/button_state.o
-                  0x00252e                  _get_CN0_state
-                  0x0025c6                  _get_CN8_state
-                  0x002612                  _get_button_state
- .text            0x002650         0xd2 build/default/production/src/Comparator.o
-                  0x002650                  _CVREFinit
-                  0x0026f2                  _ComparatorInit
+                  0x001ade                  _sample_capacitance_adaptive
+                  0x001c52                  _sampleVoltage
+ .text            0x001c92        0x37e build/default/debug/src/Timer.o
+                  0x001dbe                  _set_LED_toggles_on_t2interrupt
+                  0x001dd4                  _set_IR_toggles_on_t2interrupt
+                  0x001dea                  _set_LED_toggles_on_t3interrupt
+                  0x001e00                  _timer2_default_callback
+                  0x001e06                  _delay_ms
+                  0x001e80                  _delay_us_500
+                  0x001ef8                  _delay_us
+                  0x001f78                  _delay_us_32bit
+                  0x001ffe                  _delay_us_32bit_cb
+ .text            0x002010        0x222 build/default/debug/src/IO.o
+                  0x0021ee                  _set_btn_verbose_mode
+                  0x002204                  _CN_init
+ .text            0x002232        0x19a build/default/debug/src/UART2.o
+                  0x002232                  _InitUART2
+                  0x00229a                  _XmitUART2
+                  0x0022d6                  _Disp2Hex
+                  0x002334                  _Disp2Hex32
+                  0x0023a2                  _Disp2Dec
+                  0x0023aa                  _Disp2String
+ .text            0x0023cc        0x176 build/default/debug/src/ADC.o
+                  0x0023cc                  _init_ADC
+                  0x0024e6                  _do_ADC
+ .text            0x002542        0x122 build/default/debug/src/button_state.o
+                  0x002542                  _get_CN0_state
+                  0x0025da                  _get_CN8_state
+                  0x002626                  _get_button_state
+ .text            0x002664         0xd2 build/default/debug/src/Comparator.o
+                  0x002664                  _CVREFinit
+                  0x002706                  _ComparatorInit
 
-.dinit            0x002722         0xb2
- .dinit           0x002722         0xb2 data_init
+.dinit            0x002736         0xb2
+ .dinit           0x002736         0xb2 data_init
 
-.text             0x0027d4        0x18c
- .text            0x0027d4         0x96 build/default/production/src/misc.o
-                  0x0027d4                  _itoa
- .text            0x00286a         0x82 build/default/production/src/main.o
-                  0x0028de                  _main
- .text            0x0028ec         0x74 build/default/production/src/ChangeClk.o
-                  0x0028ec                  _NewClk
+.text             0x0027e8        0x18c
+ .text            0x0027e8         0x96 build/default/debug/src/misc.o
+                  0x0027e8                  _itoa
+ .text            0x00287e         0x82 build/default/debug/src/main.o
+                  0x0028f2                  _main
+ .text            0x002900         0x74 build/default/debug/src/ChangeClk.o
+                  0x002900                  _NewClk
 
-.init.delay32     0x002960         0x1c
- .init.delay32    0x002960         0x1c c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(delay32.Leo)
-                  0x002960                  ___delay32
+.init.delay32     0x002974         0x1c
+ .init.delay32    0x002974         0x1c c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(delay32.Leo)
+                  0x002974                  ___delay32

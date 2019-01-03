@@ -57,8 +57,9 @@ static inline void init_timer2_32(int frequency) {
 	T2CONbits.TSIDL = kDisable; // one could stop timer when processor idles
 	T2CONbits.TGATE = kDisable; // one could replace interrupts with an accumulator
 
-	set_timer_priority(5); // sets priority to 5
+	set_timer_priority(7); // sets priority to 5
 
+	TMR2 = 0;
 	TMR3 = 0; // just in case it doesn't happen automatically
 }
 
@@ -109,20 +110,20 @@ void delay_ms(uint16_t ms) {
 	// pr is period of the timer before an interrupt occurs
 	PR2 = (clock_freq/ MS_PER_S) * prescaling_factor * kMagicNumber * ms;
 
-	timer2_callback = timer2_default_callback;
+	// timer2_callback = timer2_default_callback;
 
 	// start the timer & enable the interrupt
 	T2CONbits.TON = kEnable; // starts the timer
 	IEC0bits.T2IE = kEnable; // enable the interrupt
 }
 
-void delay_ms_500(uint16_t ms) {
+void delay_us_500(uint16_t us) {
 	init_timer2(500);
 
 	uint32_t clock_freq = 500000;
-	double prescaling_factor = 1.0;
+	double prescaling_factor = 1.0f;
 	// pr is period of the timer before an interrupt occurs
-	PR2 = (clock_freq/ MS_PER_S) * prescaling_factor * kMagicNumber * ms;
+	PR2 = ((double)clock_freq / US_PER_S ) * prescaling_factor * kMagicNumber * us;
 
 	// start the timer & enable the interrupt
 	T2CONbits.TON = kEnable; // starts the timer
@@ -151,11 +152,12 @@ void delay_us_32bit(uint32_t us) {
 	double prescaling_factor = 1.0;
 	// pr is period of the timer before an interrupt occurs
 	// note: pr2 is 16 bit unless we're combining timers
-	long int period = (clock_freq / US_PER_S) * prescaling_factor * kMagicNumber * us;
+	long int period = (clock_freq / US_PER_S) *
+			prescaling_factor * kMagicNumber * us;
 	PR3 = (period >> 16) & 0x0000ffff;
 	PR2 = period & 0x0000ffff;
 
-	// start the timer & enable the interrupt
+	// start the timer & enable the intrerupt
 	T2CONbits.TON = kEnable; // starts the timer
 	IEC0bits.T3IE = kEnable; // enable the interrupt
 }
@@ -167,16 +169,16 @@ void delay_us_32bit_cb(uint32_t us, void (*cb)()) {
 
 // *********************************************************** interrupt handler
 void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void) {
-        // note: commenting so much out gives us almost exactly 13.0us for the carrier
-        // need to fix performance is only thing
 	IFS0bits.T2IF = 0; // clear flag
 
-	timer2_callback();
-
         // if (repeat_timer != 1) {
-        	T2CONbits.TON = kDisable; // stop the timer
-        	IEC0bits.T2IE = kDisable; // stop the interrupt
+	T2CONbits.TON = kDisable; // stop the timer
+	IEC0bits.T2IE = kDisable; // stop the interrupt
         // }
+
+        if (timer2_callback) {
+		timer2_callback();
+        }
 }
 
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {

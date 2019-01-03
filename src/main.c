@@ -9,6 +9,7 @@
 #include "xc.h"
 #include <p24fxxxx.h> // other lib for pic?
 #include <p24F16KA101.h> // main lib for pic ?
+#include "libpic30.h"
 
 // standard libraries
 #include <stdio.h>
@@ -166,25 +167,22 @@ static inline void begin_samsung_xmitter(void) {
         }
 }
 
-#define FCY 4000000UL;
-// ************************************************************************ main
-int main(void) { // runs at 1st power-up automatically
-        init_clock(8); //starts the clock
-
-        // UART sanity test
+static inline void uart_sanity_test(void) {
+        // just clarifies if uart is working
         XmitUART2('\r',1);
         XmitUART2('\n',1);
         Disp2String("PIC started!");
+}
 
-        // TODO - calc time dynamically
-        float time_us = 500;
-        float current_uA = 5.5;
+// ************************************************************************ main
+int main(void) { // runs at 1st power-up automatically
+        init_clock(8); //starts the clock
+        uart_sanity_test();
 
+        CTMUinit();
         while(1) {
-                CTMUinit(current_uA); // todo - refactor outside while
-                delay_us_32bit(time_us);
-                Idle();
-                sampleCapacitance(current_uA, time_us);
+                sample_capacitance_adaptive();
         }
+
     return 0;
 }
